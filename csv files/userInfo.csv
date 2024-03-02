@@ -1,0 +1,5 @@
+name,email,password,accountType,currentlyRenting,itemsOut,itemsOverdue,penalty
+t1,t1@yorku.ca,t1t1,student,i,0,0,0
+t2,t2@yorku.ca,t2t2,faculty,,0,0,0
+t3,t3@yorku.ca,t3t3,non-faculty,,0,0,0
+t4,t4@gmail.com,t4t4,visitor,,0,0,0
