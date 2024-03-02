@@ -8,7 +8,8 @@ import com.csvreader.CsvWriter;
 
 public class MaintainCD {
 	public ArrayList<CD> cds = new ArrayList<CD>();
-	
+
+	//get all the info on the csv file and load it to the arraylist
 	public void load(String path) throws Exception{
 		CsvReader reader = new CsvReader(path); 
 		reader.readHeaders();
@@ -20,7 +21,8 @@ public class MaintainCD {
 			cds.add(c);
 		}
 	}
-	
+
+	//print everything in the arraylist to the file; only the content in arraylist will now be in the file
 	public void update(String path) throws Exception{
 		try {		
 				CsvWriter csvOutput = new CsvWriter(new FileWriter(path, false), ',');
