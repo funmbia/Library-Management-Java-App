@@ -7,7 +7,7 @@ public class TestSuite {
 	@Test
 	public void testPrintMethods() throws Exception {
 		// TEST for the system. Can we load(get) all the items on the csv files?
-		//						Can we add new items? (using factory too)
+		//			Can we add new items? (using the factory)
 		
 		String path = "/Users/funmbia/Desktop/csv files/newsletters.csv";
 		MaintainNewsletter m1 = new MaintainNewsletter();			
