@@ -55,7 +55,7 @@ public class TestSuite {
 //		GenerateLibraryItemFactory fact = new GenerateLibraryItemFactory();	
 //		Newsletter newNewsletter = (Newsletter) fact.getItemType("newsletter");
 //		newNewsletter.setAttributes("TLDR", "N/A", "https://tldr.tech/");
-//		
+//		MaintainNewsletter maintain = new MaintainNewsletter();
 //		maintain.newsletters.add(newNewsletter);
 //		maintain.update(path);
 
