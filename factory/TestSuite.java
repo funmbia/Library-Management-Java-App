@@ -53,7 +53,7 @@ public class TestSuite {
 		
 		//FOR ADDING NEW ITEMS
 //		GenerateLibraryItemFactory fact = new GenerateLibraryItemFactory();	
-//		Newsletter newNewsletter = (Newsletter) fact.getItemType("newsletter");
+//		Newsletter newNewsletter = (Newsletter) fact.createItemType("newsletter");
 //		newNewsletter.setAttributes("TLDR", "N/A", "https://tldr.tech/");
 //		MaintainNewsletter maintain = new MaintainNewsletter();
 //		maintain.newsletters.add(newNewsletter);
