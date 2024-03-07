@@ -1,2 +1,2 @@
-title,publisher,location,rentable,purchaseable,copiesAvail
-New York Times Magazine,The New York Times Company,1st floor; Shelf A1,FALSE,TRUE,20
+title,publisher,location,rentable,purchaseable,price,copiesAvail
+New York Times Magazine,The New York Times Company,1st floor; Shelf A1,FALSE,TRUE,8.85,20
