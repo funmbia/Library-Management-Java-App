@@ -14,8 +14,6 @@ public class UserInfo {
 	private ArrayList<Integer> currentlyRenting = new ArrayList<>(); //saved in database as numbers with spaces
 	private int itemsOut;
 	private int itemsOverdue;
-	private BookCollection bookCollection;
-	private Recommendation recommendation;
 	
 	public void setAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
 		this.name = name;
@@ -82,28 +80,6 @@ public class UserInfo {
 		currentlyRenting.remove(rentalOrderID);
 	}
 
-	public UserInfo(BookCollection bookCollection, Recommendation recommendation) {
-		this.bookCollection = bookCollection;
-		this.recommendation = recommendation;
-	}
-
-	public Book search(String bName) {
-		return bookCollection.searchBookByName(bName);
-	}
-
-	public void showRecommendations() {
-		// Assuming Recommendation has a method to get recommended books
-		List<Book> recommendedBooks = recommendation.getRecommendedBooks();
-
-		if (recommendedBooks.isEmpty()) {
-			System.out.println("No recommendations available.");
-		} else {
-			System.out.println("Recommended Books:");
-			for (Book book : recommendedBooks) {
-				System.out.println(book.getBookTitle());
-			}
-		}
-	}
 	@Override
 	public String toString() {
 		return "User [name=" + name + ", email=" + email + ", password=" + password + "] \n" +
