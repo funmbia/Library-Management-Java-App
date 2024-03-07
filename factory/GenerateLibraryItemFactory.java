@@ -4,7 +4,7 @@ public class GenerateLibraryItemFactory {
 
 	
 	
-	public LibraryItem createItemType (String type) {
+	public LibraryItem createLibraryItem (String type) {
 		if (type.toLowerCase().equals("newsletter") ) return new Newsletter();
 		else if (type.toLowerCase().equals("onlinebook")) return new OnlineBook();
 		else if (type.toLowerCase().equals("hardcoverbook")) return new HardcoverBook();
@@ -16,9 +16,9 @@ public class GenerateLibraryItemFactory {
 	//QUICK TEST OF FACTORY (done for every item type)
 	public static void main(String[] args) {
 		GenerateLibraryItemFactory fact = new GenerateLibraryItemFactory();
-		CD result = (CD) fact.createItemType("cd");
+		CD result = (CD) fact.createLibraryItem("cd");
 		
-		result.setAttributes("Life of the Johnsons", "1st Florr; Shelf G5",  true, true);
+		result.setAttributes("Life of the Johnsons", "1st Florr; Shelf G5",  true, true, 12);
 		
 		System.out.println(result.toString());
 	}

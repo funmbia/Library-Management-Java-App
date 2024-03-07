@@ -16,7 +16,7 @@ public class MaintainMagazine {
 		while(reader.readRecord()){ 
 			Magazine m = new Magazine();
 			m.setAttributes(reader.get("title"), reader.get("publisher"), reader.get("location"), 
-					Boolean.valueOf(reader.get("rentable")), Boolean.valueOf(reader.get("purchaseable"))) ;
+					Boolean.valueOf(reader.get("rentable")), Boolean.valueOf(reader.get("purchaseable")), Double.valueOf(reader.get("price"))) ;
 			m.setCopiesAvail(Integer.valueOf(reader.get("copiesAvail")));
 			magazines.add(m);
 		}
@@ -32,6 +32,7 @@ public class MaintainMagazine {
 				csvOutput.write("location");
 		    	csvOutput.write("rentable");
 		    	csvOutput.write("purchaseable");
+		    	csvOutput.write("price");
 		    	csvOutput.write("copiesAvail");
 				csvOutput.endRecord();
 				//content
@@ -41,6 +42,7 @@ public class MaintainMagazine {
 					csvOutput.write(x.getLocation());
 					csvOutput.write(String.valueOf(x.getRentable()));
 					csvOutput.write(String.valueOf(x.getPurchaseable()));
+					csvOutput.write(String.valueOf(x.getPrice()));
 					csvOutput.write(String.valueOf(x.getCopiesAvail()));
 					csvOutput.endRecord();
 				}

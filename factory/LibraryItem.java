@@ -97,10 +97,11 @@ class HardcoverBook extends LibraryItem {
 	private String location;
 	private boolean rentable;
 	private boolean purchaseable;
+	private double price; //iff purchaseable
 
 	private int copiesAvail = 20;
 	
-	public void setAttributes(String title, String author, String publisher, String ISBN, String location, boolean rentable, boolean purchaseable) {
+	public void setAttributes(String title, String author, String publisher, String ISBN, String location, boolean rentable, boolean purchaseable, double price) {
 		this.title = title;
 		this.author = author;
 		this.publisher = publisher;
@@ -108,6 +109,7 @@ class HardcoverBook extends LibraryItem {
 		this.location = location;
 		this.rentable = rentable;
 		this.purchaseable = purchaseable;
+		this.price = price;
 	}
 	
 	public String getAuthor() {
@@ -141,11 +143,15 @@ class HardcoverBook extends LibraryItem {
 	public String getLocation() {
 		return location;
 	}
+	
+	public double getPrice() {
+		return price;
+	}
 
 	@Override
 	public String toString() {
 		String r = rentable ? "rentable" : "not rentable";
-		String p = purchaseable ? "purchaseable" : "not purchaseable";
+		String p = purchaseable ? "purchaseable for $" + price  : "not purchaseable";
 		return "HARDCOVER BOOK SUMMARY:\n\tTitle: " + this.title + ", Author: " + this.author + ", Publisher: " + this.publisher + ", ISBN: " + this.ISBN 
 				+ ".\n\tLocation: " + location + ". This book is currently " + r + " ; " + p + " ; and there are " + copiesAvail + " copies available." ;
 	}
@@ -157,15 +163,17 @@ class Magazine extends LibraryItem {
 	private String location;
 	private boolean rentable;
 	private boolean purchaseable;
+	private double price; //iff purchaseable
 
 	private int copiesAvail = 20;
 	
-	public void setAttributes(String title, String publisher, String location, boolean rentable, boolean purchaseable) {
+	public void setAttributes(String title, String publisher, String location, boolean rentable, boolean purchaseable, double price) {
 		this.title = title;
 		this.publisher = publisher;
 		this.location = location;
 		this.rentable = rentable;
 		this.purchaseable = purchaseable;
+		this.price = price;
 	}
 
 	public String getPublisher() {
@@ -191,11 +199,15 @@ class Magazine extends LibraryItem {
 	public String getLocation() {
 		return location;
 	}
+	
+	public double getPrice() {
+		return price;
+	}
 
 	@Override
 	public String toString() {
 		String r = rentable ? "rentable" : "not rentable";
-		String p = purchaseable ? "purchaseable" : "not purchaseable";
+		String p = purchaseable ? "purchaseable for $" + price  : "not purchaseable";
 		return "MAGAZINE SUMMARY:\n\tTitle: " + this.title + ", Publisher: " + this.publisher + ", Location: " + location
 				+ ".\n\tThis magazine is currently " + r + " ; " + p + " ; and there are " + copiesAvail + " copies available.";
 	}
@@ -206,14 +218,16 @@ class CD extends LibraryItem {
 	private String location;
 	private boolean rentable;
 	private boolean purchaseable;
+	private double price; //iff purchaseable
 	
 	private int copiesAvail = 20;
 	
-	public void setAttributes(String title, String location, boolean rentable, boolean purchaseable) {
+	public void setAttributes(String title, String location, boolean rentable, boolean purchaseable, double price) {
 		this.title = title;
 		this.location = location;
 		this.rentable = rentable;
 		this.purchaseable = purchaseable;
+		this.price = price;
 	}
 	
 	public boolean getRentable() {
@@ -235,11 +249,15 @@ class CD extends LibraryItem {
 	public String getLocation() {
 		return location;
 	}
+	
+	public double getPrice() {
+		return price;
+	}
 
 	@Override
 	public String toString() {
 		String r = rentable ? "rentable" : "not rentable";
-		String p = purchaseable ? "purchaseable" : "not purchaseable";
+		String p = purchaseable ? "purchaseable for $" + price  : "not purchaseable";
 		return "CD SUMMARY:\n\tTitle: " + this.title + ", Location: " + location
 				+ ".\n\tThis CD is currently " + r + " ; " + p + " ; and there are " + copiesAvail + " copies available.";
 	}

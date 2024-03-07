@@ -7,7 +7,7 @@ public class TestSuite {
 	@Test
 	public void testPrintMethods() throws Exception {
 		// TEST for the system. Can we load(get) all the items on the csv files?
-		//			Can we add new items? (using the factory)
+		//						Can we add new items? (using factory too)
 		
 		String path = "/Users/funmbia/Desktop/csv files/newsletters.csv";
 		MaintainNewsletter m1 = new MaintainNewsletter();			
@@ -51,13 +51,19 @@ public class TestSuite {
 		
 		System.out.println(m5.cds.get(0).getID());
 		
-		//FOR ADDING NEW ITEMS
+//		//FOR ADDING NEW ITEMS
 //		GenerateLibraryItemFactory fact = new GenerateLibraryItemFactory();	
-//		Newsletter newNewsletter = (Newsletter) fact.createItemType("newsletter");
+//		Newsletter newNewsletter = (Newsletter) fact.createLibraryItem("newsletter");
 //		newNewsletter.setAttributes("TLDR", "N/A", "https://tldr.tech/");
+//		
 //		MaintainNewsletter maintain = new MaintainNewsletter();
+//		maintain.load("/Users/funmbia/Desktop/csv files/newsletters.csv");
 //		maintain.newsletters.add(newNewsletter);
-//		maintain.update(path);
+//		maintain.update("/Users/funmbia/Desktop/csv files/newsletters.csv");
+//		
+//		for(LibraryItem x: maintain.newsletters){
+//			System.out.println(x.toString());
+//		}
 
 	}
 

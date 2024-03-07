@@ -16,7 +16,7 @@ public class MaintainHardcoverBook {
 		while(reader.readRecord()){ 
 			HardcoverBook h = new HardcoverBook();
 			h.setAttributes(reader.get("title"), reader.get("author"), reader.get("publisher"), reader.get("ISBN"), reader.get("location"),
-					Boolean.valueOf(reader.get("rentable")), Boolean.valueOf(reader.get("purchaseable"))) ;
+					Boolean.valueOf(reader.get("rentable")), Boolean.valueOf(reader.get("purchaseable")), Double.valueOf(reader.get("price"))) ;
 			h.setCopiesAvail(Integer.valueOf(reader.get("copiesAvail")));
 			hardcoverbooks.add(h);
 		}
@@ -34,6 +34,7 @@ public class MaintainHardcoverBook {
 		    	csvOutput.write("location");
 		    	csvOutput.write("rentable");
 		    	csvOutput.write("purchaseable");
+		    	csvOutput.write("price");
 		    	csvOutput.write("copiesAvail");
 				csvOutput.endRecord();
 				//content
@@ -45,6 +46,7 @@ public class MaintainHardcoverBook {
 					csvOutput.write(x.getLocation());
 					csvOutput.write(String.valueOf(x.getRentable()));
 					csvOutput.write(String.valueOf(x.getPurchaseable()));
+					csvOutput.write(String.valueOf(x.getPrice()));
 					csvOutput.write(String.valueOf(x.getCopiesAvail()));
 					csvOutput.endRecord();
 				}
