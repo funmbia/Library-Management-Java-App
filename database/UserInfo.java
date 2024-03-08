@@ -14,7 +14,8 @@ public class UserInfo {
 	private ArrayList<Integer> currentlyRenting = new ArrayList<>(); //saved in database as numbers with spaces
 	private int itemsOut;
 	private int itemsOverdue;
-	
+	private int penalty;
+
 	public void setAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
 		this.name = name;
 		this.email = email;
