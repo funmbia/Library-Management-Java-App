@@ -63,4 +63,26 @@ private Recommendation recommendation;
  }
  public String displayRentalWarnings(){
  }
+
+     public User(BookCollection bookCollection, Recommendation recommendation) {
+        this.bookCollection = bookCollection;
+        this.recommendation = recommendation;
+    }
+
+    public Book search(String bName) {
+        return bookCollection.searchBookByName(bName);
+    }
+
+    public void showRecommendations() {
+        List<Book> recommendedBooks = recommendation.getRecommendedBooks();
+
+        if (recommendedBooks.isEmpty()) {
+            System.out.println("No recommendations available.");
+        } else {
+            System.out.println("Recommended Books:");
+            for (Book book : recommendedBooks) {
+                System.out.println(book.getBookTitle());
+            }
+        }
+    }
 }
