@@ -12,7 +12,7 @@ public class SystemManagement {
 
     private SystemManagement(){}
 
-    public void creatAccount(String type){
+    public void createAccount(String type){
 
     }
 
