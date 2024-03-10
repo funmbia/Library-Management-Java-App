@@ -6,17 +6,62 @@ public OrderBuilder currentOrder;
 public int itemsOut;
 private BookCollection bookCollection;
 private Recommendation recommendation;
+ private String email;
+ private String password;
+ private String type;
+ public Invoker myInvoker;
+ 
 
  
     public User() {
     }
 
-    
-    public User(int itemsOverdue, int penaltyToPay, List<RentalOrder> currentlyRenting, OrderBuilder currentOrder) {
+ public User(int itemsOverdue, int penaltyToPay, List<RentalOrder> currentlyRenting, OrderBuilder currentOrder,
+                String email, String password, String type, Invoker myInvoker) {
         this.itemsOverdue = itemsOverdue;
         this.penaltyToPay = penaltyToPay;
         this.currentlyRenting = currentlyRenting;
         this.currentOrder = currentOrder;
+        this.email = email;
+        this.password = password;
+        this.type = type;
+        this.myInvoker = myInvoker;
+    }
+
+    // Getter and setter methods for email
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Getter and setter methods for password
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Getter and setter methods for type
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    // Getter and setter methods for myInvoker
+    public Invoker getMyInvoker() {
+        return myInvoker;
+    }
+
+    public void setMyInvoker(Invoker myInvoker) {
+        this.myInvoker = myInvoker;
     }
 
 
