@@ -4,6 +4,9 @@ public int penaltyToPay;
 public List<RentalOrder> currentlyRenting;
 public OrderBuilder currentOrder;
 public int itemsOut;
+private BookCollection bookCollection;
+private Recommendation recommendation;
+
  
     public User() {
     }
