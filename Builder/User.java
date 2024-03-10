@@ -54,6 +54,13 @@ private Recommendation recommendation;
     public void setCurrentOrder(OrderBuilder currentOrder) {
         this.currentOrder = currentOrder;
     }
+
+ public double penaltyToPay(){
+ double penalty;
+  penalty=itemsOverdue * 0.5;
+  return penalty;
+}
+  
  public boolean hasBorrowingPrivileges() {
   boolean privileges=true;
    if (itemsOverdue>3){
@@ -62,7 +69,10 @@ private Recommendation recommendation;
   return privileges;
  }
  public String displayRentalWarnings(){
- }
+    String warning="You have" + itemsOverdue +". Renting more then three books will result in loss of borrowing privileges ";
+ return warning;
+}
+
 
      public User(BookCollection bookCollection, Recommendation recommendation) {
         this.bookCollection = bookCollection;
