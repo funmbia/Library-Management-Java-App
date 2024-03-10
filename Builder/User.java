@@ -3,8 +3,7 @@ public int itemsOverdue;
 public int penaltyToPay;
 public List<RentalOrder> currentlyRenting;
 public OrderBuilder currentOrder;
-/* why is it here public itemsOut{
-}*/
+public int itemsOut;
  
     public User() {
     }
@@ -58,5 +57,7 @@ public OrderBuilder currentOrder;
     privileges =false;
    } 
   return privileges;
+ }
+ public String displayRentalWarnings(){
  }
 }
