@@ -52,4 +52,11 @@ public OrderBuilder currentOrder;
     public void setCurrentOrder(OrderBuilder currentOrder) {
         this.currentOrder = currentOrder;
     }
+ public boolean hasBorrowingPrivileges() {
+  boolean privileges=true;
+   if (itemsOverdue>3){
+    privileges =false;
+   } 
+  return privileges;
+ }
 }
