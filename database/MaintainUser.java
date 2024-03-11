@@ -1,11 +1,14 @@
 package database;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
+
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
+import builder.RentalOrder;
 
 public class MaintainUser {
-	public ArrayList<UserInfo> users = new ArrayList<UserInfo>();
+	public ArrayList<User> users = new ArrayList<User>();
 	public String path;
 	
 	//reads the file & sets up the users array-list accordingly
@@ -14,14 +17,33 @@ public class MaintainUser {
 		reader.readHeaders();
 		
 		while(reader.readRecord()){ 
-			UserInfo user = new UserInfo();
-			user.setAttributes(reader.get("name"), reader.get("email"), reader.get("password"), reader.get("accountType"), 
+			User user = new User();
+			user.setDatabaseAttributes(reader.get("name"), reader.get("email"), reader.get("password"), reader.get("accountType"), 
 					Integer.valueOf(reader.get("itemsOut")), Integer.valueOf(reader.get("itemsOverdue")), Integer.valueOf(reader.get("penalty")));
-			user.setCurrentlyRenting(reader.get("currentlyRenting"));
+			
+			String[] rentingIds = reader.get("currentlyRenting").split(",");
+			List<RentalOrder> rentingOrders = new ArrayList<>();
+			for (String id : rentingIds) {
+			    RentalOrder order = getOrderById(id);
+			    if (order != null) {
+			        rentingOrders.add(order);
+			    }
+			}
+			user.setCurrentlyRenting(rentingOrders);
+
 			users.add(user);
 		}
 	}
 	
+	private RentalOrder getOrderById(String id) {
+		for (RentalOrder order : RentalOrder.allOrders) {
+			if (order.getOrderID() == Integer.valueOf(id)) {
+				return order;
+			}
+		}
+		return null;
+	}
+
 	//reprints everything in the users array-list to the file 
 	public void update(String path) throws Exception{
 		try {		
@@ -36,15 +58,25 @@ public class MaintainUser {
 				csvOutput.write("penalty");
 				csvOutput.endRecord();
 				
-				for(UserInfo u: users){
+				for(User u: users){
 					csvOutput.write(u.getName());
 					csvOutput.write(u.getEmail());
 					csvOutput.write(u.getPassword());
-					csvOutput.write(u.getAccountType());
-					csvOutput.write(u.getCurrentlyRenting());
+					csvOutput.write(u.getType());
+					
+					String builder = "";
+					for (RentalOrder r : u.getCurrentlyRenting()) {
+						builder += r.getOrderID() + ",";
+					}
+					if (builder.length() > 0) {
+					    builder = builder.substring(0, builder.length() - 1); //remove the last comma
+					}
+					csvOutput.write(builder);
+					
+					
 					csvOutput.write(String.valueOf(u.getItemsOut()));
 					csvOutput.write(String.valueOf(u.getItemsOverdue()));
-					csvOutput.write(String.valueOf(u.getPenalty()));	
+					csvOutput.write(String.valueOf(u.getPenaltyToPay()));	
 					csvOutput.endRecord();
 				}
 				csvOutput.close();
