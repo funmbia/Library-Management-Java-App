@@ -6,7 +6,7 @@ public abstract class PhysicalItem extends LibraryItem {
 	protected boolean rentable;
 	protected boolean purchaseable;
 	protected double price;
-	private String title;
+	protected String title;
         private Date dueDate;
 	private boolean canBeRented = true;
 
