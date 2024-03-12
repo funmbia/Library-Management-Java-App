@@ -12,6 +12,10 @@ public class Newsletter extends LibraryItem {
 		this.URL = URL;
 	}
 	
+	public Newsletter() {
+		// Default constructor
+	}
+	
 	public String getOrganization() {
 		return organization;
 	}
@@ -36,6 +40,14 @@ public class Newsletter extends LibraryItem {
         	this.name = name;
     	}
 
+	public boolean isSubscribed() {
+		return isSubscribed;
+	}
+	
+	public void setSubscribed(boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;
+	}
+	
 	@Override
 	public String toString() {
 		return "NEWSLETTER SUMMARY:\n\tTitle: " + this.title + ", Organization: " + this.organization + ", URL: " + this.URL;
