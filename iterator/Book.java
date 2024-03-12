@@ -3,18 +3,18 @@ import java.util.Date;
 import java.util.List;
 
 public class Book {
-    private String bookTitle;
+    private String title;
     private String ISBN;
     private Date date;
-    private String bookAuthor;
-    private String bookPublisher;
+    private String author;
+    private String publisher;
     private static List<Book> bookList = new ArrayList<>();
 
     // Constructor
-    public Book(String bookTitle, String bookAuthor, String bookPublisher, String ISBN, Date date) {
-        this.bookTitle = bookTitle;
-        this.bookAuthor = bookAuthor;
-        this.bookPublisher = bookPublisher;
+    public Book(String title, String author, String publisher, String ISBN, Date date) {
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
         this.ISBN = ISBN;
         this.date = date;
     }
@@ -26,11 +26,11 @@ public class Book {
 
     // Getters and setters
     public String getBookTitle() {
-        return bookTitle;
+        return title;
     }
 
-    public void setBookTitle(String bookTitle) {
-        this.bookTitle = bookTitle;
+    public void setBookTitle(String title) {
+        this.title = title;
     }
 
     public String getISBN() {
@@ -50,19 +50,19 @@ public class Book {
     }
 
     public String getBookAuthor() {
-        return bookAuthor;
+        return author;
     }
 
-    public void setBookAuthor(String bookAuthor) {
-        this.bookAuthor = bookAuthor;
+    public void setBookAuthor(String author) {
+        this.author = author;
     }
 
     public String getBookPublisher() {
         return bookPublisher;
     }
 
-    public void setBookPublisher(String bookPublisher) {
-        this.bookPublisher = bookPublisher;
+    public void setBookPublisher(String publisher) {
+        this.publisher = publisher;
     }
     
     public void add(Book book) {
