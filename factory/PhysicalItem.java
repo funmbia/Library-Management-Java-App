@@ -73,8 +73,23 @@ public abstract class PhysicalItem extends LibraryItem {
 	public Date getDueDate() {
 		return dueDate;
 	}
-	
-	
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public void setRentable(boolean rentable) {
+		this.rentable = rentable;
+	}
+
+	public void setPurchaseable(boolean purchaseable) {
+		this.purchaseable = purchaseable;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 }
 
 //PHYSICAL ITEMS
