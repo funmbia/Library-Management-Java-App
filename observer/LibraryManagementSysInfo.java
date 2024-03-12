@@ -10,7 +10,7 @@ public class LibraryManagementSysInfo {
 	private List<PhysicalItem> physicalItems = new ArrayList<>();
 	private List<OnlineBook> onlineBooks = new ArrayList<>();
 	private List<Newsletter> newsletter = new ArrayList<>();
-	private List<HardcoverBooks> hardcover = new ArrayList<>();
+	private List<HardcoverBook> hardcover = new ArrayList<>();
 	private Map<String, Integer> overdueItemsCnt = new HashMap<>();
 	private Map<Textbook, Date> dueDates = new HashMap<>();
 
@@ -22,9 +22,9 @@ public class LibraryManagementSysInfo {
 		registeredClients.remove(observer);
 	}
 
-	public List<HardcoverBooks> getAlreadyRented(){
-		List<HardcoverBooks> rentedBooks = new ArrayList<>();
-		for (HardcoverBooks book : hardcover){
+	public List<HardcoverBook> getAlreadyRented(){
+		List<HardcoverBook> rentedBooks = new ArrayList<>();
+		for (HardcoverBook book : hardcover){
 			if (book.isRented()){
 				rentedBooks.add(book);
 			}
