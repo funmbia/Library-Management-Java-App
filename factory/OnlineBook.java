@@ -54,6 +54,14 @@ public class OnlineBook extends LibraryItem {
         	return title;
     	}
 
+	public void setAvailable(boolean isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+	
+	public void setSubscribed(boolean isSubscribed) {
+		this.isSubscribed = isSubscribed;	
+	}
+
     	public void setTitle(String title) {
         	this.title = title;
     	}
