@@ -43,7 +43,7 @@ public class RentalOrderBuilder extends OrderBuilder{
 	}
 	
 	public RentalOrder returnOrder() {
-		//TODO add order to database
+		//TODO add order to database? - rn in a static variable
 		updateUserHistory();
 		return order;
 	}
@@ -52,7 +52,6 @@ public class RentalOrderBuilder extends OrderBuilder{
 		this.user = user;
 	}
 	
-	/*should we add interface so the diff classes can access same list?*/
 	public  void updateInventory(PhysicalItem item) {
 		item.setCopiesAvail(item.getCopiesAvail()-1);
 	}
