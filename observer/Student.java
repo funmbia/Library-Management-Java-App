@@ -19,7 +19,6 @@ public class Student extends RegisteredClient {
 	private static final int MAX_OVERDUE_ITEMS = 3;
 	private static final int BOOK_LOST_DAYS = 15;
 
-
 	public Student(LibraryManagementSysInfo subject){
 		this.subject=subject;
 		this.subject.attachRegisteredClient(this);
@@ -30,12 +29,12 @@ public class Student extends RegisteredClient {
 		displayWarnings();
 	}
 
-	public List<HardcoverBooks> getBorrowedHardcoverBooks() {
-		List<HardcoverBooks> borrowedHardcoverBooks = new ArrayList<>();
+	public List<HardcoverBook> getBorrowedHardcoverBooks() {
+		List<HardcoverBook> borrowedHardcoverBooks = new ArrayList<>();
 
 		for (PhysicalItem item : borrowedItems) {
-			if (item instanceof HardcoverBooks) {
-				HardcoverBooks book = (HardcoverBooks) item;
+			if (item instanceof HardcoverBook) {
+				HardcoverBook book = (HardcoverBook) item;
 				if (subject.isItemOverdue(book)) {
 					borrowedHardcoverBooks.add(book);
 				}
@@ -61,8 +60,8 @@ public class Student extends RegisteredClient {
     public void displayBorrowedHardcoverBooks() {
         System.out.println("Borrowed Hardcover Books:");
         for (PhysicalItem item : borrowedItems) {
-            if (item instanceof HardcoverBooks) {
-                HardcoverBooks book = (HardcoverBooks) item;
+            if (item instanceof HardcoverBook) {
+                HardcoverBook book = (HardcoverBook) item;
                 System.out.println("Title: " + book.getTitle() + ", Due Date: " + book.getDueDate());
             }
         }
