@@ -5,6 +5,9 @@ public abstract class PhysicalItem extends LibraryItem {
 	protected boolean rentable;
 	protected boolean purchaseable;
 	protected double price;
+	private String title;
+        private Date dueDate;
+	private boolean canBeRented = true;
 
 	protected int copiesAvail = 20;
 	
@@ -31,6 +34,44 @@ public abstract class PhysicalItem extends LibraryItem {
 	public double getPrice() {
 		return price;
 	}
+
+    	public boolean isAvailable() {
+        	return copiesAvail > 0 && canBeRented;
+    	}
+
+    	public void setRentalStatus(boolean status) {
+        	this.canBeRented = status;
+    	}
+
+   	public void decreaseAvailableCopies() {
+        	if (copiesAvail > 0) {
+            		copiesAvail--;
+        	}
+    	}
+
+    	public void increaseAvailableCopies() {
+        	copiesAvail++;
+    	}
+
+    	public String getTitle() {
+        	return title;
+    	}
+
+    	public void setTitle(String title) {
+        	this.title = title;
+    	}
+
+	public boolean isOverdue() {
+        	if (dueDate != null) {
+            		Date currentDate = new Date();
+            	return currentDate.after(dueDate);
+        	}
+        return false;
+    }
+
+	public Date getDueDate() {
+		return dueDate;
+	}
 	
 	
 }
@@ -42,6 +83,8 @@ class HardcoverBook extends PhysicalItem {
 	private String author;
 	private String publisher;
 	private String ISBN;
+	private String title;
+	private boolean isRented = false;
 	
 	public void setAttributes(String title, String author, String publisher, String ISBN, String location, boolean rentable, boolean purchaseable, double price) {
 		this.title = title;
@@ -64,6 +107,23 @@ class HardcoverBook extends PhysicalItem {
 	
 	public String getISBN() {
 		return ISBN;
+	}
+
+	public boolean isRented() {
+		return isRented;
+	}
+
+	public void setRented(boolean rented) {
+		isRented = rented;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+
+	public boolean isHardcover() {
+		return true;
 	}
 	
 	@Override
