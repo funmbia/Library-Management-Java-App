@@ -17,6 +17,10 @@ public class OnlineBook extends LibraryItem {
 		this.ISBN = ISBN;
 	}
 
+	public OnlineBook() {
+		// Default Constructor
+	}
+	
 	public OnlineBook(boolean isAvailable, boolean isSubscribed) {
         	this.isAvailable = isAvailable;
         	this.isSubscribed = isSubscribed;
