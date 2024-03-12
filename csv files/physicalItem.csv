@@ -1,0 +1,5 @@
+itemType,title,location,rentable,purchaseable,price
+HardcoverBook,"Pride and Prejudice",Library Section A,true,true,22.99
+Magazine,"Cosmoplitan",Library Section B,true,false,3.32
+CD,"Thriller",Library Section C,true,true,16.99
+CD,"Back in Black",Library Section C,false,false,15.99
