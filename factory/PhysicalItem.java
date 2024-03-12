@@ -1,4 +1,5 @@
 package factory;
+import java.util.Date;
 
 public abstract class PhysicalItem extends LibraryItem {
 	protected String location;
