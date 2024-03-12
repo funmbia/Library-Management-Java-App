@@ -17,13 +17,13 @@ public class MaintainBook {
 
         while (reader.readRecord()) {
         	Book books = new Book();
-            String bookTitle = reader.get("bookTitle");
+            String title = reader.get("title");
             String ISBN = reader.get("ISBN");
             Date date = new Date(reader.get("date"));
-            String bookAuthor = reader.get("bookAuthor");
-            String bookPublisher = reader.get("bookPublisher");
+            String author = reader.get("author");
+            String publisher = reader.get("publisher");
 
-            Book book = new Book(bookTitle, bookAuthor, bookPublisher, ISBN, date);
+            Book book = new Book(title, author, publisher, ISBN, date);
             books.add(book);
         }
 
@@ -33,11 +33,11 @@ public class MaintainBook {
     public void update(String path) throws Exception {
         CsvWriter csvOutput = new CsvWriter(new FileWriter(path, false), ',');
 
-        csvOutput.write("bookTitle");
+        csvOutput.write("title");
         csvOutput.write("ISBN");
         csvOutput.write("date");
-        csvOutput.write("bookAuthor");
-        csvOutput.write("bookPublisher");
+        csvOutput.write("author");
+        csvOutput.write("publisher");
         csvOutput.endRecord();
 
         for (Book book : books) {
