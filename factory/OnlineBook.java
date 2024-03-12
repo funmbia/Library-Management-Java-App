@@ -5,6 +5,9 @@ public class OnlineBook extends LibraryItem {
 	private String publisher;
 	private String URL;
 	private String ISBN;
+	private boolean isAvailable;
+    	private boolean isSubscribed;
+    	private String title;
 	
 	public void setAttributes(String title, String author, String publisher, String URL, String ISBN) {
 		this.title = title;
@@ -14,6 +17,10 @@ public class OnlineBook extends LibraryItem {
 		this.ISBN = ISBN;
 	}
 
+	public OnlineBook(boolean isAvailable, boolean isSubscribed) {
+        	this.isAvailable = isAvailable;
+        	this.isSubscribed = isSubscribed;
+    	}
 	
 	public String getAuthor() {
 		return author;
@@ -30,6 +37,22 @@ public class OnlineBook extends LibraryItem {
 	public String getISBN() {
 		return ISBN;
 	}
+
+	public boolean isAvailable() {
+        	return isAvailable;
+    	}
+
+   	public boolean isSubscribed() {
+        	return isSubscribed;
+    	}
+
+    	public String getTitle() {
+        	return title;
+    	}
+
+    	public void setTitle(String title) {
+        	this.title = title;
+    	}
 
 	@Override
 	public String toString() {
