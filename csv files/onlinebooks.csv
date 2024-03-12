@@ -1,2 +1,6 @@
-title,author,publisher,URL,ISBN
-The Little Prince,Antoine de Saint-Exupéry,UBC Blogs,https://blogs.ubc.ca/edcp508/files/2016/02/TheLittlePrince.pdf,978-3159621791
+title,author,publisher,URL,ISBN,date
+The Little Prince,Antoine de Saint-Exupéry,UBC Blogs,https://blogs.ubc.ca/edcp508/files/2016/02/TheLittlePrince.pdf,978-3159621791,1943-04-06
+Design Patterns: Elements of Reusable Object-Oriented Software,Erich Gamma; Richard Helm; Ralph Johnson and John Vlissides,Addison-Wesley, DesignPatternsPotentialUrl,978-0201633610,1994-10-31
+UML Distilled: A Brief Guide to the Standard Object-Modeling Language,Martin Fowler,Addison-Wesley,UMLDistilledPotentialUrl,978-0321193681,2003-09-15
+Domain Driven Design: Tackling Complexity in The Heart of Software,Eric Evans,Addison-Wesley,DomainDrivenDesignPotentialUrl,978-0321125217,2003-08-22
+Clean Architecture: A Craftsman's Guide to Software Structure and Design Paperback,Robert Martin,Pearson,CleanArchitecturePotentialUrl,978-0134494166, 2017-09-10
