@@ -1,9 +1,13 @@
 package Singleton;
 
-import database.UserInfo;
+import database.User;
 import factory.LibraryItem;
 
-public class SystemManagement {
+import java.util.ArrayList;
+
+public class SystemManagement extends yorkMembers{
+
+    public static ArrayList<User> SystemMembers = new ArrayList<>();
     private static final SystemManagement systemInstance = new SystemManagement();
 
     public static SystemManagement getSystemInstance(){
@@ -12,12 +16,12 @@ public class SystemManagement {
 
     private SystemManagement(){}
 
-    public void createAccount(String type){
-
+    public void createAccount(User u){
+        SystemMembers.add(u);
     }
 
-    public UserInfo loginUser(String email, String password){
-        return null;
+    public User loginUser(User u){
+        return SystemMembers.get(SystemMembers.indexOf(u));
     }
 
     public void additem(LibraryItem item){

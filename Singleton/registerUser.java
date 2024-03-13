@@ -1,14 +1,14 @@
 package Singleton;
 
-import database.UserInfo;
+import database.User;
 
 public class registerUser extends yorkMembers {
 
-    UserInfo user = new UserInfo();
+    User user = new User();
 
     public registerUser(String name, String email, String password, String accountT){
-        user.setAttributes(name,email,password,accountT,0,0,0);
-        members.put(email, password);
+        user.setDatabaseAttributes(name,email,password,accountT,0,0,0);
+        members.add(user);
     }
 
     public void createAccount(){
@@ -16,7 +16,7 @@ public class registerUser extends yorkMembers {
     }
 
     private boolean validateNonVisitor(){
-        return validate(user.getEmail());
+        return validate(user);
     }
 
     private void toLogin(){

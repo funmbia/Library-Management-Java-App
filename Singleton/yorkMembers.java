@@ -1,16 +1,16 @@
 package Singleton;
 
 
-import java.util.HashMap;
-import java.util.Map;
+import database.User;
+import java.util.ArrayList;
 
 public class yorkMembers {
 
-    public static Map<String,String> members = new HashMap<String,String>();
+    public static ArrayList<User> members = new ArrayList<>();
 
     //check if registered member already exists
-    public boolean validate(String email) {
-        return !members.containsKey(email);
+    public boolean validate(User user) {
+        return !members.contains(user);
     }
 
 }
