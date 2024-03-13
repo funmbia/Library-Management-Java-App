@@ -1,4 +1,9 @@
+package observer;
 import java.util.ArrayList;
+import factory.PhysicalItem;
+import factory.Newsletter;
+import factory.OnlineBook;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
