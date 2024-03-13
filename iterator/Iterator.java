@@ -1,3 +1,4 @@
+package iterator;
 
 public interface Iterator {
     Object first();
