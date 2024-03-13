@@ -14,7 +14,7 @@ public abstract class OrderBuilder {
     // Constructor with userEmail parameter
     public OrderBuilder(String email) {
         this.userEmail = email;
-        this.items = null; 
+        this.items = null;
         this.itemCount = 0;
     }
 
@@ -44,4 +44,3 @@ public abstract class OrderBuilder {
         this.dueDate = dueDate;
     }
 }
-
