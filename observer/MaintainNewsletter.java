@@ -1,3 +1,7 @@
+package observer;
+import factory.LibraryItem;
+import factory.Newsletter;
+
 import java.io.FileWriter;
 import java.util.ArrayList;
 

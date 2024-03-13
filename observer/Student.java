@@ -1,3 +1,5 @@
+package observer;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -6,6 +8,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import factory.PhysicalItem;
+
 
 public class Student extends RegisteredClient {
 
@@ -19,11 +24,12 @@ public class Student extends RegisteredClient {
 	private static final int MAX_OVERDUE_ITEMS = 3;
 	private static final int BOOK_LOST_DAYS = 15;
 
+
 	public Student(LibraryManagementSysInfo subject){
 		this.subject=subject;
 		this.subject.attachRegisteredClient(this);
 	}
-
+	
 	@Override
 	public void update(){
 		displayWarnings();

@@ -1,3 +1,9 @@
+package observer;
+
+import factory.PhysicalItem;
+import factory.Newsletter;
+import factory.OnlineBook;
+
 public abstract class RegisteredClient {
 
 	public LibraryManagementSysInfo subject;

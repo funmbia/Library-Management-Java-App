@@ -1,3 +1,7 @@
+package observer;
+
+import factory.OnlineBook;
+
 import java.io.FileWriter;
 import java.util.ArrayList;
 
