@@ -28,6 +28,7 @@ public class User {
 	public int itemsOut;
 	public int itemsOverdue;
 	public double penaltyToPay;
+	private String penalty;
 
 	public void update() {
 	}
