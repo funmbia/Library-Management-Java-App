@@ -5,17 +5,32 @@ import factory.Newsletter;
 import factory.OnlineBook;
 import java.util.ArrayList;
 import java.util.List;
+import builder.OrderBuilder;
+import builder.RentalOrder;
+import iterator.Book;
+import iterator.BookCollection;
+import iterator.Recommendation;
 //import singleton.*; import once email and password methods added there
 
 public class User {
 
 	public LibraryManagementSysInfo subject;
+	public List<RentalOrder> currentlyRenting;
+	public OrderBuilder currentOrder;
+	private BookCollection bookCollection;
+	private Recommendation recommendation;
+	public Invoker myInvoker;
+
+	private String name;
+	private String email;
+	private String password;
+	private String type;
+	public int itemsOut;
+	public int itemsOverdue;
+	public double penaltyToPay;
 
 	public void update() {
 	}
-
-	private String email;
-	private String password;
 
 	/* Remove the following once synchronized with singleton class*/
 	public boolean login(String email, String password, String accountType){
@@ -105,36 +120,80 @@ public class User {
 	}
 
 	// New methods added from UserInfo class
+	class Invoker {
+		//dummy class
+	}
 
-	private String name;
-	private String accountType;
-	private List<Integer> currentlyRenting = new ArrayList<>();
-	private int itemsOut;
-	private int itemsOverdue;
-	private int penalty;
+	public User() {
+	}
 
-	public void setAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
+	public User(int itemsOverdue, int penaltyToPay, List<RentalOrder> currentlyRenting, OrderBuilder currentOrder,
+			String email, String password, String type, Invoker myInvoker) {
+		this.itemsOverdue = itemsOverdue;
+		this.penaltyToPay = penaltyToPay;
+		this.currentlyRenting = currentlyRenting;
+		this.currentOrder = currentOrder;
+		this.email = email;
+		this.password = password;
+		this.type = type;
+		this.myInvoker = myInvoker;
+	}
+
+	public void setDatabaseAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.accountType = accountType;
+		this.type = accountType;
 		this.itemsOut = itemsOut;
 		this.itemsOverdue = itemsOverdue;
-		this.penalty = penalty;
+		this.penaltyToPay = penalty;
 	}
 
-	public void setCurrentlyRenting(String renting) { 
-		int space;
-		while (renting.length() > 0) {
-			space = renting.indexOf(' ');
-			if (space == -1) {
-				space = renting.length();
+	public double penaltyToPay() {
+		double penalty;
+		penalty=itemsOverdue * 0.5;
+		return penalty;
+	}
+
+	public boolean hasBorrowingPrivileges() {
+		boolean privileges=true;
+		if (itemsOverdue>3){
+			privileges =false;
+		} 
+		return privileges;
+	}
+
+	public String displayRentalWarnings(){
+		String warning="You have" + itemsOverdue +". Renting more then three books will result in loss of borrowing privileges ";
+		return warning;
+	}
+
+
+	public User(BookCollection bookCollection, Recommendation recommendation) {
+		this.bookCollection = bookCollection;
+		this.recommendation = recommendation;
+	}
+
+	public Book search(String bName) {
+		return bookCollection.searchBookByName(bName);
+	}
+
+	public void showRecommendations() {
+		List<Book> recommendedBooks = recommendation.getRecommendedBooks();
+
+		if (recommendedBooks.isEmpty()) {
+			System.out.println("No recommendations available.");
+		} else {
+			System.out.println("Recommended Books:");
+			for (Book book : recommendedBooks) {
+				System.out.println(book.getBookTitle());
 			}
-			currentlyRenting.add(Integer.valueOf(renting.substring(0, space)));
-			renting = renting.substring(space).trim();
 		}
 	}
 
+
+
+	//GETTERS AND SETTERS FOR DATABASE ITEMS
 	public String getName() {
 		return name;
 	}
@@ -147,15 +206,8 @@ public class User {
 		return password;
 	}
 
-	public String getAccountType() {
-		return accountType;
-	}
-
-	public String getCurrentlyRenting() {
-		String ans = "";
-		for (Integer x : currentlyRenting)
-			ans += x + " ";
-		return ans;
+	public String getType() {
+		return type;
 	}
 
 	public int getItemsOut() {
@@ -166,16 +218,50 @@ public class User {
 		return itemsOverdue;
 	}
 
-	public int getPenalty() {
-		return penalty;
+	public void setItemsOverdue(int itemsOverdue) {
+		this.itemsOverdue = itemsOverdue;
 	}
 
-	public void addToRenting(int rentalOrderID) {
-		currentlyRenting.add(rentalOrderID);
+	public double getPenaltyToPay() {
+		return penaltyToPay;
 	}
 
-	public void removeFromRenting(int rentalOrderID) {
-		currentlyRenting.remove(rentalOrderID);
+	public void setPenaltyToPay(double penaltyToPay) {
+		this.penaltyToPay = penaltyToPay;
+	}
+
+
+	// OTHER GETTERS AND SETTERS
+	public Invoker getMyInvoker() {
+		return myInvoker;
+	}
+
+	public void setMyInvoker(Invoker myInvoker) {
+		this.myInvoker = myInvoker;
+	}
+
+	public List<RentalOrder> getCurrentlyRenting() {
+		return currentlyRenting;
+	}
+
+	public void setCurrentlyRenting(List<RentalOrder> currentlyRenting) {
+		this.currentlyRenting = currentlyRenting;
+	}
+
+	public void addToRenting(RentalOrder order) {
+		currentlyRenting.add(order);
+	}
+
+	public void removeFromRenting(RentalOrder order) {
+		currentlyRenting.remove(order);
+	}
+
+	public OrderBuilder getCurrentOrder() {
+		return currentOrder;
+	}
+
+	public void setCurrentOrder(OrderBuilder currentOrder) {
+		this.currentOrder = currentOrder;
 	}
 
 	@Override
