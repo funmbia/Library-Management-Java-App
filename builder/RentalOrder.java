@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import database.User;
+import observer.User;
 import factory.PhysicalItem;
 
 public class RentalOrder {
