@@ -1,7 +1,7 @@
 package Singleton;
 
 
-import database.User;
+import observer.User;
 import java.util.ArrayList;
 
 public class yorkMembers {
