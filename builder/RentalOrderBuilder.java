@@ -1,6 +1,6 @@
 package builder;
 
-import database.User;
+import observer.User;
 import factory.PhysicalItem;
 
 class rentPhysicalItem {
