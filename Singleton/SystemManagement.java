@@ -1,6 +1,6 @@
 package Singleton;
 
-import database.User;
+import observer.User;
 import factory.LibraryItem;
 
 import java.util.ArrayList;
