@@ -60,7 +60,7 @@ public class Book {
     }
 
     public String getBookPublisher() {
-        return bookPublisher;
+        return publisher;
     }
 
     public void setBookPublisher(String publisher) {
