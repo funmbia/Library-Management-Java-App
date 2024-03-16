@@ -7,11 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 //import singleton.*; import once email and password methods added there
 
-public abstract class User {
+public class User {
 
 	public LibraryManagementSysInfo subject;
 
-	public abstract void update();
+	public void update() {
+	}
 
 	private String email;
 	private String password;
