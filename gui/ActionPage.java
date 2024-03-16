@@ -3,7 +3,7 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import database.User;
+import observer.User;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -151,7 +151,7 @@ public class ActionPage {
 
     public static void main(String[] args) {
     	
-    	User a = new User(0, 0, null, null, "Jane Doe", null, null, null, null); //TODO: should actually be sent by login page
+    	User a = new User(0, 0, null, null, "Jane Doe", null, null, null); //TODO: should actually be sent by login page
     	new ActionPage(a);
     }
 }
