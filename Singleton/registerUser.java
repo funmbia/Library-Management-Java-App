@@ -1,6 +1,6 @@
 package Singleton;
 
-import database.User;
+import observer.User;
 
 public class registerUser extends yorkMembers {
 
