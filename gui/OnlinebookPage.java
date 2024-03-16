@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import database.User;
+import observer.User;
 
 public class OnlinebookPage implements Page{
 User user;
