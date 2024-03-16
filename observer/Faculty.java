@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Faculty extends RegisteredClient {
+public class Faculty extends User {
 
 	private List<Courses> coursesTeaching= new ArrayList<>();
 	private List<Textbook> usedTextbooks= new ArrayList<>();

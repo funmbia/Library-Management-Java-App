@@ -1,6 +1,7 @@
 package observer;
 import java.util.ArrayList;
 import factory.PhysicalItem;
+import factory.HardcoverBook;
 import factory.Newsletter;
 import factory.OnlineBook;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public class LibraryManagementSysInfo {
 
-	private List<RegisteredClient> registeredClients = new ArrayList<>();
+	private List<User> users = new ArrayList<>();
 	private List<PhysicalItem> physicalItems = new ArrayList<>();
 	private List<OnlineBook> onlineBooks = new ArrayList<>();
 	private List<Newsletter> newsletter = new ArrayList<>();
@@ -19,12 +20,12 @@ public class LibraryManagementSysInfo {
 	private Map<String, Integer> overdueItemsCnt = new HashMap<>();
 	private Map<Textbook, Date> dueDates = new HashMap<>();
 
-	public void attachRegisteredClient(RegisteredClient observer) {
-		registeredClients.add(observer);
+	public void attachRegisteredClient(User observer) {
+		users.add(observer);
 	}
 
-	public void deatachRegisteredClient(RegisteredClient observer) {
-		registeredClients.remove(observer);
+	public void deatachRegisteredClient(User observer) {
+		users.remove(observer);
 	}
 
 	public List<HardcoverBook> getAlreadyRented(){
@@ -69,7 +70,7 @@ public class LibraryManagementSysInfo {
 	}
 
 	public void notifyAllObservers(){
-		for (RegisteredClient observer : registeredClients){
+		for (User observer : users){
 			observer.update();
 		}
 	}

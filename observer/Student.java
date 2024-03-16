@@ -9,10 +9,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import factory.HardcoverBook;
 import factory.PhysicalItem;
 
 
-public class Student extends RegisteredClient {
+public class Student extends User {
 
 	private Map<Courses, List<Textbook>> virtualTextbooks = new HashMap<>();
 	private List<Courses> courseEnrolledIn = new ArrayList<>();

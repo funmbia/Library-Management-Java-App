@@ -1,5 +1,5 @@
 package observer;
-public class Visitor extends RegisteredClient {
+public class Visitor extends User {
 
 	public Visitor(LibraryManagementSysInfo subject){
 		this.subject=subject;
