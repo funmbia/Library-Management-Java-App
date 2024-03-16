@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-import database.User;
+import observer.User;
 
 public class RentPage implements Page {
 	User user;
