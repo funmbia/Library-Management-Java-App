@@ -16,25 +16,8 @@ public class RegisteredUser {
 	private String email;
 	private String password;
 
-	public boolean login(String email, String password, String accountType){
-		if(!isValidEmail(email) || isValidPassword(password)) {
-			System.out.println("Invalid info");
-			return false;
-		}
-
-		if (accountType.equals("student") || accountType.equals("faculty") || accountType.equals("staff")) {
-			if (!additionalValidationForUserType(accountType)) {
-				System.out.println("Additional validation failed for user type: " + accountType);
-				return false;
-			}
-		}
-
-		this.email = email;
-		this.password = password;a
-		System.out.println("Successful registration.");
-		return true;
-	}
-
+	public User loginUser();
+	
 	private boolean isValidEmail(String email);
 
 	private boolean isValidPassword(String password);
