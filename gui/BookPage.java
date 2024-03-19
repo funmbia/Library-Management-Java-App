@@ -77,7 +77,7 @@ public class OnlinebookPage implements Page {
 	}
 
 	private boolean bookExists(String title) {
-		String csvFilePath = "csv files/onlinebooks.csv";
+		String csvFilePath = "csv files.resources/onlinebooks.csv";
 
 		try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 			String line;
@@ -99,4 +99,3 @@ public class OnlinebookPage implements Page {
 	}
 
 }
-
