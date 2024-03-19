@@ -2,6 +2,7 @@ package database;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
+import observer.User;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;

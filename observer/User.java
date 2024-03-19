@@ -120,6 +120,14 @@ public class User {
 		return physicalItem;
 	}
 
+	public String getAccountType() {
+		return "";
+	}
+
+	public char[] getPenalty() {
+		return null;
+	}
+
 	// New methods added from UserInfo class
 	class Invoker {
 		//dummy class
