@@ -152,6 +152,8 @@ public class ActionPage {
     public static void main(String[] args) {
     	
     	User a = new User(0, 0, null, null, "Jane Doe", null, null, null); //TODO: should actually be sent by login page
+    	a.setDatabaseAttributes("Jane Doe", null, null, null, 0, 0, 0);
+    	
     	new ActionPage(a);
     }
 }

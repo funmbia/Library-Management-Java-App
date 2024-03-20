@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import Singleton.*;
 
 //TODO code to lead to action page iff valid user
 public class LogInPage implements Page { 
