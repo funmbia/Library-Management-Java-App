@@ -1,12 +1,29 @@
 package observer;
 
 import factory.PhysicalItem;
+import factory.CD;
+import factory.HardcoverBook;
+import factory.Magazine;
 import factory.Newsletter;
 import factory.OnlineBook;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import builder.OrderBuilder;
+import builder.PurchaseOrder;
+import builder.PurchaseOrderBuilder;
 import builder.RentalOrder;
+import builder.RentalOrderBuilder;
+import command.Invoker;
+import command.OpenNewsletter;
+import command.PurchasePhysicalItem;
+import command.RentPhysicalItem;
+import command.RequestPhysicalBook;
 import iterator.Book;
 import iterator.BookCollection;
 import iterator.Recommendation;
@@ -16,24 +33,62 @@ public class User {
 
 	public LibraryManagementSysInfo subject;
 	public List<RentalOrder> currentlyRenting;
-	public OrderBuilder currentOrder;
-	private BookCollection bookCollection;
-	private Recommendation recommendation;
+	public RentalOrderBuilder currentRentalOrder;
+	public PurchaseOrderBuilder currentPurchaseOrder;
+	protected BookCollection bookCollection;
+	protected Recommendation recommendation;
 	public Invoker myInvoker;
 
-	private String name;
-	private String email;
-	private String password;
-	private String type;
+	protected String name;
+	protected String email;
+	protected String password;
+	protected String type;
 	public int itemsOut;
 	public int itemsOverdue;
-	public double penaltyToPay;
-	private String penalty;
+	public double penalty;
+	
+	/* Constructors */
+	public User() {
+		currentlyRenting = new ArrayList<>();
+		myInvoker = new Invoker();
+	}
+
+	public User(int itemsOverdue, int penalty, List<RentalOrder> currentlyRenting, RentalOrderBuilder rentalOrder, 
+			PurchaseOrderBuilder purchaseOrder, String name, String email, String password, String type, Invoker myInvoker) {
+		this.itemsOverdue = itemsOverdue;
+		this.penalty = penalty;
+		this.currentlyRenting = currentlyRenting;
+		this.currentRentalOrder = rentalOrder;
+		this.currentPurchaseOrder = purchaseOrder;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.type = type;
+		this.myInvoker = myInvoker;
+	}
+	
+	public User(BookCollection bookCollection, Recommendation recommendation) {
+		currentlyRenting = new ArrayList<>();
+		this.bookCollection = bookCollection;
+		this.recommendation = recommendation;
+	}
+
+	public void setDatabaseAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.type = accountType;
+		this.itemsOut = itemsOut;
+		this.itemsOverdue = itemsOverdue;
+		this.penalty = penalty;
+	}
+/* Constructors */
+	
 
 	public void update() {
 	}
 
-	/* Remove the following once synchronized with singleton class*/
+/* Remove the following once synchronized with singleton class*/
 	public boolean login(String email, String password, String accountType){
 		if(!isValidEmail(email) || isValidPassword(password)) {
 			System.out.println("Invalid info");
@@ -98,95 +153,21 @@ public class User {
 		}
 		return true;
 	}
-	/* Methods that may be removed end here*/
+/* Methods that may be removed end here*/
 
-	public Newsletter subscribeNewsletter (Newsletter newsletter){
-		System.out.println("You are subscribed to " + newsletter.getName());
-		return newsletter;
-	}
-
-	public Newsletter cancelNewsletter(Newsletter newsletter){
-		System.out.println("You are unsubscribed to " + newsletter.getName());
-		return newsletter;
-	}
-
+	
+/* COMMANDS */
+	//integrate with openBookPage or remove
 	public OnlineBook openBook(OnlineBook onlineBook){
 		System.out.println("You have opened: " + onlineBook.getTitle());
 		return onlineBook;
 	}
-
-	public PhysicalItem rentPhysicalItem(PhysicalItem physicalItem){
-		System.out.println("You have rented: " + physicalItem.getTitle());
-		return physicalItem;
-	}
-
-	public String getAccountType() {
-		return "";
-	}
-
-	public char[] getPenalty() {
-		return null;
-	}
-
-	// New methods added from UserInfo class
-	class Invoker {
-		//dummy class
-	}
-
-	public User() {
-	}
-
-	public User(int itemsOverdue, int penaltyToPay, List<RentalOrder> currentlyRenting, OrderBuilder currentOrder,
-			String email, String password, String type, Invoker myInvoker) {
-		this.itemsOverdue = itemsOverdue;
-		this.penaltyToPay = penaltyToPay;
-		this.currentlyRenting = currentlyRenting;
-		this.currentOrder = currentOrder;
-		this.email = email;
-		this.password = password;
-		this.type = type;
-		this.myInvoker = myInvoker;
-	}
-
-	public void setDatabaseAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
-		this.name = name;
-		this.email = email;
-		this.password = password;
-		this.type = accountType;
-		this.itemsOut = itemsOut;
-		this.itemsOverdue = itemsOverdue;
-		this.penaltyToPay = penalty;
-	}
-
-	public double penaltyToPay() {
-		double penalty;
-		penalty=itemsOverdue * 0.5;
-		return penalty;
-	}
-
-	public boolean hasBorrowingPrivileges() {
-		boolean privileges=true;
-		if (itemsOverdue>3){
-			privileges =false;
-		} 
-		return privileges;
-	}
-
-	public String displayRentalWarnings(){
-		String warning="You have" + itemsOverdue +". Renting more then three books will result in loss of borrowing privileges ";
-		return warning;
-	}
-
-
-	public User(BookCollection bookCollection, Recommendation recommendation) {
-		this.bookCollection = bookCollection;
-		this.recommendation = recommendation;
-	}
-
+	
+	/*Synchronize with Search Command or remove search command*/
 	public Book search(String bName) {
 		return bookCollection.searchBookByName(bName);
 	}
-
+	
 	public void showRecommendations() {
 		List<Book> recommendedBooks = recommendation.getRecommendedBooks();
 
@@ -199,9 +180,249 @@ public class User {
 			}
 		}
 	}
+	
+	//OPEN NEWSLETTER
+	public String openNewsletter(Newsletter newsletter) {
+		OpenNewsletter openNews = new OpenNewsletter(newsletter);
+		myInvoker.setCommand(openNews);
+		return myInvoker.executeCommand();
+	}
+	
+	//Its easier for user to subscribe/unsubscribe in frame
+//	public Newsletter subscribeNewsletter (Newsletter newsletter){
+//		System.out.println("You are subscribed to " + newsletter.getName());
+//		return newsletter;
+//	}
+//
+//	public Newsletter cancelNewsletter(Newsletter newsletter){
+//		System.out.println("You are unsubscribed to " + newsletter.getName());
+//		return newsletter;
+//	}
+	
+	//REQUEST
+	public String request (String bookName, String requestType) throws Exception {
+		RequestPhysicalBook command = new RequestPhysicalBook(bookName, requestType);
+		myInvoker.setCommand(command);
+		return myInvoker.executeCommand();
+	}
+
+	
+	//RENT
+	public String rent(PhysicalItem physicalItem) {
+		if (currentRentalOrder == null) {
+			currentRentalOrder = new RentalOrderBuilder(this);
+		}
+		RentPhysicalItem rentItem = new RentPhysicalItem(this, physicalItem, currentRentalOrder);
+		myInvoker.setCommand(rentItem);
+		return myInvoker.executeCommand();
+	}
+	
+	public String getCurrentRentalOrderSummary() {//notification when user presses any button to leave the rent page (back/logout)
+		RentalOrder ro = currentRentalOrder.returnOrder();
+		return "Order " + ro.getOrderID() + "for " + ro.getUserEmail() + ":\n" 
+				+ "Locations: " + ro.getLocations() 
+				+ "\nDue Date: " + ro.getDueDate().toString();
+	}
+
+	public void setCurrentRentalOrder(RentalOrderBuilder currentOrder) {
+		this.currentRentalOrder = currentOrder;
+	}
+	
+	
+	//PURCHASE
+	public String purchase(PhysicalItem physicalItem, double discountPercent) {
+		if (currentPurchaseOrder == null) {
+			currentPurchaseOrder = new PurchaseOrderBuilder(this);
+		}
+		currentPurchaseOrder.setDiscount(discountPercent);
+		PurchasePhysicalItem purchaseItem = new PurchasePhysicalItem(this, physicalItem, currentPurchaseOrder);
+		myInvoker.setCommand(purchaseItem);
+		return myInvoker.executeCommand();
+	}
+	
+	public String getPurchaseOrderSummaryAndPay(String method) {//notification when user presses the pay button
+		PurchaseOrder po = currentPurchaseOrder.returnOrder();
+		String summary = "Order " + po.getOrderID() + "for " + po.getUserEmail() + ":\n" 
+				+ "Price: " + po.getPrice();
+		summary += "\n" + po.pay(method);
+		return summary;
+	}
+	
+	public void setCurrentPurchaseOrder(PurchaseOrderBuilder currentOrder) {
+		this.currentPurchaseOrder = currentOrder;
+	}
+
+/* COMMANDS */
 
 
+	
+   
+	
+/* Methods to do with renting/borrowing */
+	private static final double PENALTY_PER_DAY = 0.5;
+	private static final int MAX_BORROWED_ITEMS = 10;
+	private static final int MAX_DAYS = 30;
+	private static final int MAX_OVERDUE_ITEMS = 3;
+	private static final int BOOK_LOST_DAYS = 15;
+	
+	public void addToRenting(RentalOrder order) {
+		currentlyRenting.add(order);
+	}
 
+	public void removeFromRenting(RentalOrder order) {
+		currentlyRenting.remove(order);
+	}
+	
+	public boolean hasBorrowingPrivileges() {
+		if (itemsOverdue > MAX_OVERDUE_ITEMS){
+			return false;
+		} 
+		return true;
+	}
+
+	public String displayRentalWarnings(){
+		penaltyApplication();
+		return "<html>You have " + itemsOverdue + " items overdue & a penalty of $" + penalty + ".<br>Please note that more than 3 Books overdue <br>will result in loss of borrowing privileges.</html>";
+	}
+	
+	public List<String> almostDue = new ArrayList<>();
+	public List<String> overDue = new ArrayList<>();
+	public List<String> notYetDue = new ArrayList<>();
+	
+	public Map<List<PhysicalItem>, String> getBorrowedItems() {
+		penaltyApplication();
+		Map<List<PhysicalItem>, String> itemsAndDueDates = new HashMap<>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+		if (currentlyRenting != null) {
+			for (RentalOrder order : currentlyRenting) {
+				List<PhysicalItem> orderItems = new ArrayList<>();
+				orderItems.addAll(order.getItems());
+				long hoursUntilDue = hoursUntilDue(order.getDueDate());
+				if (hoursUntilDue <= 0) {
+					for (PhysicalItem item : orderItems) {
+						overDue.add(item.getTitle() + "; " + hoursUntilDue + "hours overdue");
+					}
+				}
+				else if (hoursUntilDue(order.getDueDate()) < 24 && hoursUntilDue(order.getDueDate()) > 0) {
+					for (PhysicalItem item : orderItems) {
+						almostDue.add(item.getTitle() + "; Due Soon in " + hoursUntilDue + " hours");
+					}
+				}
+				else {
+					for (PhysicalItem item : orderItems) {
+						notYetDue.add(item.getTitle() + "; Due in " + hoursUntilDue/24 + " day(s)");
+					}
+				}
+				itemsAndDueDates.put(orderItems, sdf.format(order.getDueDate()));				
+			}
+		}
+		return itemsAndDueDates;
+	}
+	
+	public List<List<String>> getSortedBorrowedItems() {
+		List<List<String>> all = new ArrayList<>();	
+		
+		all.add(getBorrowedHardcoverBooks());
+		all.add(getBorrowedMagazines());
+		all.add(getBorrowedCDs());
+		return all;
+	}
+
+	private List<String> getBorrowedHardcoverBooks() {
+		Map<List<PhysicalItem>, String> itemsAndDueDates = getBorrowedItems();
+		
+		List<String> borrowedHardcoverBooks = new ArrayList<>();
+		for (List<PhysicalItem> list : itemsAndDueDates.keySet()) {
+			for (PhysicalItem item : list) {
+				if (item instanceof HardcoverBook) {
+					HardcoverBook book = (HardcoverBook) item;
+					borrowedHardcoverBooks.add("Title: " + book.getTitle() + ", Due Date: " + itemsAndDueDates.get(list));
+				}
+			}
+		}
+		return borrowedHardcoverBooks;
+	}
+	
+	private List<String> getBorrowedMagazines() {
+		List<String> borrowedMagazines = new ArrayList<>();
+		Map<List<PhysicalItem>, String> itemsAndDueDates = getBorrowedItems();
+		
+		for (List<PhysicalItem> list : itemsAndDueDates.keySet()) {
+			for (PhysicalItem item : list) {
+				if (item instanceof Magazine) {
+					Magazine mag = (Magazine) item;
+					borrowedMagazines.add("Title: " + mag.getTitle() + ", Due Date: " + itemsAndDueDates.get(list));
+				}
+			}
+		}
+		return borrowedMagazines;
+	}
+	
+	private List<String> getBorrowedCDs() {
+		List<String> borrowedCDs = new ArrayList<>();
+		Map<List<PhysicalItem>, String> itemsAndDueDates = getBorrowedItems();
+		
+		for (List<PhysicalItem> list : itemsAndDueDates.keySet()) {
+			for (PhysicalItem item : list) {
+				if (item instanceof CD) {
+					CD cd = (CD) item;
+					borrowedCDs.add("Title: " + cd.getTitle() + ", Due Date: " + itemsAndDueDates.get(list));
+				}
+			}
+		}
+		return borrowedCDs;
+		
+	}
+	
+	private void penaltyApplication() {
+		this.penalty = 0;
+		this.itemsOverdue = 0;
+		if (currentlyRenting != null) {
+			for (RentalOrder order : currentlyRenting) {
+				for (PhysicalItem item : order.getItems()) {
+					if (item.isOverdue(order.getDueDate())) { 
+						itemsOverdue ++;
+						if (item instanceof HardcoverBook) {
+							/* "Penalty will be applied if a book is overdue (i.e., 0.5$ a day). Books that are 15 days overdue will be considered lost."
+							 * penalty condition only applies to books */
+							long daysOverdue = calculateDaysOverdue(new Date(), order.getDueDate());
+							if (daysOverdue >= BOOK_LOST_DAYS) {
+								handleLostBook((HardcoverBook)item);
+							} else {
+								double itemPenalty = daysOverdue * PENALTY_PER_DAY;
+								System.out.println("Penalty of $" + itemPenalty + " applied for overdue item: " + item.getTitle());
+								this.penalty += itemPenalty;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+	}
+	
+	private long hoursUntilDue(Date dueDate) {
+		long timeUntilDue = dueDate.getTime() - System.currentTimeMillis();
+		long hoursUntilDue = timeUntilDue / (1000 * 60 * 60);
+		return hoursUntilDue;
+	}
+		
+	private long calculateDaysOverdue(Date currentDate, Date dueDate) {
+		long diffM = Math.abs(currentDate.getTime() - dueDate.getTime());
+		long diffDays = diffM / (1000 * 60 * 60 * 24);
+		return diffDays;
+	}
+
+	private String handleLostBook(HardcoverBook book) {
+		return book.getTitle() + " has been overdue for 15 days and is considered lost."
+				+ "\nPlease return as soon as possible.\nLibrary Manangement has been notified.";
+	}
+/*Methods to do with renting/borrowing*/	
+	
+
+		
+	
+	
 	//GETTERS AND SETTERS FOR DATABASE ITEMS
 	public String getName() {
 		return name;
@@ -214,8 +435,8 @@ public class User {
 	public String getPassword() {
 		return password;
 	}
-
-	public String getType() {
+	
+	public String getAccountType() {
 		return type;
 	}
 
@@ -231,12 +452,12 @@ public class User {
 		this.itemsOverdue = itemsOverdue;
 	}
 
-	public double getPenaltyToPay() {
-		return penaltyToPay;
+	public double getPenalty() {
+		return penalty;
 	}
 
-	public void setPenaltyToPay(double penaltyToPay) {
-		this.penaltyToPay = penaltyToPay;
+	public void setPenalty(double penalty) {
+		this.penalty = penalty;
 	}
 
 
@@ -257,22 +478,7 @@ public class User {
 		this.currentlyRenting = currentlyRenting;
 	}
 
-	public void addToRenting(RentalOrder order) {
-		currentlyRenting.add(order);
-	}
-
-	public void removeFromRenting(RentalOrder order) {
-		currentlyRenting.remove(order);
-	}
-
-	public OrderBuilder getCurrentOrder() {
-		return currentOrder;
-	}
-
-	public void setCurrentOrder(OrderBuilder currentOrder) {
-		this.currentOrder = currentOrder;
-	}
-
+	
 	@Override
 	public String toString() {
 		return "User [name=" + name + ", email=" + email + ", password=" + password + "] \n" +
