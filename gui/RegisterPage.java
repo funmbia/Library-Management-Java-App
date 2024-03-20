@@ -4,7 +4,6 @@ import javax.swing.*;
 import Singleton.*;
 import observer.User;
 
-//TODO code to lead to action page iff valid user
 public class RegisterPage implements Page { 
 	
 	User user;
