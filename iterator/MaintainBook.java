@@ -23,10 +23,10 @@ public class MaintainBook {
             Date date = new Date(reader.get("date"));
             String author = reader.get("author");
             String publisher = reader.get("publisher");
-            String url = reader.get("url"); // Read URL from CSV
+            String url = reader.get("url"); 
 
             Book book = new Book(title, author, publisher, ISBN, date, url);
-            book.setUrl(url); // Set URL for the book
+            book.setUrl(url); 
             books.add(book);
         }
 
