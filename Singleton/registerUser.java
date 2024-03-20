@@ -3,7 +3,7 @@ package Singleton;
 import observer.User;
 
 public class registerUser extends yorkMembers {
-	////
+	//////
     User user = new User();
 
     public registerUser(String name, String email, String password, String accountT){
