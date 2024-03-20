@@ -1,28 +1,28 @@
 package gui;
 
-import java.awt.Dimension;
+import iterator.Book;
+import iterator.BookCollection;
+import observer.User;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
-import observer.User;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OnlinebookPage implements Page {
 	private User user;
+	private BookCollection bookCollection;
+	private String csvFilePath = "src/csv files/onlinebooks.csv";
 
-	public OnlinebookPage(User user) {
+	public OnlinebookPage(User user, BookCollection bookCollection) {
 		this.user = user;
+		this.bookCollection = bookCollection;
 	}
 
 	public JPanel createPage(JFrame frame) {
@@ -47,8 +47,22 @@ public class OnlinebookPage implements Page {
 			public void actionPerformed(ActionEvent e) {
 				String query = searchField.getText();
 				if (!query.isEmpty()) {
-					if (bookExists(query)) {
-						JOptionPane.showMessageDialog(frame, "Book found: " + query);
+					SearchResult result = searchBook(query);
+					if (result != null && result.url != null) {
+						StringBuilder message = new StringBuilder();
+						message.append("Book found: ").append(result.title).append(". Do you want to open the URL?\n");
+						if (!result.recommendedBooks.isEmpty()) {
+							message.append("\nRecommended books starting with '").append(query.charAt(0)).append("':\n");
+							for (String recommendedBook : result.recommendedBooks) {
+								message.append(recommendedBook).append("\n");
+							}
+						} else {
+							message.append("\nNo similar books found.");
+						}
+						int choice = JOptionPane.showConfirmDialog(frame, message.toString(), "Book Found", JOptionPane.YES_NO_OPTION);
+						if (choice == JOptionPane.YES_OPTION) {
+							openURL(result.url);
+						}
 					} else {
 						JOptionPane.showMessageDialog(frame, "Book not found: " + query);
 					}
@@ -76,27 +90,40 @@ public class OnlinebookPage implements Page {
 		return panel;
 	}
 
-	private boolean bookExists(String title) {
-		String csvFilePath = "csv files/onlinebooks.csv";
-
+	private SearchResult searchBook(String title) {
+		SearchResult result = new SearchResult();
+		result.title = title;
 		try (BufferedReader reader = new BufferedReader(new FileReader(csvFilePath))) {
 			String line;
 			while ((line = reader.readLine()) != null) {
 				String[] data = line.split(",");
 				if (data.length > 0) {
 					String extractedTitle = data[0].trim();
-					System.out.println("Extracted Title: " + extractedTitle);
 					if (extractedTitle.equalsIgnoreCase(title.trim())) {
-						return true;
+						result.url = data[3].trim();
+					} else if (extractedTitle.startsWith(title.substring(0, 1).toUpperCase())) {
+						result.recommendedBooks.add(extractedTitle);
 					}
 				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		return false; 
+		return result.url != null ? result : null;
 	}
 
-}
 
+	private void openURL(String url) {
+		try {
+			Desktop.getDesktop().browse(new URI(url));
+		} catch (IOException | URISyntaxException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static class SearchResult {
+		String title;
+		String url;
+		List<String> recommendedBooks = new ArrayList<>();
+	}
+}
