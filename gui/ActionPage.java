@@ -29,7 +29,7 @@ public class ActionPage {
         
         // Create and add all pages
         pages.put("logout", new LogInPage());
-        pages.put("onlinebook", new OnlinebookPage(user));
+        pages.put("onlinebook", new OnlinebookPage(user, bookCollection));
         pages.put("rent", new RentPage(user));
         pages.put("newsletter", new NewsletterPage(user));
         pages.put("request", new RequestPage(user));
