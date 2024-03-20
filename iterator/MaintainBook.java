@@ -1,31 +1,32 @@
 package iterator;
 
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 
 public class MaintainBook {
-    public ArrayList<Book> books = new ArrayList<Book>();
-    public String path;
+    private List<Book> books = new ArrayList<>();
+    private String path;
 
     public void load(String path) throws Exception {
         CsvReader reader = new CsvReader(path);
-        reader.readHeaders(); 
+        reader.readHeaders();
 
         while (reader.readRecord()) {
-        	Book books = new Book();
             String title = reader.get("title");
             String ISBN = reader.get("ISBN");
             Date date = new Date(reader.get("date"));
             String author = reader.get("author");
             String publisher = reader.get("publisher");
+            String url = reader.get("url"); // Read URL from CSV
 
-            Book book = new Book(title, author, publisher, ISBN, date);
+            Book book = new Book(title, author, publisher, ISBN, date, url);
+            book.setUrl(url); // Set URL for the book
             books.add(book);
         }
 
@@ -40,6 +41,7 @@ public class MaintainBook {
         csvOutput.write("date");
         csvOutput.write("author");
         csvOutput.write("publisher");
+        csvOutput.write("url"); 
         csvOutput.endRecord();
 
         for (Book book : books) {
@@ -48,6 +50,7 @@ public class MaintainBook {
             csvOutput.write((book.getDate()).toString());
             csvOutput.write(book.getBookAuthor());
             csvOutput.write(book.getBookPublisher());
+            csvOutput.write(book.getUrl()); 
             csvOutput.endRecord();
         }
 
