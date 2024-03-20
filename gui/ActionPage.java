@@ -4,7 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import observer.User;
-
+import iterator.BookCollection;
 import java.awt.*;
 import java.util.HashMap;
 
@@ -14,9 +14,11 @@ public class ActionPage {
     public HashMap<String, Page> pages = new HashMap<>();
     public CardLayout cardLayout;
     private User user;
+    private BookCollection bookCollection;
 
     public ActionPage(User user) {
     	this.user = user;
+	this.bookCollection = new BookCollection();
         frame = new JFrame("Library Management System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
