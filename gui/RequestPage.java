@@ -19,7 +19,7 @@ public class RequestPage implements Page {
 	
 	public JPanel createPage(JFrame frame) {
 			JButton backBt = new JButton("Back");
-		    backBt.addActionListener(e -> new ActionPage(user));
+		    backBt.addActionListener(e -> new ActionPage(user,true));
 		    
 		    JLabel prompt = new JLabel("Request A New Book");
 			JTextField textField = new JTextField(25);

@@ -47,7 +47,7 @@ public class RegisterPage extends JFrame implements Page {
                 String account = accountField.getText();
                 registerUser User = new registerUser(name,email,password,account);
                                           
-                             
+                signUp.addActionListener(  t -> new ActionPage(Singleton.yorkMembers.getMember(User.getEmail()),true));             
             }
         });
         

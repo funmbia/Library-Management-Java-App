@@ -42,7 +42,7 @@ public class LogInPage extends JFrame implements Page {
                 
                  
                 if(Singleton.registerUser.members.contains(u.getEmail())&&Singleton.registerUser.members.contains(u.getPassword())) {
-                	LogInButton.addActionListener(  t -> new ActionPage(Singleton.yorkMembers.getMember(u.getEmail())));
+                	LogInButton.addActionListener(  t -> new ActionPage(Singleton.yorkMembers.getMember(u.getEmail()),true));
                 }
                              
             }

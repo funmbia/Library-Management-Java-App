@@ -20,7 +20,7 @@ public class NewsletterPage implements Page{
     public JPanel createPage(JFrame frame) {
     	//add back button
     	JButton backBt = new JButton("Back");
-    	backBt.addActionListener(  e -> new ActionPage(user));
+    	backBt.addActionListener(  e -> new ActionPage(user,true));
         
     	//add logout button
         JButton logoutBt = new JButton("Log Out");

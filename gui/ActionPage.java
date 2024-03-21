@@ -23,7 +23,7 @@ public class ActionPage {
     public LibraryManagementSysInfo mainManagementSysInfo;
     private BookCollection bookCollection;
 
-    public ActionPage(User user) {
+    public ActionPage(User user, boolean isLoggedIn) {
     	this.user = user;
     	this.bookCollection = new BookCollection();
     	
@@ -45,18 +45,25 @@ public class ActionPage {
         pages.put("request", new RequestPage(user));
         pages.put("purchase", new PurchasePage(user));
         
-        firstPanel = new JPanel();
+        firstPanel = new JPanel(); 
         mainPanel = new JPanel();
-        addContent();
-        cardLayout = new CardLayout();
-        mainPanel.setLayout(cardLayout);
-        firstPanel.setLayout(cardLayout);     
-        frame.add(firstPanel);
-        frame.setVisible(true);
-        frame.add(mainPanel);
-        
+        if(!isLoggedIn) {
+        	               	
+        	cardLayout = new CardLayout(); 
+        	addContent();
+        	firstPanel.setLayout(cardLayout);     
+        	frame.add(firstPanel);
+        	frame.setVisible(true);
+        }
+        else {	
+        	cardLayout = new CardLayout(); 
+        	addContent();
+        	mainPanel.setLayout(cardLayout);
+        	frame.add(mainPanel);
+        	frame.setVisible(true);
+        }
 
-        cardLayout.show(firstPanel, "main");
+        //cardLayout.show(firstPanel, "main");
         cardLayout.show(mainPanel, "main");   
     }
     
@@ -297,7 +304,7 @@ public class ActionPage {
     public static void main(String[] args) {
     	Invoker myInvoker = new Invoker();
     	User a = new User(0, 0, null, null, null, "Jane Doe", null, null, "student", myInvoker); //TODO: should actually be sent by login page
-    	new ActionPage(a);
+    	new ActionPage(a,false);
     }
 }
 

@@ -26,7 +26,7 @@ public class RentPage implements Page {
 	public JPanel createPage(JFrame frame) {
 		JButton backBt = new JButton("Back");
 		backBt.setAlignmentX(Component.CENTER_ALIGNMENT);
-		backBt.addActionListener(e -> new ActionPage(user));
+		backBt.addActionListener(e -> new ActionPage(user,true));
 
 		JButton logoutBt = new JButton("Log Out");
 		logoutBt.setAlignmentX(Component.CENTER_ALIGNMENT);

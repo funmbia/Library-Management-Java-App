@@ -10,6 +10,10 @@ public class registerUser extends yorkMembers {
         user.setDatabaseAttributes(name,email,password,accountT,0,0,0);
         members.add(user);
     }
+    
+    public String getEmail() {
+		return user.getEmail();
+	}
 
     public void createAccount(){
     }
