@@ -16,6 +16,7 @@ import java.util.Set;
 public class ActionPage {
 	public JFrame frame;
     public JPanel mainPanel;
+    public JPanel firstPanel;
     public HashMap<String, Page> pages = new HashMap<>();
     public CardLayout cardLayout;
     private User user;
@@ -35,6 +36,8 @@ public class ActionPage {
         frame.setLocationRelativeTo(null);
         
         // Create and add all pages
+        pages.put("Register new account", new RegisterPage());
+        pages.put("Log in", new LogInPage());
         pages.put("logout", new LogInPage());
         pages.put("onlinebook", new OnlinebookPage(user, bookCollection));
         pages.put("rent", new RentPage(user));
@@ -42,13 +45,18 @@ public class ActionPage {
         pages.put("request", new RequestPage(user));
         pages.put("purchase", new PurchasePage(user));
         
+        firstPanel = new JPanel();
         mainPanel = new JPanel();
         addContent();
         cardLayout = new CardLayout();
         mainPanel.setLayout(cardLayout);
-        frame.add(mainPanel);
+        firstPanel.setLayout(cardLayout);     
+        frame.add(firstPanel);
         frame.setVisible(true);
+        frame.add(mainPanel);
+        
 
+        cardLayout.show(firstPanel, "main");
         cardLayout.show(mainPanel, "main");   
     }
     
@@ -56,6 +64,20 @@ public class ActionPage {
     private void addContent() {
     	
    //GENERAL CONTENT
+    	JButton Register = new JButton("Register new account");
+    	Register.setFont(new Font("Microsoft PhagsPa", Font.ITALIC, 20));
+    	Register.addActionListener(e -> {
+    		firstPanel.add(pages.get("Register new account").createPage(frame), "Register new account");
+            cardLayout.show(firstPanel, "Register new account");
+        });
+        
+        JButton logIn = new JButton("Log in");
+        logIn.setFont(new Font("Microsoft PhagsPa", Font.ITALIC, 20));
+        logIn.addActionListener(e -> {
+        	firstPanel.add(pages.get("Log in").createPage(frame), "Log in");
+            cardLayout.show(firstPanel, "Log in");
+        });
+    	
         JLabel name = new JLabel("Welcome " + user.getName());
         name.setHorizontalAlignment(SwingConstants.CENTER);
         name.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 30));
@@ -114,6 +136,14 @@ public class ActionPage {
         JPanel summaryPanel = warningsAndSummaries();
    
    //BUILD PAGE
+        JPanel generalPanel1 = new JPanel(new BorderLayout());//
+        JPanel buttonPanel1 = new JPanel(new GridLayout(1, 2));
+        buttonPanel1.add(Register);
+        buttonPanel1.add(logIn);
+        generalPanel1.add(buttonPanel1);
+        firstPanel.add(generalPanel1, "main");//
+        
+        
         JPanel generalPanel = new JPanel(new BorderLayout());
         JPanel buttonPanel = new JPanel(new GridLayout(0, 1)); //for button menu
         buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 30));

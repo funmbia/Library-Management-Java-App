@@ -22,7 +22,7 @@ public class LogInPage extends JFrame implements Page {
 
         panel.setLayout(new GridLayout(10, 2));
 
-        JLabel emailLabel = new JLabel("email:");
+        JLabel emailLabel = new JLabel("Email:");
         JLabel passwordLabel = new JLabel("Password:");
         
 
