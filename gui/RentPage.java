@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,9 +25,11 @@ public class RentPage implements Page {
 
 	public JPanel createPage(JFrame frame) {
 		JButton backBt = new JButton("Back");
+		backBt.setAlignmentX(Component.CENTER_ALIGNMENT);
 		backBt.addActionListener(e -> new ActionPage(user));
 
 		JButton logoutBt = new JButton("Log Out");
+		logoutBt.setAlignmentX(Component.CENTER_ALIGNMENT);
 		logoutBt.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JPanel newPanel = new LogInPage().createPage(frame);
@@ -39,11 +42,15 @@ public class RentPage implements Page {
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.add(new JLabel("Rent Page"));
+
+		JLabel rentLabel = new JLabel("Rent Page");
+		rentLabel.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		panel.add(rentLabel);
 
 		String[] rentOptions = {"HardcoverBook", "CD", "Magazine"};
 		for (String option : rentOptions) {
 			JButton rentButton = new JButton("Rent a " + option);
+			rentButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 			rentButton.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					displayItemDetails(option); 
@@ -52,10 +59,12 @@ public class RentPage implements Page {
 			panel.add(rentButton);
 		}
 
-		panel.add(Box.createRigidArea(new Dimension(0, 10))); 
+		panel.add(Box.createVerticalGlue());
+		panel.add(Box.createRigidArea(new Dimension(0, 20))); 
 		panel.add(backBt);
-		panel.add(Box.createRigidArea(new Dimension(0, 10)));
+		panel.add(Box.createRigidArea(new Dimension(0, 10))); 
 		panel.add(logoutBt);
+		panel.add(Box.createRigidArea(new Dimension(0, 20))); 
 
 		return panel;
 	}
