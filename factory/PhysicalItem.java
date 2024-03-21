@@ -62,7 +62,7 @@ public abstract class PhysicalItem extends LibraryItem {
         	this.title = title;
     	}
 
-	public boolean isOverdue() {
+	public boolean isOverdue(Date dueDate) {
         	if (dueDate != null) {
             		Date currentDate = new Date();
             	return currentDate.after(dueDate);
