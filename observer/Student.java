@@ -6,8 +6,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import factory.HardcoverBook;
 import factory.PhysicalItem;
@@ -31,13 +33,32 @@ public class Student extends User {
 		this.subject.attachRegisteredClient(this);
 	}
 	
+
+	public Student (LibraryManagementSysInfo subject, User user) {
+		this.subject=subject;
+		this.subject.attachRegisteredClient(this);
+		this.currentlyRenting = user.currentlyRenting;
+		this.currentRentalOrder = user.currentRentalOrder;
+		this.currentPurchaseOrder = user.currentPurchaseOrder;
+		this.bookCollection = user.bookCollection;
+		this.recommendation = user.recommendation;
+		this.myInvoker = user.myInvoker;
+		this.name = user.name;
+		this.email = user.email;
+		this.password = user.password;
+		this.type = user.type;
+		this.itemsOut = user.itemsOut;
+		this.itemsOverdue = user.itemsOverdue;
+		this.penalty = user.penalty;
+	}
+	
 	@Override
 	public void update(){
 		displayWarnings();
 	}
 
-	public List<HardcoverBook> getBorrowedHardcoverBooks() {
-		List<HardcoverBook> borrowedHardcoverBooks = new ArrayList<>();
+	public List<PhysicalItem> getBorrowedHardcoverBooks() {
+		List<PhysicalItem> borrowedHardcoverBooks = new ArrayList<>();
 
 		for (PhysicalItem item : borrowedItems) {
 			if (item instanceof HardcoverBook) {
@@ -64,28 +85,23 @@ public class Student extends User {
 		}
 	}
 
-    public void displayBorrowedHardcoverBooks() {
-        System.out.println("Borrowed Hardcover Books:");
-        for (PhysicalItem item : borrowedItems) {
-            if (item instanceof HardcoverBook) {
-                HardcoverBook book = (HardcoverBook) item;
-                System.out.println("Title: " + book.getTitle() + ", Due Date: " + book.getDueDate());
-            }
-        }
-    }
+	///needed for all users, moved to User.java
+//    public void displayBorrowedHardcoverBooks() {
+//        System.out.println("Borrowed Hardcover Books:");
+//        for (PhysicalItem item : borrowedItems) {
+//            if (item instanceof HardcoverBook) {
+//                HardcoverBook book = (HardcoverBook) item;
+//                System.out.println("Title: " + book.getTitle() + ", Due Date: " + book.getDueDate());
+//            }
+//        }
+//    }
 
 	private boolean canBorrowItem(PhysicalItem item) {
 		return cntOverdueItems() < MAX_OVERDUE_ITEMS && calculateDaysOverdue(new Date(), item.getDueDate()) <= MAX_DAYS;
 	}
 
 	private int cntOverdueItems() {
-		int overdueCnt = 0;
-		for (PhysicalItem item : borrowedItems) {
-			if (item.isOverdue()) {
-				overdueCnt++;
-			}
-		}
-		return overdueCnt;
+		return itemsOverdue;
 	}
 
 	public boolean borrowPhysicalItem(PhysicalItem item) {
@@ -106,24 +122,26 @@ public class Student extends User {
 		subject.handleReturnedItem(item);
 	}
 
-	public void penalityApplication() {
-		for (PhysicalItem item : borrowedItems) {
-			if (item.isOverdue()) {
-				long daysOverdue = calculateDaysOverdue(new Date(), item.getDueDate());
-				if (daysOverdue >= BOOK_LOST_DAYS) {
-					handleLostBook(item);
-				} else {
-					double penalty = daysOverdue * PENALTY_PER_DAY;
-					System.out.println("Penalty of $" + penalty + " applied for overdue item: " + item.getTitle());
-				}
-			}
-		}
-	}
+	///needed for all users, moved to User.java
+//	public void penalityApplication() {
+//		for (PhysicalItem item : borrowedItems) {
+//			if (item.isOverdue()) {
+//				long daysOverdue = calculateDaysOverdue(new Date(), item.getDueDate());
+//				if (daysOverdue >= BOOK_LOST_DAYS) {
+//					handleLostBook(item);
+//				} else {
+//					double penalty = daysOverdue * PENALTY_PER_DAY;
+//					System.out.println("Penalty of $" + penalty + " applied for overdue item: " + item.getTitle());
+//				}
+//			}
+//		}
+//	}
 
-	private void handleLostBook(PhysicalItem item) {
-		System.out.println("Please return overdue book " + item.getTitle());
-		System.out.println("Library Manangement System has been notified.");
-	}
+	///needed for all users, moved to User.java
+//	private void handleLostBook(PhysicalItem item) {
+//		System.out.println("Please return overdue book " + item.getTitle());
+//		System.out.println("Library Manangement System has been notified.");
+//	}
 
 	private long calculateDaysOverdue(Date currentDate, Date dueDate) {
 		long diffM = Math.abs(currentDate.getTime() - dueDate.getTime());
@@ -131,12 +149,16 @@ public class Student extends User {
 		return diffDays;
 	}
 
+	
+	
+	
 	public void enroll(Courses course){
 		courseEnrolledIn.add(course);
 	}
 
 	public void withdraw(Courses course){
 		courseEnrolledIn.remove(course);
+		removeVirtualCopies(course);
 	}
 
 	public List<Courses> viewEnrolledCourses(){
@@ -169,6 +191,7 @@ public class Student extends User {
         virtualTextbooks.remove(course);
     }
 
+    
 	public boolean validation(String email, String password) {
 		if (!uniqueEmail(email)) {
 			System.out.println("Email is already registered");
