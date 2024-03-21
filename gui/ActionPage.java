@@ -36,7 +36,7 @@ public class ActionPage {
         frame.setLocationRelativeTo(null);
         
         // Create and add all pages
-        pages.put("Register new account", new RegisterPage(user));
+        pages.put("Register new account", new RegisterPage());
         pages.put("Log in", new LogInPage());
         pages.put("logout", new LogInPage());
         pages.put("onlinebook", new OnlinebookPage(user, bookCollection));
