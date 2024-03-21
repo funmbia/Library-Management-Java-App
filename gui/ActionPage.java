@@ -8,9 +8,6 @@ import observer.*;
 
 import java.awt.*;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class ActionPage {
 	public JFrame frame;
@@ -18,13 +15,11 @@ public class ActionPage {
     public HashMap<String, Page> pages = new HashMap<>();
     public CardLayout cardLayout;
     private User user;
-    public LibraryManagementSysInfo mainManagementSysInfo;
     private BookCollection bookCollection;
 
     public ActionPage(User user) {
     	this.user = user;
-    	this.bookCollection = new BookCollection();
-    	
+	this.bookCollection = new BookCollection();
         frame = new JFrame("Library Management System");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -48,21 +43,26 @@ public class ActionPage {
         frame.add(mainPanel);
         frame.setVisible(true);
 
+        // (Req 3) notification - decided to do as part of the page instead
+//        JPanel panel = new JPanel();
+//        panel.setPreferredSize(new Dimension(350, 75));
+//        JOptionPane.showMessageDialog(null, panel, "Summaries and Warnings for " + user.getName(), JOptionPane.PLAIN_MESSAGE);
+
         cardLayout.show(mainPanel, "main");   
     }
     
     
     private void addContent() {
-    	
+        JPanel generalPanel = new JPanel(new BorderLayout());
+        JPanel buttonPanel = new JPanel(new GridLayout(0, 1)); //for button menu
+        buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
+
    //GENERAL CONTENT
-        JLabel name = new JLabel("Welcome " + user.getName());
-        name.setHorizontalAlignment(SwingConstants.CENTER);
-        name.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 30));
-        name.setBounds(70, 15, 800, 40);      
-        JLabel type = new JLabel(user.getAccountType());
-        type.setHorizontalAlignment(SwingConstants.CENTER);
-        type.setFont(new Font("Microsoft PhagsPa", Font.ITALIC , 15));
-        type.setBounds(70, 55, 800, 40);
+        JLabel lb = new JLabel("Welcome " + user.getName());
+        lb.setHorizontalAlignment(SwingConstants.CENTER);
+        lb.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 30));
+        lb.setBounds(50, 15, 800, 40);
+        generalPanel.add(lb, BorderLayout.NORTH);      
 
         JButton logoutButton = new JButton("Log Out");
         logoutButton.setFont(new Font("Microsoft PhagsPa", 0, 15));
@@ -110,161 +110,52 @@ public class ActionPage {
             });
         
    //SUMMARY & WARNINGS
-        JPanel summaryPanel = warningsAndSummaries();
-   
-   //BUILD PAGE
-        JPanel generalPanel = new JPanel(new BorderLayout());
-        JPanel buttonPanel = new JPanel(new GridLayout(0, 1)); //for button menu
-        buttonPanel.setBorder(new EmptyBorder(0, 0, 0, 30));
-       
+        JPanel contentPanel = warningsAndSummaries();
+        
         buttonPanel.add(onlineBookButton);
         buttonPanel.add(rentButton);
         buttonPanel.add(newsletterButton);
         buttonPanel.add(requestButton);
         buttonPanel.add(purchaseButton);
         
-        generalPanel.add(name, BorderLayout.NORTH);
-        generalPanel.add(type, BorderLayout.NORTH);
-        
-        if (user.getAccountType().toLowerCase() == "faculty" || user.getAccountType().toLowerCase() == "student" ) {
-        	JPanel coursePanel = coursesAndTextbooks();
-            generalPanel.add(coursePanel, BorderLayout.CENTER);
-        }
-        
         generalPanel.add(logoutPanel, BorderLayout.NORTH);
-        generalPanel.add(summaryPanel, BorderLayout.WEST);
         generalPanel.add(buttonPanel, BorderLayout.EAST);
+        generalPanel.add(contentPanel, BorderLayout.WEST);
         mainPanel.add(generalPanel, "main"); //add all to page
     }
     
-    
-    private JPanel coursesAndTextbooks() {
-    	JPanel coursePanel = new JPanel(new GridLayout(0, 1));
-        coursePanel.setBorder(new EmptyBorder(5, 20, 50, 150));
-        mainManagementSysInfo = new LibraryManagementSysInfo();
-        
-        //STUDENT OPTION
-    	if (user.getAccountType().toLowerCase() == "student") {
-    		Student thisStudent = new Student(mainManagementSysInfo, user);
-    		
-    		List<Courses> courses = thisStudent.viewEnrolledCourses();
-    		StringBuilder html = new StringBuilder("<html> <h3> Your Courses & Textbooks </h3> <ul>");
-    		for (Courses c : courses) {
-    			html.append("<li>");
-    			html.append(c.toString());
-    			for (Textbook t : thisStudent.getTextbooks(c)) {
-    				html.append("<br>");
-    				html.append("<a href=" + t.getURL() + ">" + t.getTextName() + "</a>");
-    				//html.append(t.getURL());
-    			}
-    			html.append("</li>");
-    		}
-    		html.append("</ul> </html>");
-   
-    		JLabel addCourses = new JLabel(html.toString());
-    		coursePanel.add(addCourses);
-    	}
-    	
-    	//FACULTY OPTION
-    	else { 
-    		Faculty thisFaculty = new Faculty(mainManagementSysInfo, user);
-    		Set<Textbook> allTextbooks = new HashSet<>();
-    		
-    		List<Courses> courses = thisFaculty.getCoursesTeaching();
-    		StringBuilder html = new StringBuilder("<html> <h3> Your Courses </h3> You're currently teaching: <ul>");
-    		for (Courses c : courses) {
-    			html.append("<li>");
-    			html.append(c.toString());
-    			for (Textbook t : thisFaculty.getTextbooks(c)) {
-    				html.append("<br>");
-    				html.append(t.toString());
-    				allTextbooks.add(t);
-    			}
-    			html.append("</li>");
-    		}
-    		html.append("</ul> </html>");
-   
-    		JLabel addCourses = new JLabel(html.toString());
-    		coursePanel.add(addCourses);
-    		
-    		//create notification for any new editions & unavailability
-    		String notification = "";
-    		for (Textbook text : allTextbooks) {
-    			if (!text.isAvailable()) notification += text.getTextName() + "is unavailable!";
-    			if (text.isNewEditionAvailable()) notification += "\nNew edition of " + text.getTextName() + " available!";
-    		}
-	        
-    		
-    		if (notification != "" ) {
-    			JPanel panel = new JPanel();
-    			panel.setPreferredSize(new Dimension(400, 100));
-    			JOptionPane.showMessageDialog(null, panel, "NOTIFICATION \n" + notification, JOptionPane.PLAIN_MESSAGE);
-    		}
-    		 
-    		
-    	}
-        
-        return coursePanel;
-    }
-    
-    
     private JPanel warningsAndSummaries() {
     	JPanel contentPanel = new JPanel(new GridLayout(0, 1));
-    	contentPanel.setBorder(new EmptyBorder(5, 30, 50, 350));
+    	contentPanel.setBorder(new EmptyBorder(50, 30, 150, 150));
     	
-    	JLabel warnings = new JLabel(this.user.displayRentalWarnings());
-    	warnings.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
-    	warnings.setForeground(Color.RED);
-    	warnings.setBounds(6, 30, 500, 350);
-    	contentPanel.add(warnings);
-    	
-    	this.user.getBorrowedItems();
-    	StringBuilder builder;
-    	
-		if (! user.overDue.isEmpty() ) {
-    		JLabel title = new JLabel("OVERDUE ITEMS");
-	    	title.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
-	    	builder = new StringBuilder("<html> <ul>");
-	    	for (String item : user.overDue) {
-	    		builder.append("<li> " + item + "</li>");
-	    	}
-	    	builder.append("</ul> </html>");
-	    	contentPanel.add(title);
-	    	contentPanel.add(new JLabel(builder.toString()));
-    	}
-    	
-		if (! user.almostDue.isEmpty() ) {
-    		JLabel title = new JLabel("ITEMS THAT ARE ALMOST DUE");
-	    	title.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
-	    	builder = new StringBuilder("<html> <ul>");
-	    	for (String item : user.almostDue) {
-	    		builder.append("<li> " + item + "</li>");
-	    	}
-	    	builder.append("</ul> </html>");
-	    	contentPanel.add(title);
-	    	contentPanel.add(new JLabel(builder.toString()));
-    	}
-		
-		if (! user.notYetDue.isEmpty() ) {
-    		JLabel title = new JLabel("OTHER CURRENTLY RENTED ITEMS");
-	    	title.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
-	    	builder = new StringBuilder("<html> <ul>");
-	    	for (String item : user.notYetDue) {
-	    		builder.append("<li> " + item + "</li>");
-	    	}
-	    	builder.append("</ul> </html>");
-	    	contentPanel.add(title);
-	    	contentPanel.add(new JLabel(builder.toString()));
-    	}
-
+    	//TODO - actually get the warnings / summaries
+    	JLabel pastDue = new JLabel("PAST DUE"); //color red
+    	pastDue.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
+    	pastDue.setForeground(Color.RED);
+//    	JLabel pastDueText = new JLabel("<html> <ul>"
+//    			+ "<li> The Lion King &nbsp; 11/03/24 </li>"
+//    			+ "</ul> </html> ");
     
+    	JLabel almostDue = new JLabel("DUE TOMORROW");
+    	almostDue.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
+
+    	JLabel renting = new JLabel("CURRENTLY RENTING");
+    	renting.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
+
+    	contentPanel.add(pastDue);
+    	//contentPanel.add(pastDueText);
+    	contentPanel.add(almostDue);
+    	contentPanel.add(renting);
     	return contentPanel;
+
 
     }
 
 
     public static void main(String[] args) {
-    	User a = new User(0, 0, null, null, null, "Jane Doe", null, null, "student", null); //TODO: should actually be sent by login page
+    	
+    	User a = new User(0, 0,null,null, null, null, "Jane Doe", null, null, null); //TODO: should actually be sent by login page
+    	
     	new ActionPage(a);
     }
 }

@@ -14,4 +14,9 @@ public class yorkMembers {
         return !members.contains(user);
     }
 
+	public static User getMember(String email) {
+		
+		return null;
+	}
+
 }
