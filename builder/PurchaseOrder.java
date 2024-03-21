@@ -2,22 +2,21 @@ package builder;
 import java.util.ArrayList;
 import java.util.List;
 
-import factory.LibraryItem;
 import factory.PhysicalItem;
 
 public class PurchaseOrder {
-    public static int idAllocater = 1;
-
+	public static int idAllocater = 1; 
+	
     private int orderID;
-    private String userEmail;
+    public String userEmail;
     public List<PhysicalItem> items;
     public double price;
 
     // Default constructor
     public PurchaseOrder() {
-        items = new ArrayList<>();
-        orderID = idAllocater;
-        idAllocater ++;
+    	 items = new ArrayList<>();
+    	 orderID = idAllocater;
+     	 idAllocater ++;
     }
 
     // Constructor with parameters
@@ -59,12 +58,13 @@ public class PurchaseOrder {
     public void setPrice(double d) {
         this.price = d;
     }
-
+    
     public String pay(String method) {
-        if (method.equals("debit") || method.equals("credit") || method.equals("cash")) {
-            items.clear();
-            return "Payment successful! You can pick up your items from the library front desk. Thank You!";
-        }
-        else return "Not an applicable payment method, please try again.";
+    	if (method.equals("debit") || method.equals("credit") || method.equals("cash")) {
+    		items.clear();
+    		return "Payment successful! You can pick up your items from the library front desk. Thank You!";
+    	}
+    	else return "Not an applicable payment method, please try again.";
     }
 }
+

@@ -1,47 +1,45 @@
 package builder;
+import command.PurchasePhysicalItem;
 import factory.PhysicalItem;
-
-class purchasePhysicalItem {
-    public PhysicalItem itemToBuy;
-    //dummy class
-
-}
+import observer.User;
 
 public class PurchaseOrderBuilder extends OrderBuilder{
 
-    public PurchaseOrderBuilder(String email) {
-        super(email);
-        order = new PurchaseOrder();
+	public PurchaseOrderBuilder(User user) {
+		super(user);
+		order = new PurchaseOrder();
+		order.userEmail = user.getEmail();
+	}
+	
+	public double discount = 0.05;
+	PurchaseOrder order;
+	public User user;
+	
+	
+	public String addToOrder(PurchasePhysicalItem p){
+		order.items.add(p.itemToBuy);
+		applyDiscounts(p.itemToBuy); //add price of this item (including discounts) to order
+		updateInventory(p.itemToBuy); 
+		
+		return p.itemToBuy.getTitle() + " is added to your order!";	
+	}
+	
+	public void applyDiscounts(PhysicalItem item) {
+	   if( item.getPurchaseable() ) {
+		   order.price += item.getPrice() - (item.getPrice() * discount) ; //every order initially has a 10% discount
+	   }
+	}
+	
+	public PurchaseOrder returnOrder() {
+		return order;
+	}
+	
+	public  void updateInventory(PhysicalItem item) {
+		item.setCopiesAvail(item.getCopiesAvail()-1);
+	}
+    
+    public void setDiscount (double discountPercent) {
+    	discount = discountPercent; //in CAD
     }
-
-    public int discount;
-    PurchaseOrder order;
-
-
-    public String addToOrder(purchasePhysicalItem p){
-        order.items.add(p.itemToBuy);
-        applyDiscounts(p.itemToBuy); //add price of this item (including discounts) to order
-        updateInventory(p.itemToBuy);
-
-        return p.itemToBuy.getTitle() + " is added to your order!";
-    }
-
-    public void applyDiscounts(PhysicalItem item) {
-        if( item.getPurchaseable() ) {
-            order.price += item.getPrice() - discount ; //every order has the same discount?
-        }
-    }
-
-    public PurchaseOrder returnOrder() {
-        return order;
-    }
-
-    public  void updateInventory(PhysicalItem item) {
-        item.setCopiesAvail(item.getCopiesAvail()-1);
-    }
-
-    public void setDiscount (int discountAmount) {
-        discount = discountAmount; //in CAD
-    }
-
+    
 }

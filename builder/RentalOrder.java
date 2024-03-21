@@ -1,5 +1,8 @@
 package builder;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -7,11 +10,11 @@ import observer.User;
 import factory.PhysicalItem;
 
 public class RentalOrder {
-    public static int idAllocater = 1;
-    public static ArrayList<RentalOrder> allOrders = new ArrayList<>();
-
-    private int orderID;
-    private String userEmail;
+	public static int idAllocater = 1; 
+	public static ArrayList<RentalOrder> allOrders = new ArrayList<>();
+	
+	private int orderID;
+	private String userEmail;
     public List<PhysicalItem> items;
     public String locations;
     public Date dueDate;
@@ -23,8 +26,12 @@ public class RentalOrder {
         // Initialize the items list in the constructor
         items = new ArrayList<>();
         orderID = idAllocater;
-        idAllocater ++;
-        allOrders.add(this);
+    	idAllocater ++;
+    	allOrders.add(this);
+    	LocalDate today = LocalDate.now();
+    	LocalDate dueLocalDate = today.plusDays(30);
+    	dueDate = Date.from(dueLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
     }
 
     // Constructor with parameters
@@ -36,7 +43,7 @@ public class RentalOrder {
         this.dueDate = dueDate;
         this.user = user;
     }
-
+    
     public void setDatabaseAttributes(int orderID, String userEmail, List<PhysicalItem> items, String locations, Date dueDate, boolean closed) {
         this.orderID = orderID;
         this.userEmail = userEmail;
@@ -45,7 +52,7 @@ public class RentalOrder {
         this.dueDate = dueDate;
         this.closed = closed;
     }
-
+	
     // Getter for orderID
     public int getOrderID() {
         return orderID;
@@ -66,7 +73,7 @@ public class RentalOrder {
     }
 
     public void setItems(List<PhysicalItem> items) {
-        this.items = items;
+       this.items = items;
     }
 
     // Getter for locations
@@ -82,22 +89,28 @@ public class RentalOrder {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-
+    
     public boolean getClosed() {
-        return closed;
+    	return closed;
     }
-
+    
+    public boolean isOverdue() {
+    	if (dueDate != null) {
+        	Date currentDate = new Date();
+        	return currentDate.after(dueDate);
+    	}
+    return false;
+}
+    
     public void close() { //when the user returns the items
-        user.currentlyRenting.remove(this);
-
-        for (PhysicalItem p : items) {
-            p.setCopiesAvail(p.getCopiesAvail()+1); //update inventory
-        }
-
-        user.itemsOut =- this.items.size();
-        items.clear();
-        closed = true;
-
-
+    	user.currentlyRenting.remove(this);
+    	
+    	for (PhysicalItem p : items) {
+    		p.setCopiesAvail(p.getCopiesAvail()+1); //update inventory
+    	}
+    	
+    	user.itemsOut =- this.items.size(); 
+    	items.clear();
+    	closed = true;
     }
 }

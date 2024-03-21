@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.Date;
 import factory.LibraryItem;
 import factory.PhysicalItem;
+import observer.User;
 
 public abstract class OrderBuilder {
     private String userEmail;
     public ArrayList<PhysicalItem> items; //can only purchase physical items
     private int itemCount;
     public Date dueDate;
+    public User user;
 
     // Constructor with userEmail parameter
-    public OrderBuilder(String email) {
-        this.userEmail = email;
-        this.items = null;
+    public OrderBuilder(User user) {
+    	this.user = user;
+        this.userEmail = user.getEmail();
+        this.items = null; 
         this.itemCount = 0;
     }
 
@@ -27,6 +30,7 @@ public abstract class OrderBuilder {
 
     // Derived getter method for itemCount
     public int getItemCount() {
+    	
         return (items == null) ? 0 : items.size();
     }
 
@@ -44,3 +48,4 @@ public abstract class OrderBuilder {
         this.dueDate = dueDate;
     }
 }
+
