@@ -27,7 +27,7 @@ public class Textbook {
 		return edition;
 	}
 
-	String getTextName(){
+	public String getTextName(){
 		return textName;
 	}
 
@@ -77,5 +77,10 @@ public class Textbook {
 
 	public Date getDueDate() {
 		return dueDate;
+	}
+
+	public String getURL() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
