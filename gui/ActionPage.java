@@ -264,7 +264,8 @@ public class ActionPage {
 
 
     public static void main(String[] args) {
-    	User a = new User(0, 0, null, null, null, "Jane Doe", null, null, "student", null); //TODO: should actually be sent by login page
+    	Invoker myInvoker = new Invoker();
+    	User a = new User(0, 0, null, null, null, "Jane Doe", null, null, "student", myInvoker); //TODO: should actually be sent by login page
     	new ActionPage(a);
     }
 }
