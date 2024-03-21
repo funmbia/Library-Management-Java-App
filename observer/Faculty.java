@@ -14,9 +14,27 @@ public class Faculty extends User {
 		this.subject=subject;
 		this.subject.attachRegisteredClient(this);
 	}
-
+	
 	public Faculty(String string) {
 		//default constructor
+	}
+	
+	public Faculty (LibraryManagementSysInfo subject, User user) {
+		this.subject=subject;
+		this.subject.attachRegisteredClient(this);
+		this.currentlyRenting = user.currentlyRenting;
+		this.currentRentalOrder = user.currentRentalOrder;
+		this.currentPurchaseOrder = user.currentPurchaseOrder;
+		this.bookCollection = user.bookCollection;
+		this.recommendation = user.recommendation;
+		this.myInvoker = user.myInvoker;
+		this.name = user.name;
+		this.email = user.email;
+		this.password = user.password;
+		this.type = user.type;
+		this.itemsOut = user.itemsOut;
+		this.itemsOverdue = user.itemsOverdue;
+		this.penalty = user.penalty;
 	}
 
 	@Override
