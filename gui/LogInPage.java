@@ -6,18 +6,22 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import Singleton.*;
+import iterator.BookCollection;
 import observer.User;
 
 //TODO code to lead to action page iff valid user
 public class LogInPage extends JFrame implements Page { 
 	
-	private JTextField emailField;
-	private JPasswordField passwordField;
-	private JButton LogInButton;
+	 
+//	private JTextField emailField;
+//	private JPasswordField passwordField;
+//	private JButton LogInButton;
 	    
+
+	
 	public JPanel createPage(JFrame frame) {
-    	JPanel panel = new JPanel();
-        panel.add(new JLabel("Log on to an account"));
+    	JPanel panel = new JPanel(); 
+        panel.add(new JLabel("Log on to an account")); 
           
 
         panel.setLayout(new GridLayout(10, 2));
@@ -26,26 +30,41 @@ public class LogInPage extends JFrame implements Page {
         JLabel passwordLabel = new JLabel("Password:");
         
 
-        emailField = new JTextField(SwingConstants.RIGHT);
-        passwordField = new JPasswordField();
+        JTextField emailField = new JTextField(SwingConstants.RIGHT);
+        JPasswordField passwordField = new JPasswordField();
        
 
         JButton LogInButton = new JButton("Log In");
-        
+         
         LogInButton.setAlignmentY(JButton.BOTTOM_ALIGNMENT);
 
         LogInButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
-                User u = new User(0, 0,null, null, null, null, email, password, null, null);
+                User u = new User(0, 0, null, null, null, null, email, password, null, null);
+                SystemManagement system = SystemManagement.getSystemInstance();
                 
-                 
-                if(Singleton.registerUser.members.contains(u.getEmail())&&Singleton.registerUser.members.contains(u.getPassword())) {
-                	LogInButton.addActionListener(  t -> new ActionPage(Singleton.yorkMembers.getMember(u.getEmail()),true));
-                }
+                try {
+					if( system.loginUser(email, password) == null) {
+						JOptionPane.showMessageDialog(null, "Your email and password don't match our records. Try Again", null, JOptionPane.PLAIN_MESSAGE); 
+					}
+					else {
+						LogInButton.addActionListener(  t -> {
+							try {
+								new ActionPage( system.loginUser(email, password), true );
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+						}); 
+					}
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
                              
-            }
+            } 
         });
 
         panel.add(emailLabel);
@@ -55,12 +74,14 @@ public class LogInPage extends JFrame implements Page {
         panel.add(passwordField);
         panel.add(LogInButton);
 
-        add(panel);
-
-        setVisible(true);
+//        add(panel);
+//
+//        setVisible(true);
         return panel; 
 	}
+	
    
+	
     
 }
 
