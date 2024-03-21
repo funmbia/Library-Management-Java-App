@@ -47,7 +47,7 @@ public class User {
 	public int itemsOverdue;
 	public double penalty;
 	
-	/* Constructors */
+/* Constructors */
 	public User() {
 		currentlyRenting = new ArrayList<>();
 		myInvoker = new Invoker();
@@ -71,7 +71,7 @@ public class User {
 		currentlyRenting = new ArrayList<>();
 		this.bookCollection = bookCollection;
 		this.recommendation = recommendation;
-	}
+	} 
 
 	public void setDatabaseAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
 		this.name = name;
@@ -80,7 +80,7 @@ public class User {
 		this.type = accountType;
 		this.itemsOut = itemsOut;
 		this.itemsOverdue = itemsOverdue;
-		this.penalty = penalty;
+		this.penalty = penalty; 
 	}
 /* Constructors */
 	
@@ -108,7 +108,7 @@ public class User {
 		return true;
 	}
 
-	public boolean isValidEmail(String email) {
+	private boolean isValidEmail(String email) {
 		if (email == null || email.isEmpty()) {
 			return false;
 		}
@@ -117,7 +117,7 @@ public class User {
 		return email.matches(emailSymb);
 	}
 
-	public boolean isValidPassword(String password) {
+	private boolean isValidPassword(String password) {
 		if (password == null || password.isEmpty() || password.length() < 8) {
 			return false;
 		}
@@ -200,7 +200,7 @@ public class User {
 //	}
 	
 	//REQUEST
-	public String request (String bookName, String requestType) throws Exception {
+	public String request (String bookName, String requestType) {
 		RequestPhysicalBook command = new RequestPhysicalBook(bookName, requestType);
 		myInvoker.setCommand(command);
 		return myInvoker.executeCommand();
