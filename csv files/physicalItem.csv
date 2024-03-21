@@ -1,5 +1,5 @@
 itemType,title,location,rentable,purchaseable,price
 HardcoverBook,"Pride and Prejudice",Floor 1; Shelf A2,true,true,22.99
 Magazine,"Cosmopolitan",Floor 2; Shelf A1,true,false,3.32
-CD,"Thriller",Floor 3; Shelf C1	,true,true,16.99
+CD,"Thriller",Floor 3; Shelf C1,true,true,16.99
 CD,"Back in Black",Floor 3; Shelf D4,false,false,15.99
