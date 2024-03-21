@@ -1,6 +1,12 @@
 package command;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+
 public class RequestBook {
+	public static List<String> allRequests = new ArrayList<>();
+	
 	private String requestType;
 	public String bookToRequest;
 	public String priority;
@@ -9,32 +15,30 @@ public class RequestBook {
 	public RequestBook(RequestPhysicalBook rpb) {
 		this.requestType = rpb.requestType;
 		this.bookToRequest = rpb.bookToRequest;
+		priority = "";
+		numInLine = 0;
 	}
 	
 	private void calculatePriority() {
-		if (this.requestType.toLowerCase() == "course teaching") {
+		if (this.requestType == "course teaching") {
 			priority = "HIGH";
+			allRequests.add(bookToRequest);
 			RequestPhysicalBook.numberOfRequests[0] ++;
 			numInLine = RequestPhysicalBook.numberOfRequests[0];
 		}
-		else if (this.requestType.toLowerCase() == "self improvement") {
+		else {
 			priority = "LOW";
+			allRequests.add(bookToRequest);
 			RequestPhysicalBook.numberOfRequests[1] ++;
 			numInLine = RequestPhysicalBook.numberOfRequests[0] + RequestPhysicalBook.numberOfRequests[1];
-		}
-		else {
-			priority = "Not a valid request type! Please request for COURSE TEACHING or SELF IMPROVEMENT";
 		}
 	}
 	
 	public String getSummary() {
 		calculatePriority();
-		if (priority.length() > 4) {
-			return priority;
-		}
-		
-		StringBuilder build = new StringBuilder("Your Book Request for " + bookToRequest + "has been filed.\n");
-		build.append("Your Request is of " + priority + "priority and you are " +numInLine + "in line.");
+
+		StringBuilder build = new StringBuilder("Your Book Request for '" + bookToRequest + "' has been filed.\n");
+		build.append("Your Request is of " + priority + " priority and you are #" +numInLine + " in line.");
 		return build.toString();
-	}
+	} 
 }
