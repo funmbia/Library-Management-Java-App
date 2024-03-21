@@ -18,8 +18,7 @@ public class LogInPage extends JFrame implements Page {
 	public JPanel createPage(JFrame frame) {
     	JPanel panel = new JPanel();
         panel.add(new JLabel("Log on to an account"));
-        
-      
+          
 
         panel.setLayout(new GridLayout(10, 2));
 
@@ -45,11 +44,7 @@ public class LogInPage extends JFrame implements Page {
                 if(Singleton.registerUser.members.contains(u.getEmail())&&Singleton.registerUser.members.contains(u.getPassword())) {
                 	LogInButton.addActionListener(  t -> new ActionPage(Singleton.yorkMembers.getMember(u.getEmail())));
                 }
-                
-                //User newUser = new User(username, password);          
-               
-                //System.out.println("Username: " + newUser.getUsername());
-                //System.out.println("Password: " + newUser.getPassword());
+                             
             }
         });
 

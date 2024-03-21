@@ -108,7 +108,7 @@ public class User {
 		return true;
 	}
 
-	private boolean isValidEmail(String email) {
+	public boolean isValidEmail(String email) {
 		if (email == null || email.isEmpty()) {
 			return false;
 		}
@@ -117,7 +117,7 @@ public class User {
 		return email.matches(emailSymb);
 	}
 
-	private boolean isValidPassword(String password) {
+	public boolean isValidPassword(String password) {
 		if (password == null || password.isEmpty() || password.length() < 8) {
 			return false;
 		}

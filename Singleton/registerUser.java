@@ -12,7 +12,6 @@ public class registerUser extends yorkMembers {
     }
 
     public void createAccount(){
-
     }
 
     private boolean validateNonVisitor(){

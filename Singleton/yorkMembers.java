@@ -11,11 +11,18 @@ public class yorkMembers {
 
     //check if registered member already exists
     public boolean validate(User user) {
-        return !members.contains(user);
+    	if(user.isValidEmail(user.getEmail())&&user.isValidPassword(user.getPassword())&& !members.contains(user)) {
+    		return true;
+    	}
+        return false;
     }
 
-	public static User getMember(String email) {
-		
+	public static User getMember(String email) {	
+		for(int i=0; i<members.size(); i++) {
+			if(members.get(i).getEmail().equals(email)) {
+				return members.get(i);
+			}
+		}
 		return null;
 	}
 
