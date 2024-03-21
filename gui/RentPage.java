@@ -117,6 +117,7 @@ public class RentPage implements Page {
 		JOptionPane.showMessageDialog(null, message.toString(), "Item Details", JOptionPane.INFORMATION_MESSAGE);
 	}
 
+	//Fix this method later
 	private void updateCSV(String[] item) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/csv files/physicalItem.csv"))) {
 			for (String[] rowData : itemsData) {
