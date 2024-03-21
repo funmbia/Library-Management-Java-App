@@ -85,7 +85,12 @@ public class OnlinebookPage implements Page {
 				frame.repaint();
 			}
 		});
+		JButton backBt = new JButton("Back");
+    		backBt.addActionListener(  e -> new ActionPage(user));
+    		backBt.setAlignmentX(JButton.CENTER_ALIGNMENT);
+    	
 		panel.add(logoutButton);
+		panel.add(backBt);
 
 		return panel;
 	}
