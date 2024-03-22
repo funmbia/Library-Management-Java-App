@@ -24,7 +24,7 @@ public class Courses {
 		return courseID;
 	}
 
-	String getCourseName(){
+	public String getCourseName(){
 		return courseName;
 	}
 
