@@ -9,6 +9,7 @@ public class RentalOrderBuilder extends OrderBuilder{
 	public RentalOrderBuilder(User user) {
 		super(user);
 		order = new RentalOrder();
+		this.user = user;
 		order.user = this.user;
 	}
 
@@ -20,8 +21,8 @@ public class RentalOrderBuilder extends OrderBuilder{
 		if (checkIfCanBorrow()) {
 			order.items.add(r.itemToRent);
 			updateInventory(r.itemToRent);
-			order.locations += " " + r.itemToRent.getLocation();
-			return r.itemToRent.getTitle() + " is added to your order!";
+			order.locations += " " + r.itemToRent.getLocation() + "; ";
+			return "'" + r.itemToRent.getTitle() + "' is added to your order!";
 		}
 		else return "You cannot borrow any more items right now";
 	}

@@ -28,6 +28,7 @@ public class RentalOrder {
         orderID = idAllocater;
     	idAllocater ++;
     	allOrders.add(this);
+    	locations = "";
     	LocalDate today = LocalDate.now();
     	LocalDate dueLocalDate = today.plusDays(30);
     	dueDate = Date.from(dueLocalDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
@@ -60,6 +61,7 @@ public class RentalOrder {
 
     // Getter and setter methods for userEmail
     public String getUserEmail() {
+    	userEmail = user.getEmail();
         return userEmail;
     }
 

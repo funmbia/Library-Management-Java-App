@@ -13,7 +13,6 @@ public class PurchaseOrderBuilder extends OrderBuilder{
 	
 	public double discount = 0.05;
 	PurchaseOrder order;
-	public User user;
 	
 	
 	public String addToOrder(PurchasePhysicalItem p){
