@@ -3,11 +3,19 @@ package gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import builder.RentalOrder;
 import iterator.BookCollection;
 import observer.*;
 import command.Invoker;
+import factory.HardcoverBook;
+import factory.Magazine;
+import factory.PhysicalItem;
 
 import java.awt.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -178,23 +186,25 @@ public class ActionPage {
     
     private JPanel coursesAndTextbooks() {
     	JPanel coursePanel = new JPanel(new GridLayout(0, 1));
-        coursePanel.setBorder(new EmptyBorder(5, 20, 50, 150));
+        coursePanel.setBorder(new EmptyBorder(5, 20, 50, 50));
         mainManagementSysInfo = new LibraryManagementSysInfo();
+        Student thisStudent;
         
         //STUDENT OPTION
     	if (user.getAccountType().toLowerCase() == "student") {
-    		Student thisStudent = new Student(mainManagementSysInfo, user);
+    		thisStudent = new Student(mainManagementSysInfo, user);
     		
     		List<Courses> courses = thisStudent.viewEnrolledCourses();
-    		StringBuilder html = new StringBuilder("<html> <h3> Your Courses & Textbooks </h3> <ul>");
+    		StringBuilder html = new StringBuilder("<html> <h3> Your Courses & Textbooks </h3> <ul> ");
+    				html.append( "<li> Software Design </br> </li> ");
+    				html.append("<a href=\"https://opentextbc.ca/comptech/\"> Current & Emerging Computing Technology </a>");
     		for (Courses c : courses) {
     			html.append("<li>");
-    			html.append(c.toString());
-    			for (Textbook t : thisStudent.getTextbooks(c)) {
-    				html.append("<br>");
-    				html.append("<a href=" + t.getURL() + ">" + t.getTextName() + "</a>");
-    				//html.append(t.getURL());
-    			}
+    			html.append(c.getCourseName());
+    			Textbook t = thisStudent.getTextbook(c);
+    			html.append("<br>");
+    			html.append("funny");
+				html.append("<a href=" + t.getURL() + ">" + t.getTextName() + "</a>");
     			html.append("</li>");
     		}
     		html.append("</ul> </html>");
@@ -209,15 +219,19 @@ public class ActionPage {
     		Set<Textbook> allTextbooks = new HashSet<>();
     		
     		List<Courses> courses = thisFaculty.getCoursesTeaching();
-    		StringBuilder html = new StringBuilder("<html> <h3> Your Courses </h3> You're currently teaching: <ul>");
+    		StringBuilder html = new StringBuilder("<html> <h3> Your Courses </h3> You're currently teaching: <ul>"
+    				+ "<li> Software Designs </br> Textbook: Current & Emerging Computing Technology; First Editon");
+    		html.append("</br>NOTE: a new edition is available");
     		for (Courses c : courses) {
     			html.append("<li>");
-    			html.append(c.toString());
-    			for (Textbook t : thisFaculty.getTextbooks(c)) {
-    				html.append("<br>");
-    				html.append(t.toString());
-    				allTextbooks.add(t);
-    			}
+    			html.append(c.getCourseName() + " ");
+    			html.append("</br> " + thisFaculty.getTextbook(c));
+    			
+//    			for (Textbook t : thisFaculty.getTextbooks(c)) {
+//    				html.append("<br>");
+//    				html.append(t.toString());
+//    				allTextbooks.add(t);
+//    			}
     			html.append("</li>");
     		}
     		html.append("</ul> </html>");
@@ -238,7 +252,7 @@ public class ActionPage {
     			panel.setPreferredSize(new Dimension(400, 100));
     			JOptionPane.showMessageDialog(null, panel, "NOTIFICATION \n" + notification, JOptionPane.PLAIN_MESSAGE);
     		}
-    		 
+    	
     		
     	}
         
@@ -250,6 +264,7 @@ public class ActionPage {
     	JPanel contentPanel = new JPanel(new GridLayout(0, 1));
     	contentPanel.setBorder(new EmptyBorder(5, 30, 50, 350));
     	
+    	user.getBorrowedItems();
     	JLabel warnings = new JLabel(this.user.displayRentalWarnings());
     	warnings.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
     	warnings.setForeground(Color.RED);
@@ -301,10 +316,103 @@ public class ActionPage {
     }
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
+    	//FOR TESTING PURPOSES:
+    	
+    	//TEST WARNINGS: add overdue & almost due item
+    	//considered lost 
+//    	RentalOrder lost = new RentalOrder(); 
+//    	Calendar calendar = Calendar.getInstance();
+//    	calendar.add(Calendar.DAY_OF_MONTH, -16); 
+//    	Date manyDaysAgo = calendar.getTime();
+//    	lost.setDueDate(manyDaysAgo);
+//    	List<PhysicalItem> items = new ArrayList<>();
+//    	PhysicalItem z = new PhysicalItem();
+//    	z.setTitle("The Royal Insider");
+//    	items.add(z);
+//    	lost.setItems(items);
+//    	
+//    	//overdue
+//    	RentalOrder overdue = new RentalOrder(); 
+//    	calendar = Calendar.getInstance();
+//    	calendar.add(Calendar.DAY_OF_MONTH, -2); 
+//    	Date twoDaysAgo = calendar.getTime();
+//    	overdue.setDueDate(twoDaysAgo);
+//    	List<PhysicalItem> items2 = new ArrayList<>();
+//    	PhysicalItem x = new PhysicalItem();
+//    	x.setTitle("A Woman's Dream");
+//    	items2.add(x);
+//    	overdue.setItems(items2);
+//    	
+//    	//tonight
+//    	RentalOrder almostDue = new RentalOrder(); 
+//    	calendar = Calendar.getInstance();
+//    	calendar.set(Calendar.HOUR_OF_DAY, 22); 
+//    	calendar.set(Calendar.MINUTE, 1); 
+//    	calendar.set(Calendar.SECOND, 1); 
+//    	Date tonight = calendar.getTime();
+//    	almostDue.setDueDate(tonight);
+//    	List<PhysicalItem> items3 = new ArrayList<>();
+//    	PhysicalItem y = new PhysicalItem();
+//    	y.setTitle("A Child's Goal");
+//    	items3.add(y);
+//    	almostDue.setItems(items3);
+//    
+//
+//    	ArrayList<RentalOrder> currentlyRenting = new ArrayList<RentalOrder>();
+//    	currentlyRenting.add(lost);
+//    	currentlyRenting.add(almostDue);
+//    	currentlyRenting.add(overdue);
+//    	
+//    	
+//    	Invoker myInvoker = new Invoker();
+//    	User a = new User(0, 0, currentlyRenting, null, null, "Jane Doe", null, null, "non-faculty", myInvoker); 
+//    	
+//    	
+//    	new ActionPage(a,true); //change to false to force login
+ /**********************/
+    	
+    	
+    	
+    	//TEST COURSES AND TEXTBOOKS FOR STUDENT
+//    	a = new User(0, 0, currentlyRenting, null, null, "Jane Doe", null, null, "student", myInvoker); 
+//    	Student student = new Student(new LibraryManagementSysInfo(), a);
+//    	Faculty faculty = new Faculty(new LibraryManagementSysInfo());
+//    	Courses softwareDesign = new Courses("Software Design", new Faculty("Adam"), "1");
+//    	Textbook textbook = new Textbook("Current & Emerging Computing Technology", "138801273878032", "First Editon", "https://opentextbc.ca/comptech/");
+//    	
+//    	student.enroll(softwareDesign);
+//    	student.createVirtualCopies(softwareDesign, textbook);
+//    	System.out.println(student.viewEnrolledCourses());
+//    	
+//    	new ActionPage((User)student,true); //change to false to force login
+//    	/**********************/
+    	
+    	//When student withdraws... textbook is gone
+//    	student.withdraw(softwareDesign);
+//    	new ActionPage(student, true);
+    	
+    	
+    	
+//    	//TEST COURSES AND TEXTBOOKS FOR FACULTY
+//    	a = new User(0, 0, currentlyRenting, null, null, "John Smith", null, null, "faculty", myInvoker); 
+//    	Faculty faculty = new Faculty(new LibraryManagementSysInfo(), a);
+//    	Courses softwareDesign = new Courses("Software Design", faculty, "1");
+//    	Textbook textbook = new Textbook("Current & Emerging Computing Technology", "138801273878032", "First Editon", "https://opentextbc.ca/comptech/");
+//    	
+//    	faculty.teachCourse(softwareDesign);
+//    	faculty.setTextbook(softwareDesign, textbook);
+//    	
+//    	Textbook unavailableTextbook = new Textbook("Computing Technologies", "138801273878032", "First Editon", "https://opentextbc.ca/comptech/");
+//    	faculty.setTextbook(softwareDesign, unavailableTextbook); //should get notification
+//    	
+//    	new ActionPage(a,true); //change to false to force login
+//    	/**********************/
+    
     	Invoker myInvoker = new Invoker();
     	User a = new User(0, 0, null, null, null, "Jane Doe", null, null, "student", myInvoker); //TODO: should actually be sent by login page
     	new ActionPage(a,false);
+    	
     }
 }
 

@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+
+import command.Invoker;
+import factory.PhysicalItem;
 import observer.User;
 
 public class RentPage implements Page {
@@ -25,9 +28,14 @@ public class RentPage implements Page {
 
 	public JPanel createPage(JFrame frame) {
 		JButton backBt = new JButton("Back");
-		backBt.setAlignmentX(Component.CENTER_ALIGNMENT);
-		backBt.addActionListener(e -> new ActionPage(user,true));
-
+				backBt.setAlignmentX(Component.CENTER_ALIGNMENT);
+				backBt.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						JOptionPane.showMessageDialog(null, user.getCurrentRentalOrderSummary(), "Your Rental Order", JOptionPane.INFORMATION_MESSAGE);						
+						new ActionPage(user,true);
+					}
+				});
+				
 		JButton logoutBt = new JButton("Log Out");
 		logoutBt.setAlignmentX(Component.CENTER_ALIGNMENT);
 		logoutBt.addActionListener(new ActionListener() {
@@ -40,6 +48,8 @@ public class RentPage implements Page {
 			}
 		});
 
+		
+		
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
@@ -58,7 +68,8 @@ public class RentPage implements Page {
 			});
 			panel.add(rentButton);
 		}
-
+		
+		
 		panel.add(Box.createVerticalGlue());
 		panel.add(Box.createRigidArea(new Dimension(0, 20))); 
 		panel.add(backBt);
@@ -68,12 +79,15 @@ public class RentPage implements Page {
 
 		return panel;
 	}
-
+	
 	private void displayItemDetails(String itemType) {
 		StringBuilder message = new StringBuilder();
 		boolean found = false;
-
+		PhysicalItem newItem = new PhysicalItem();
+		int itemIndex =0;
+		
 		for (String[] item : itemsData) {
+			itemIndex = itemsData.indexOf(item);
 			if (item.length >= 6 && item[0].equalsIgnoreCase(itemType)) {
 				boolean rentable = Boolean.parseBoolean(item[3]);
 				boolean purchaseable = Boolean.parseBoolean(item[4]);
@@ -82,16 +96,22 @@ public class RentPage implements Page {
 					found = true;
 					message.append("Item Type: ").append(item[0]).append("\n");
 					message.append("Title: ").append(item[1]).append("\n");
+					newItem.setTitle(item[1]);
 					message.append("Location: ").append(item[2]).append("\n");
+					newItem.setLocation(item[2]);
 					message.append("Rentable: ").append(rentable).append("\n");
+					newItem.setRentable(rentable);
 					message.append("Purchaseable: ").append(purchaseable).append("\n");
+					newItem.setPurchaseable(purchaseable);
 					message.append("Price: ").append(item[5]).append("\n");
+					newItem.setPrice(Double.valueOf(item[5]));
 
-					int copiesAvail = 20;
+					int copiesAvail = 0;
 					if (item.length >= 7) {
 						copiesAvail = Integer.parseInt(item[6]); 
-						copiesAvail--; 
-						item[6] = String.valueOf(copiesAvail); 
+						newItem.setCopiesAvail(copiesAvail);
+						//copiesAvail--; 
+						//item[6] = String.valueOf(copiesAvail); 
 						message.append("Copies Available: ").append(copiesAvail).append("\n\n");
 					} else {
 						message.append("Copies Available: N/A\n\n");
@@ -114,7 +134,16 @@ public class RentPage implements Page {
 			System.out.println("No HardcoverBooks found.");
 		}
 
-		JOptionPane.showMessageDialog(null, message.toString(), "Item Details", JOptionPane.INFORMATION_MESSAGE);
+//		JOptionPane.showMessageDialog(null, message.toString(), "Item Details", JOptionPane.INFORMATION_MESSAGE);
+//		JOptionPane.showMessageDialog(null, message.toString(), "Item Details", JOptionPane.INFORMATION_MESSAGE);
+	    String[] options = {"Rent", "Cancel"};
+	    int optionSelected = JOptionPane.showOptionDialog(null, message.toString(), "Item Details", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, options, options[0]);//	    
+	    if (optionSelected == 0) {	    
+	    	String[] item = itemsData.get(itemIndex);
+	    	item[6] = String.valueOf(newItem.getCopiesAvail());
+	    	updateCSV(item);
+	    	JOptionPane.showMessageDialog(null, user.rent(newItem), "Item Details", JOptionPane.INFORMATION_MESSAGE);
+	    }
 	}
 
 	//Fix this method later
