@@ -1,7 +1,7 @@
 package factory;
 import java.util.Date;
 
-public abstract class PhysicalItem extends LibraryItem {
+public class PhysicalItem extends LibraryItem {
 	protected String location;
 	protected boolean rentable;
 	protected boolean purchaseable;
@@ -13,6 +13,7 @@ public abstract class PhysicalItem extends LibraryItem {
 	protected int copiesAvail = 20;
 	
 	public boolean getRentable() {
+		if (copiesAvail<=0) rentable = false;
 		return rentable;
 	}
 
@@ -64,7 +65,7 @@ public abstract class PhysicalItem extends LibraryItem {
 
 	public boolean isOverdue(Date dueDate) {
         	if (dueDate != null) {
-            		Date currentDate = new Date();
+            	Date currentDate = new Date();
             	return currentDate.after(dueDate);
         	}
         return false;
@@ -88,6 +89,12 @@ public abstract class PhysicalItem extends LibraryItem {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
