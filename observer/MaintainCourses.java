@@ -8,7 +8,7 @@ import com.csvreader.CsvWriter;
 
 public class MaintainCourses {
 
-    public List<Courses> courses = new ArrayList<>();
+    public ArrayList<Courses> courses = new ArrayList<>();
     public String path;
 
     public MaintainCourses(String path) {

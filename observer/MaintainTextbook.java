@@ -9,7 +9,7 @@ import com.csvreader.CsvWriter;
 
 public class MaintainTextbook {
 
-    public List<Textbook> textbooks = new ArrayList<>();
+    public ArrayList<Textbook> textbooks = new ArrayList<>();
     public String path;
 
     public MaintainTextbook(String path) {
@@ -25,7 +25,8 @@ public class MaintainTextbook {
             String textName = reader.get("textName");
             String ISBN = reader.get("ISBN");
             String edition = reader.get("edition");
-            Textbook textbook = new Textbook(textName, ISBN, edition);
+            String url = reader.get("url");
+            Textbook textbook = new Textbook(textName, ISBN, edition, url);
             textbooks.add(textbook);
         }
 
@@ -44,6 +45,7 @@ public class MaintainTextbook {
             csvOutput.write(textbook.getTextName());
             csvOutput.write(textbook.getISBN());
             csvOutput.write(textbook.getEdition());
+            csvOutput.write(textbook.getURL());
             csvOutput.endRecord();
         }
 

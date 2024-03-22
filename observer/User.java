@@ -88,86 +88,8 @@ public class User {
 	public void update() {
 	}
 
-/* Remove the following once synchronized with singleton class*/
-	public boolean login(String email, String password, String accountType){
-		if(!isValidEmail(email) || isValidPassword(password)) {
-			System.out.println("Invalid info");
-			return false;
-		}
-
-		if (accountType.equals("student") || accountType.equals("faculty") || accountType.equals("staff")) {
-			if (!additionalValidationForUserType(accountType)) {
-				System.out.println("Additional validation failed for user type: " + accountType);
-				return false;
-			}
-		}
-
-		this.email = email;
-		this.password = password;
-		System.out.println("Successful registration.");
-		return true;
-	}
-
-	private boolean isValidEmail(String email) {
-		if (email == null || email.isEmpty()) {
-			return false;
-		}
-
-		String emailSymb = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
-		return email.matches(emailSymb);
-	}
-
-	private boolean isValidPassword(String password) {
-		if (password == null || password.isEmpty() || password.length() < 8) {
-			return false;
-		}
-
-		boolean hasUppercase = false;
-		boolean hasLowercase = false;
-		boolean hasDigit = false;
-		boolean hasSpecialChar = false;
-		String specialChars = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
-		for (char c : password.toCharArray()) {
-			if (Character.isUpperCase(c)) {
-				hasUppercase = true;
-			} else if (Character.isLowerCase(c)) {
-				hasLowercase = true;
-			} else if (Character.isDigit(c)) {
-				hasDigit = true;
-			} else if (specialChars.contains(String.valueOf(c))) {
-				hasSpecialChar = true;
-			}
-		}
-
-		return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
-	}
-
-	private boolean additionalValidationForUserType(String userType) {
-
-		if (userType.equals("student")) {
-			System.out.println("You have now been validated as a student.");
-		} else if (userType.equals("faculty")) {
-			System.out.println("You have now been validated as a faculty.");
-		} else if (userType.equals("staff")) {
-			System.out.println("You have now been validated as a staff.");
-		}
-		return true;
-	}
-/* Methods that may be removed end here*/
-
 	
 /* COMMANDS */
-	//integrate with openBookPage or remove
-	public OnlineBook openBook(OnlineBook onlineBook){
-		System.out.println("You have opened: " + onlineBook.getTitle());
-		return onlineBook;
-	}
-	
-	/*Synchronize with Search Command or remove search command*/
-	public Book search(String bName) {
-		return bookCollection.searchBookByName(bName);
-	}
-	
 	public void showRecommendations() {
 		List<Book> recommendedBooks = recommendation.getRecommendedBooks();
 
@@ -183,24 +105,15 @@ public class User {
 	
 	//OPEN NEWSLETTER
 	public String openNewsletter(Newsletter newsletter) {
+		if (myInvoker == null) myInvoker = new Invoker();
 		OpenNewsletter openNews = new OpenNewsletter(newsletter);
 		myInvoker.setCommand(openNews);
 		return myInvoker.executeCommand();
 	}
 	
-	//Its easier for user to subscribe/unsubscribe in frame
-//	public Newsletter subscribeNewsletter (Newsletter newsletter){
-//		System.out.println("You are subscribed to " + newsletter.getName());
-//		return newsletter;
-//	}
-//
-//	public Newsletter cancelNewsletter(Newsletter newsletter){
-//		System.out.println("You are unsubscribed to " + newsletter.getName());
-//		return newsletter;
-//	}
-	
 	//REQUEST
 	public String request (String bookName, String requestType) {
+		if (myInvoker == null) myInvoker = new Invoker();
 		RequestPhysicalBook command = new RequestPhysicalBook(bookName, requestType);
 		myInvoker.setCommand(command);
 		return myInvoker.executeCommand();
@@ -209,6 +122,7 @@ public class User {
 	
 	//RENT
 	public String rent(PhysicalItem physicalItem) {
+		if (myInvoker == null) myInvoker = new Invoker();
 		if (currentRentalOrder == null) {
 			currentRentalOrder = new RentalOrderBuilder(this);
 		}
@@ -219,8 +133,8 @@ public class User {
 	
 	public String getCurrentRentalOrderSummary() {//notification when user presses any button to leave the rent page (back/logout)
 		RentalOrder ro = currentRentalOrder.returnOrder();
-		return "Order " + ro.getOrderID() + "for " + ro.getUserEmail() + ":\n" 
-				+ "Locations: " + ro.getLocations() 
+		return "Order ID" + ro.getOrderID() 
+				+ "\nLocations: " + ro.getLocations() 
 				+ "\nDue Date: " + ro.getDueDate().toString();
 	}
 
@@ -231,6 +145,7 @@ public class User {
 	
 	//PURCHASE
 	public String purchase(PhysicalItem physicalItem, double discountPercent) {
+		if (myInvoker == null) myInvoker = new Invoker();
 		if (currentPurchaseOrder == null) {
 			currentPurchaseOrder = new PurchaseOrderBuilder(this);
 		}
@@ -282,7 +197,7 @@ public class User {
 
 	public String displayRentalWarnings(){
 		penaltyApplication();
-		return "<html>You have " + itemsOverdue + " items overdue & a penalty of $" + penalty + ".<br>Please note that more than 3 Books overdue <br>will result in loss of borrowing privileges.</html>";
+		return "<html>You have " + itemsOverdue + " item(s) overdue & a penalty of $" + penalty + ".<br>Please note that more than 3 Books overdue <br>will result in loss of borrowing privileges.</html>";
 	}
 	
 	public List<String> almostDue = new ArrayList<>();
@@ -298,9 +213,15 @@ public class User {
 				List<PhysicalItem> orderItems = new ArrayList<>();
 				orderItems.addAll(order.getItems());
 				long hoursUntilDue = hoursUntilDue(order.getDueDate());
-				if (hoursUntilDue <= 0) {
+				if (hoursUntilDue <= 0) {	
 					for (PhysicalItem item : orderItems) {
-						overDue.add(item.getTitle() + "; " + hoursUntilDue + "hours overdue");
+						if (hoursUntilDue <= -360) {
+							double penalty = hoursUntilDue/24 * 0.5;
+							this.penalty += penalty*-1;
+							overDue.add(item.getTitle() + "; 15 days overdue; considered lost. Penalty = + $" + penalty*-1);
+						} else {
+							overDue.add(item.getTitle() + "; " + hoursUntilDue*-1 + "hours overdue");
+						}
 					}
 				}
 				else if (hoursUntilDue(order.getDueDate()) < 24 && hoursUntilDue(order.getDueDate()) > 0) {
@@ -319,61 +240,6 @@ public class User {
 		return itemsAndDueDates;
 	}
 	
-	public List<List<String>> getSortedBorrowedItems() {
-		List<List<String>> all = new ArrayList<>();	
-		
-		all.add(getBorrowedHardcoverBooks());
-		all.add(getBorrowedMagazines());
-		all.add(getBorrowedCDs());
-		return all;
-	}
-
-	private List<String> getBorrowedHardcoverBooks() {
-		Map<List<PhysicalItem>, String> itemsAndDueDates = getBorrowedItems();
-		
-		List<String> borrowedHardcoverBooks = new ArrayList<>();
-		for (List<PhysicalItem> list : itemsAndDueDates.keySet()) {
-			for (PhysicalItem item : list) {
-				if (item instanceof HardcoverBook) {
-					HardcoverBook book = (HardcoverBook) item;
-					borrowedHardcoverBooks.add("Title: " + book.getTitle() + ", Due Date: " + itemsAndDueDates.get(list));
-				}
-			}
-		}
-		return borrowedHardcoverBooks;
-	}
-	
-	private List<String> getBorrowedMagazines() {
-		List<String> borrowedMagazines = new ArrayList<>();
-		Map<List<PhysicalItem>, String> itemsAndDueDates = getBorrowedItems();
-		
-		for (List<PhysicalItem> list : itemsAndDueDates.keySet()) {
-			for (PhysicalItem item : list) {
-				if (item instanceof Magazine) {
-					Magazine mag = (Magazine) item;
-					borrowedMagazines.add("Title: " + mag.getTitle() + ", Due Date: " + itemsAndDueDates.get(list));
-				}
-			}
-		}
-		return borrowedMagazines;
-	}
-	
-	private List<String> getBorrowedCDs() {
-		List<String> borrowedCDs = new ArrayList<>();
-		Map<List<PhysicalItem>, String> itemsAndDueDates = getBorrowedItems();
-		
-		for (List<PhysicalItem> list : itemsAndDueDates.keySet()) {
-			for (PhysicalItem item : list) {
-				if (item instanceof CD) {
-					CD cd = (CD) item;
-					borrowedCDs.add("Title: " + cd.getTitle() + ", Due Date: " + itemsAndDueDates.get(list));
-				}
-			}
-		}
-		return borrowedCDs;
-		
-	}
-	
 	private void penaltyApplication() {
 		this.penalty = 0;
 		this.itemsOverdue = 0;
@@ -382,18 +248,15 @@ public class User {
 				for (PhysicalItem item : order.getItems()) {
 					if (item.isOverdue(order.getDueDate())) { 
 						itemsOverdue ++;
-						if (item instanceof HardcoverBook) {
-							/* "Penalty will be applied if a book is overdue (i.e., 0.5$ a day). Books that are 15 days overdue will be considered lost."
-							 * penalty condition only applies to books */
 							long daysOverdue = calculateDaysOverdue(new Date(), order.getDueDate());
 							if (daysOverdue >= BOOK_LOST_DAYS) {
-								handleLostBook((HardcoverBook)item);
+								 handleLostBook(item);
 							} else {
 								double itemPenalty = daysOverdue * PENALTY_PER_DAY;
 								System.out.println("Penalty of $" + itemPenalty + " applied for overdue item: " + item.getTitle());
 								this.penalty += itemPenalty;
 							}
-						}
+						
 					}
 				}
 			}
@@ -413,8 +276,8 @@ public class User {
 		return diffDays;
 	}
 
-	private String handleLostBook(HardcoverBook book) {
-		return book.getTitle() + " has been overdue for 15 days and is considered lost."
+	private String handleLostBook(PhysicalItem book) {
+		return  book.getTitle() + " has been overdue for 15 days and is considered lost."
 				+ "\nPlease return as soon as possible.\nLibrary Manangement has been notified.";
 	}
 /*Methods to do with renting/borrowing*/	

@@ -9,14 +9,16 @@ public class Textbook {
 	String ISBN;
 	String textName;
 	String edition;
+	String URL;
 	private Courses course;
 	private Date dueDate;
     private static int numberOfAvailableCopies = 0;
 
-	public Textbook(String textName, String ISBN, String edition) {
+	public Textbook(String textName, String ISBN, String edition, String URL) {
 		this.ISBN = ISBN;
 		this.textName = textName;
 		this.edition = edition;
+		this.URL = URL;
 		numberOfAvailableCopies++;
 	}
 

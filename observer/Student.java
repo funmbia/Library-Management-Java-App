@@ -17,7 +17,7 @@ import factory.PhysicalItem;
 
 public class Student extends User {
 
-	private Map<Courses, List<Textbook>> virtualTextbooks = new HashMap<>();
+	private Map<Courses, Textbook> virtualTextbooks = new HashMap<>();
 	private List<Courses> courseEnrolledIn = new ArrayList<>();
 	private static final String CSV_FILE_PATH = "userinfo.csv";
 	public List<PhysicalItem> borrowedItems = new ArrayList<>();
@@ -166,26 +166,16 @@ public class Student extends User {
 	}
 
 	public void createVirtualCopies(Courses course, Textbook textbook){
-		if (!virtualTextbooks.containsKey(course)){
-			virtualTextbooks.put(course, new ArrayList<>());
-		}
-		virtualTextbooks.get(course).add(textbook);
+		virtualTextbooks.put(course, textbook);
 	}
 
 	public void removeExtraCopies(Courses course){
 		virtualTextbooks.remove(course);
 	}
 
-	public List<Textbook> getTextbooks(Courses course){
-		return virtualTextbooks.getOrDefault(course, new ArrayList<>());
+	public Textbook getTextbook(Courses course){
+		return virtualTextbooks.get(course);
 	}
-
-    public void makeVirtualCopies(Courses course, Textbook textbook) {
-        if (!virtualTextbooks.containsKey(course)) {
-            virtualTextbooks.put(course, new ArrayList<>());
-        }
-        virtualTextbooks.get(course).add(textbook);
-    }
 
     public void removeVirtualCopies(Courses course) {
         virtualTextbooks.remove(course);

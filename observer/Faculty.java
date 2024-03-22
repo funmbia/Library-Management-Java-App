@@ -9,6 +9,7 @@ public class Faculty extends User {
 	private List<Courses> coursesTeaching= new ArrayList<>();
 	private List<Textbook> usedTextbooks= new ArrayList<>();
 	private Map<String, List<String>> coursesAndTextbooks = new HashMap<>();
+	private Map<Courses, Textbook> CandT = new HashMap<>();
 
 	public Faculty(LibraryManagementSysInfo subject){
 		this.subject=subject;
@@ -17,6 +18,7 @@ public class Faculty extends User {
 	
 	public Faculty(String string) {
 		//default constructor
+		this.name = string;
 	}
 	
 	public Faculty (LibraryManagementSysInfo subject, User user) {
@@ -66,6 +68,14 @@ public class Faculty extends User {
 
 	public void setUsedTextbooks(List<Textbook> textbooks){
 		this.usedTextbooks = textbooks;
+	}
+	
+	public void setTextbook (Courses course, Textbook textbook) {
+		this.CandT.put(course, textbook);
+	}
+	
+	public Textbook getTextbook (Courses course ) {
+		return CandT.get(course);
 	}
 
 	public List <Textbook> getTextbooks (Courses course){
