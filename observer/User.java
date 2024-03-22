@@ -135,7 +135,7 @@ public class User {
 	
 	public String getCurrentRentalOrderSummary() {//notification when user presses any button to leave the rent page (back/logout)
 		RentalOrder ro = currentRentalOrder.returnOrder();
-		return "Order ID" + ro.getOrderID() 
+		return "Order Details:" 
 				+ "\nLocations: " + ro.getLocations() 
 				+ "\nDue Date: " + ro.getDueDate().toString();
 	}
