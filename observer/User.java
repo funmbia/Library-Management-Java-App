@@ -11,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import builder.OrderBuilder;
 import builder.PurchaseOrder;
@@ -200,9 +202,9 @@ public class User {
 		return "<html>You have " + itemsOverdue + " item(s) overdue & a penalty of $" + penalty + ".<br>Please note that more than 3 Books overdue <br>will result in loss of borrowing privileges.</html>";
 	}
 	
-	public List<String> almostDue = new ArrayList<>();
-	public List<String> overDue = new ArrayList<>();
-	public List<String> notYetDue = new ArrayList<>();
+	public Set<String> almostDue = new HashSet<>();
+	public Set<String> overDue = new HashSet<>();
+	public Set<String> notYetDue = new HashSet<>();
 	
 	public Map<List<PhysicalItem>, String> getBorrowedItems() {
 		penaltyApplication();
@@ -215,7 +217,7 @@ public class User {
 				long hoursUntilDue = hoursUntilDue(order.getDueDate());
 				if (hoursUntilDue <= 0) {	
 					for (PhysicalItem item : orderItems) {
-						if (hoursUntilDue <= -360) {
+						if (hoursUntilDue <= -360 && ! overDue.contains(order)) {
 							double penalty = hoursUntilDue/24 * 0.5;
 							this.penalty += penalty*-1;
 							overDue.add(item.getTitle() + "; 15 days overdue; considered lost. Penalty = + $" + penalty*-1);
@@ -224,7 +226,7 @@ public class User {
 						}
 					}
 				}
-				else if (hoursUntilDue(order.getDueDate()) < 24 && hoursUntilDue(order.getDueDate()) > 0) {
+				else if (hoursUntilDue(order.getDueDate()) < 24 && hoursUntilDue(order.getDueDate()) > 0 && ! almostDue.contains(order)) {
 					for (PhysicalItem item : orderItems) {
 						almostDue.add(item.getTitle() + "; Due Soon in " + hoursUntilDue + " hours");
 					}
