@@ -220,8 +220,8 @@ public class ActionPage {
     		
     		List<Courses> courses = thisFaculty.getCoursesTeaching();
     		StringBuilder html = new StringBuilder("<html> <h3> Your Courses </h3> You're currently teaching: <ul>"
-    				+ "<li> Software Designs </br> Textbook: Current & Emerging Computing Technology; First Editon");
-    		html.append("</br>NOTE: a new edition is available");
+    				+ "<li> Software Designs; </br> Textbook: Current & Emerging Computing Technology; First Editon;"
++ "</br> NOTE: a new edition is available");
     		for (Courses c : courses) {
     			html.append("<li>");
     			html.append(c.getCourseName() + " ");
@@ -319,7 +319,7 @@ public class ActionPage {
     public static void main(String[] args) throws Exception {
     	//FOR TESTING PURPOSES:
     	
-    	//TEST WARNINGS: add overdue & almost due item
+    	//UNCOMMENT to see lost & overdue & almost due item
     	//considered lost 
 //    	RentalOrder lost = new RentalOrder(); 
 //    	Calendar calendar = Calendar.getInstance();
@@ -366,15 +366,13 @@ public class ActionPage {
 //    	
 //    	
 //    	Invoker myInvoker = new Invoker();
-//    	User a = new User(0, 0, currentlyRenting, null, null, "Jane Doe", null, null, "non-faculty", myInvoker); 
-//    	
-//    	
+//    	User a = new User(0, 0, currentlyRenting, null, null, "Jane Doe", null, null, "student", myInvoker); 
 //    	new ActionPage(a,true); //change to false to force login
- /**********************/
+/**********************/
     	
     	
     	
-    	//TEST COURSES AND TEXTBOOKS FOR STUDENT
+    	//UNCOMMENT TO TEST COURSES AND TEXTBOOKS FOR STUDENT
 //    	a = new User(0, 0, currentlyRenting, null, null, "Jane Doe", null, null, "student", myInvoker); 
 //    	Student student = new Student(new LibraryManagementSysInfo(), a);
 //    	Faculty faculty = new Faculty(new LibraryManagementSysInfo());
@@ -394,7 +392,7 @@ public class ActionPage {
     	
     	
     	
-//    	//TEST COURSES AND TEXTBOOKS FOR FACULTY
+//    	//UNCOMMENT TO TEST COURSES AND TEXTBOOKS FOR FACULTY
 //    	a = new User(0, 0, currentlyRenting, null, null, "John Smith", null, null, "faculty", myInvoker); 
 //    	Faculty faculty = new Faculty(new LibraryManagementSysInfo(), a);
 //    	Courses softwareDesign = new Courses("Software Design", faculty, "1");

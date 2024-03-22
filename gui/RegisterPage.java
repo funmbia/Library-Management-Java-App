@@ -3,9 +3,14 @@ package gui;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 import Singleton.*;
+import builder.PurchaseOrderBuilder;
+import builder.RentalOrderBuilder;
+import command.Invoker;
+import observer.MaintainUser;
 import observer.User;
 
 //TODO code to lead to action page iff valid user
@@ -44,16 +49,21 @@ public class RegisterPage extends JFrame implements Page {
                 String password = new String(passwordField.getPassword());
                 String account = accountField.getText();
                 registerUser user = new registerUser(name,email,password,account);
+                User thisUser = new User();
                 
                 try {
                     if (!user.createAccount()) {
                     	JOptionPane.showMessageDialog(null, user.getAccountCreationErrorReason(), "Account Creation Error", JOptionPane.PLAIN_MESSAGE);
                     } else {
-                        JPanel newpanel = new LogInPage().createPage(frame);
-                        frame.getContentPane().removeAll();
-                        frame.getContentPane().add(newpanel);
-                        frame.revalidate();
-                        frame.repaint();
+//                    	MaintainUser maintain = new MaintainUser("src/csv files/userInfo.csv");
+//                    	maintain.load();
+//                    	ArrayList<User> allUsers = maintain.users;
+//                    	for (User u: allUsers) {
+//                    		if (u.getEmail().equals(email) && u.getPassword().equals(password)) thisUser = u; 
+//                    	}
+//                    	new ActionPage( thisUser, true );
+                    	thisUser = new User(0, 0, new ArrayList<>(), null, null, name, email, password, account, new Invoker());
+                    	new ActionPage(thisUser, true);
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
