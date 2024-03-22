@@ -43,9 +43,11 @@ public class MaintainUser {
 
     private RentalOrder getOrderById(String id) {
         for (RentalOrder order : RentalOrder.allOrders) {
-            if (order.getOrderID() == Integer.valueOf(id)) return order;
+            if (order.getOrderID() == Integer.valueOf(id)) { 
+                return order;
+            }
         }
-        return null; //we should never get to this point to avoid errors
+        return null;
     }
 
     public void update() throws Exception {
