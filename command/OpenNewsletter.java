@@ -11,8 +11,7 @@ public class OpenNewsletter implements Command{
 	}
 	
 	public String execute() {
-		// TODO Send to code/logic that opens in frame
-		return "Opening ...";
+			return "Would you like to open ";
 	}
 
 }
