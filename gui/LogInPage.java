@@ -42,27 +42,22 @@ public class LogInPage extends JFrame implements Page {
             public void actionPerformed(ActionEvent e) {
                 String email = emailField.getText();
                 String password = new String(passwordField.getPassword());
-                User u = new User(0, 0, null, null, null, null, email, password, null, null);
+               User u = new User(0, 0, null, null, null, null, email, password, null, null);
                 SystemManagement system = SystemManagement.getSystemInstance();
                 
+               
                 try {
-					if( system.loginUser(email, password) == null) {
-						JOptionPane.showMessageDialog(null, "Your email and password don't match our records. Try Again", null, JOptionPane.PLAIN_MESSAGE); 
-					}
-					else {
-						LogInButton.addActionListener(  t -> {
-							try {
-								new ActionPage( system.loginUser(email, password), true );
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-						}); 
-					}
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					u = system.loginUser(email, password);
+				} catch (Exception e2) {
+					e2.printStackTrace();
 				}
+                
+                if (u == null) {
+                	JOptionPane.showMessageDialog(null, "Your email and password don't match our records. Try Again", null, JOptionPane.PLAIN_MESSAGE); 
+                }
+                else {
+                	new ActionPage( u, true );
+                }
                              
             } 
         });
@@ -84,4 +79,3 @@ public class LogInPage extends JFrame implements Page {
 	
     
 }
-
