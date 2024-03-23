@@ -79,3 +79,4 @@ public class LogInPage extends JFrame implements Page {
 	
     
 }
+

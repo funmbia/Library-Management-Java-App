@@ -2,7 +2,6 @@ package observer;
 
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;

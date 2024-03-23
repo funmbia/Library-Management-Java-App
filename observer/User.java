@@ -133,7 +133,7 @@ public class User {
 		return myInvoker.executeCommand();
 	}
 	
-	public String getCurrentRentalOrderSummary() {//notification when user presses any button to leave the rent page (back/logout)
+	public String getCurrentRentalOrderSummary() throws Exception {//notification when user presses any button to leave the rent page (back/logout)
 		RentalOrder ro = currentRentalOrder.returnOrder();
 		return "Order Details:" 
 				+ "\nLocations: " + ro.getLocations() 
@@ -182,8 +182,12 @@ public class User {
 	private static final int MAX_OVERDUE_ITEMS = 3;
 	private static final int BOOK_LOST_DAYS = 15;
 	
-	public void addToRenting(RentalOrder order) {
+	public void addToRenting(RentalOrder order) throws Exception {
 		currentlyRenting.add(order);
+		MaintainUser maintain = new MaintainUser("src/csv files/userInfo.csv");
+		maintain.load();
+		maintain.updateUserRenting(this);
+		maintain.update();
 	}
 
 	public void removeFromRenting(RentalOrder order) {

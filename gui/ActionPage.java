@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Set;
 
 public class ActionPage {
+    public static ArrayList<RentalOrder> allRentalOrders = new ArrayList<>();
+
 	public JFrame frame;
     public JPanel mainPanel;
     public JPanel firstPanel;
@@ -299,7 +301,7 @@ public class ActionPage {
     	}
 		
 		if (! user.notYetDue.isEmpty() ) {
-    		JLabel title = new JLabel("OTHER CURRENTLY RENTED ITEMS");
+    		JLabel title = new JLabel("CURRENTLY RENTED ITEMS");
 	    	title.setFont(new Font("Microsoft PhagsPa", Font.BOLD, 15));
 	    	builder = new StringBuilder("<html> <ul>");
 	    	for (String item : user.notYetDue) {
@@ -319,7 +321,7 @@ public class ActionPage {
     public static void main(String[] args) throws Exception {
     	//FOR TESTING PURPOSES:
     	
-    	//UNCOMMENT to see lost & overdue & almost due item
+        //UNCOMMENT to see lost & overdue & almost due item
     	//considered lost 
 //    	RentalOrder lost = new RentalOrder(); 
 //    	Calendar calendar = Calendar.getInstance();
@@ -384,15 +386,11 @@ public class ActionPage {
 //    	System.out.println(student.viewEnrolledCourses());
 //    	
 //    	new ActionPage((User)student,true); //change to false to force login
-//    	/**********************/
-    	
-    	//When student withdraws... textbook is gone
-//    	student.withdraw(softwareDesign);
-//    	new ActionPage(student, true);
+/**********************/
     	
     	
     	
-//    	//UNCOMMENT TO TEST COURSES AND TEXTBOOKS FOR FACULTY
+    	//UNCOMMENT TO TEST COURSES AND TEXTBOOKS FOR FACULTY
 //    	a = new User(0, 0, currentlyRenting, null, null, "John Smith", null, null, "faculty", myInvoker); 
 //    	Faculty faculty = new Faculty(new LibraryManagementSysInfo(), a);
 //    	Courses softwareDesign = new Courses("Software Design", faculty, "1");
@@ -405,7 +403,7 @@ public class ActionPage {
 //    	faculty.setTextbook(softwareDesign, unavailableTextbook); //should get notification
 //    	
 //    	new ActionPage(a,true); //change to false to force login
-//    	/**********************/
+/**********************/
     
     	Invoker myInvoker = new Invoker();
     	User a = new User(0, 0, null, null, null, "Jane Doe", null, null, "student", myInvoker); //TODO: should actually be sent by login page

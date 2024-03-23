@@ -6,6 +6,7 @@ import java.util.List;
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
 import builder.RentalOrder;
+import gui.ActionPage;
 
 public class MaintainUser {
     public ArrayList<User> users = new ArrayList<>();
@@ -36,13 +37,13 @@ public class MaintainUser {
             }
             user.setCurrentlyRenting(rentingOrders);
 
-            users.add(user); 
+            users.add(user);
         }
         reader.close();
     }
 
     private RentalOrder getOrderById(String id) {
-        for (RentalOrder order : RentalOrder.allOrders) {
+        for (RentalOrder order : ActionPage.allRentalOrders) {
             if (order.getOrderID() == Integer.valueOf(id)) { 
                 return order;
             }
@@ -96,7 +97,12 @@ public class MaintainUser {
     }
 
     // Update an existing user's information
-    public void updateUser(User user) {
+    public void updateUserRenting(User user) {
+        for (User userInDatabase : users) {
+            if (userInDatabase.equals(user)) {
+                userInDatabase.currentlyRenting = user.currentlyRenting;
+            }
+        }
     }
 
     // Remove a user

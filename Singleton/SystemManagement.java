@@ -35,7 +35,7 @@ public class SystemManagement extends yorkMembers{
     	SystemMembers = maintain.getUsers();
     	
     	for (User u : SystemMembers) {
-    		if (u.getEmail().equals(email) && u.getPassword().equals(password)) return SystemMembers.get(SystemMembers.indexOf(u));
+    		if (u.getEmail().equals(email.trim()) && u.getPassword().equals(password.trim())) return SystemMembers.get(SystemMembers.indexOf(u));
     	}
     	return null;
     }

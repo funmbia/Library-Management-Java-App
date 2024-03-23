@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import observer.MaintainUser;
 import observer.User;
 
-public class registerUser extends yorkMembers {
+public class registerUser {
 	String name;
 	String email;
 	String password; 
@@ -24,7 +24,7 @@ public class registerUser extends yorkMembers {
     	user.setCurrentlyRenting(new ArrayList<>());
     	
         user.setDatabaseAttributes(name,email,password,accountT,0,0,0);
-        members.add(user);
+        yorkMembers.members.add(user);
     }
 
     public String getEmail() {
@@ -33,7 +33,7 @@ public class registerUser extends yorkMembers {
 
     public boolean createAccount() throws Exception{
     	if (! isValidEmail(email)) {
-    		errorReason = email; //"Not a valid email format. Try Again";
+    		errorReason = "Not a valid email format. Try Again";
     		return false;
     	}
     	if (! isValidPassword(password)) {
@@ -66,11 +66,7 @@ public class registerUser extends yorkMembers {
     }
 
     private boolean validateNonVisitor(){
-        return validate(user);
-    }
-
-    private void toLogin(){
-        
+        return yorkMembers.validate(user);
     }  
 
 	public boolean isValidEmail(String email) {

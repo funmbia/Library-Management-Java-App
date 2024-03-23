@@ -34,11 +34,12 @@ public class RentalOrderBuilder extends OrderBuilder{
 		return canBorrow;
 	}
 	
-	public void updateUserHistory() {
-		user.currentlyRenting.add(order);
+	public void updateUserHistory() throws Exception {
+		//user.currentlyRenting.add(order);
+		user.addToRenting(order);
 	}
 	
-	public RentalOrder returnOrder() {
+	public RentalOrder returnOrder() throws Exception {
 		updateUserHistory();
 		return order;
 	}

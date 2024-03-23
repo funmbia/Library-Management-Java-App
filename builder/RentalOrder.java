@@ -8,10 +8,11 @@ import java.util.List;
 
 import observer.User;
 import factory.PhysicalItem;
+import gui.ActionPage;
 
 public class RentalOrder {
 	public static int idAllocater = 1; 
-	public static ArrayList<RentalOrder> allOrders = new ArrayList<>();
+	//public static ArrayList<RentalOrder> allOrders = new ArrayList<>();
 	
 	private int orderID;
 	private String userEmail;
@@ -27,7 +28,7 @@ public class RentalOrder {
         items = new ArrayList<>();
         orderID = idAllocater;
     	idAllocater ++;
-    	allOrders.add(this);
+    	ActionPage.allRentalOrders.add(this);
     	locations = "";
     	LocalDate today = LocalDate.now();
     	LocalDate dueLocalDate = today.plusDays(30);

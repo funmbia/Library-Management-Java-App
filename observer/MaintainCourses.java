@@ -1,7 +1,6 @@
 package observer;
 import java.io.FileWriter;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.csvreader.CsvReader;
 import com.csvreader.CsvWriter;
@@ -20,7 +19,6 @@ public class MaintainCourses {
         reader.readHeaders();
 
         while (reader.readRecord()) {
-        	Courses courses = new Courses();
             String courseName = reader.get("courseName");
             Faculty faculty = new Faculty(reader.get("faculty"));
             String courseID = reader.get("courseID");

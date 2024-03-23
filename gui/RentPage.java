@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -31,7 +32,13 @@ public class RentPage implements Page {
 				backBt.setAlignmentX(Component.CENTER_ALIGNMENT);
 				backBt.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						JOptionPane.showMessageDialog(null, user.getCurrentRentalOrderSummary(), "Your Rental Order", JOptionPane.INFORMATION_MESSAGE);						
+						try {
+							JOptionPane.showMessageDialog(null, user.getCurrentRentalOrderSummary(), "Your Rental Order", JOptionPane.INFORMATION_MESSAGE);
+						} catch (HeadlessException e1) {
+							e1.printStackTrace();
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}						
 						new ActionPage(user,true);
 					}
 				});
