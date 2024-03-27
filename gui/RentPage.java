@@ -15,6 +15,9 @@ import java.util.List;
 import javax.swing.*;
 
 import command.Invoker;
+import factory.CD;
+import factory.HardcoverBook;
+import factory.Magazine;
 import factory.PhysicalItem;
 import observer.User;
 
@@ -90,7 +93,10 @@ public class RentPage implements Page {
 	private void displayItemDetails(String itemType) {
 		StringBuilder message = new StringBuilder();
 		boolean found = false;
-		PhysicalItem newItem = new PhysicalItem();
+		PhysicalItem newItem;
+		if (itemType.equals("HardcoverBook")) newItem = new HardcoverBook();
+		else if (itemType.equals("CD")) newItem = new CD();
+		else newItem = new Magazine();
 		int itemIndex =0;
 		
 		for (String[] item : itemsData) {
