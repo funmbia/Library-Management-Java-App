@@ -3,7 +3,7 @@ package factory;
 public abstract class LibraryItem {
 	protected String title;
 	protected int id;
-	protected static int increment;
+	protected static int increment = 0;
 	
 	
 	protected LibraryItem() {
@@ -12,12 +12,16 @@ public abstract class LibraryItem {
 	}
 	
 	public String getTitle() {
-		return title;
+		return title; 
 	}
 	
 	public int getID() {
 		return id;
 	}
 	
+	public static void resetIncrement() {
+		increment = 0;
+	}
+	
 	public abstract String toString();
-}
+} 

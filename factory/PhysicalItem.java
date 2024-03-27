@@ -1,20 +1,23 @@
 package factory;
 import java.util.Date;
 
-public class PhysicalItem extends LibraryItem {
+public abstract class PhysicalItem extends LibraryItem {
 	protected String location;
 	protected boolean rentable;
 	protected boolean purchaseable;
 	protected double price;
-	protected String title;
     private Date dueDate;
 	private boolean canBeRented = true;
 
 	protected int copiesAvail = 20;
 	
+	public PhysicalItem() {
+		super();
+	}
+	
 	public boolean getRentable() {
 		if (copiesAvail<=0) rentable = false;
-		return rentable;
+		return rentable; 
 	}
 
 	public boolean getPurchaseable() {
@@ -54,10 +57,10 @@ public class PhysicalItem extends LibraryItem {
     	public void increaseAvailableCopies() {
         	copiesAvail++;
     	}
-
-    	public String getTitle() {
-        	return title;
-    	}
+//
+//    	public String getTitle() {
+//        	return title;
+//    	}
 
     	public void setTitle(String title) {
         	this.title = title;
@@ -89,12 +92,6 @@ public class PhysicalItem extends LibraryItem {
 
 	public void setPrice(double price) {
 		this.price = price;
-	}
-
-	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }

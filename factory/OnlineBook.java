@@ -7,7 +7,6 @@ public class OnlineBook extends LibraryItem {
 	private String ISBN;
 	private boolean isAvailable;
     	private boolean isSubscribed;
-    	private String title;
 	
 	public void setAttributes(String title, String author, String publisher, String URL, String ISBN) {
 		this.title = title;
@@ -18,7 +17,7 @@ public class OnlineBook extends LibraryItem {
 	}
 
 	public OnlineBook() {
-		// Default Constructor
+		super(); 
 	}
 	
 	public OnlineBook(boolean isAvailable, boolean isSubscribed) {

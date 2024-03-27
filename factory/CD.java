@@ -1,12 +1,6 @@
 package factory;
 
 public class CD extends PhysicalItem {
-	private String location;
-	private boolean rentable;
-	private boolean purchaseable;
-	private double price;
-	
-	private int copiesAvail = 20;
 	
 	public void setAttributes(String title, String location, boolean rentable, boolean purchaseable, double price) {
 		this.title = title;

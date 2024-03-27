@@ -4,7 +4,6 @@ public class HardcoverBook extends PhysicalItem {
 	private String author;
 	private String publisher;
 	private String ISBN;
-	private String title;
 	private boolean isRented = false;
 	
 	public void setAttributes(String title, String author, String publisher, String ISBN, String location, boolean rentable, boolean purchaseable, double price) {

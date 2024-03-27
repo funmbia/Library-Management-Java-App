@@ -9,11 +9,11 @@ public class Newsletter extends LibraryItem {
 	public void setAttributes(String title, String organization, String URL) {
 		this.title = title;
 		this.organization = organization;
-		this.URL = URL;
+		this.URL = URL; 
 	}
 	
 	public Newsletter() {
-		// Default constructor
+		super();
 	}
 	
 	public String getOrganization() {
