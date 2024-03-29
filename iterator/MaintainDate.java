@@ -37,12 +37,15 @@ public class MaintainDate {
         }
 
         csvOutput.close();
-        System.out.println("CSV file updated successfully.");
     }
 
     private Date parseDate(String dateString) throws ParseException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
-        return dateFormat.parse(dateString);
+        if (dateString.isEmpty()) {
+            return null; 
+        } else {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd"); 
+            return dateFormat.parse(dateString);
+        }
     }
 
     private String formatDate(Date date) {
