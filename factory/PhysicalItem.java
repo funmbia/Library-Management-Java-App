@@ -1,7 +1,7 @@
 package factory;
 import java.util.Date;
 
-public abstract class PhysicalItem extends LibraryItem {
+public class PhysicalItem extends LibraryItem {
 	protected String location;
 	protected boolean rentable;
 	protected boolean purchaseable;
@@ -92,6 +92,12 @@ public abstract class PhysicalItem extends LibraryItem {
 
 	public void setPrice(double price) {
 		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
