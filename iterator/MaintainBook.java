@@ -55,6 +55,13 @@ public class MaintainBook {
         }
 
         csvOutput.close();
-        System.out.println("CSV file has updated.");
     }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void addBook(Book book) {
+        books.add(book);
+	}
 }
