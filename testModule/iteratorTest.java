@@ -556,7 +556,7 @@ public class iteratorTest {
 	/* MaintainBook class JUnit tests*/
 
 	private MaintainBook maintainBook;
-	private String filePath = "src/csv files/onlinebooks.csv";
+	private String filePath = "Library-Management-Java-App-main/csv files/onlinebooks.csv";
 
 	@Before
 	public void setUp2() {
@@ -638,13 +638,13 @@ public class iteratorTest {
 	@Test(expected = Exception.class)
 	public void testInvalidDateFormat() throws Exception {
 		// Test ensures if the system can or can't load from a CSV file with an invalid date format
-		maintainBook.load("src/csv files/invalid.csv");
+		maintainBook.load("Library-Management-Java-App-main/csv files/invalid.csv");
 	}
 
 	@Test(expected = Exception.class)
 	public void testInvalidCSVData() throws Exception {
 		// Test ensures if the system can or can't load from a CSV file with invalid data
-		maintainBook.load("src/csv files/invalid.csv");
+		maintainBook.load("Library-Management-Java-App-main/csv files/invalid.csv");
 	}
 
 	@Test(expected = Exception.class)
@@ -656,7 +656,7 @@ public class iteratorTest {
 	/* MaintainDate class JUnit tests*/
 
 	private MaintainDate maintainDate;
-	private String filePath2 = "src/csv files/date.csv";
+	private String filePath2 = "Library-Management-Java-App-main/csv files/date.csv";
 
 	@Before
 	public void setUp3() {
@@ -718,7 +718,7 @@ public class iteratorTest {
 	@Test(expected = FileNotFoundException.class)
 	public void testLoadNonExistentFile() throws Exception {
 		// Test ensures the system can load from a non-existent file
-		maintainDate.load("src/csv files/nonexistent.csv");
+		maintainDate.load("Library-Management-Java-App-main/csv files/nonexistent.csv");
 	}
 
 	@Test(expected = Exception.class)
