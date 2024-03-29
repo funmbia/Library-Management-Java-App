@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import command.Invoker;
 import command.PurchasePhysicalItem;
 import builder.RentalOrder;
+import builder.RentalOrderBuilder;
 import builder.PurchaseOrder;
 import java.time.LocalDate;
 import java.time.ZoneId;
