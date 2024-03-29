@@ -475,3 +475,4 @@ class TestCommand {
 
 	                    assertEquals(expectedSummary, requestBook.getSummary());
 	                }
+}
