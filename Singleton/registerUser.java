@@ -10,7 +10,9 @@ public class registerUser {
 	String email;
 	String password; 
 	String accountT;
-	private String csvFilePath = "src/csv files/userInfo.csv";
+	private String csvFilePath =  "Library-Management-Java-App/csv files/userInfo.csv";
+	
+	
 	String errorReason; 
     
 	User user = new User();
@@ -29,6 +31,9 @@ public class registerUser {
 
     public String getEmail() {
 		return user.getEmail();
+	}
+    public String getPassword() {
+		return user.getPassword();
 	}
 
     public boolean createAccount() throws Exception{
@@ -50,22 +55,23 @@ public class registerUser {
     		}
     			
     	}
-    	addAccount(name, email, password, accountT);
+    	addAccount(user);
     	return true;
     }
     
-    private void addAccount(String name, String email, String password, String accountT) throws Exception {
+    public MaintainUser addAccount(User user) throws Exception {
     	MaintainUser maintain = new MaintainUser(csvFilePath);
     	maintain.load();
     	maintain.addUser(user);
     	maintain.update();
+		return maintain;
     }
     
     public String getAccountCreationErrorReason() {
     	return errorReason;
     }
 
-    private boolean validateNonVisitor(){
+    public boolean validateNonVisitor(){
         return yorkMembers.validate(user);
     }  
 
