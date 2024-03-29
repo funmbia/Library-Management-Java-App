@@ -1261,7 +1261,7 @@ class factoryTest {
 	    	maintain5.cds.add(new CD());
 	    	maintain5.update(cdpath);
 	    	
-	    	maintain5.load(hardcoverbookpath);
+	    	maintain5.load(cdpath);
 	    	CD b = maintain5.cds.get(maintain5.cds.size()-1);
 	    	assertEquals("", b.getTitle());
 	    	assertEquals("", b.getLocation());	
