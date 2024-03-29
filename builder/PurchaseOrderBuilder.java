@@ -12,7 +12,10 @@ public class PurchaseOrderBuilder extends OrderBuilder{
 	}
 	
 	public double discount = 0.05;
-	PurchaseOrder order;
+	//old code: PurchaseOrder order;
+	//made public
+	public PurchaseOrder order;
+	
 	
 	
 	public String addToOrder(PurchasePhysicalItem p){
