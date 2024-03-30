@@ -7,17 +7,17 @@ import org.junit.jupiter.api.Test;
 
 import builder.PurchaseOrderBuilder;
 import builder.RentalOrderBuilder;
+import command.Command;
+import command.Invoker;
+import command.OpenNewsletter;
+import command.PurchasePhysicalItem;
+import command.RentPhysicalItem;
+import command.RequestBook;
+import command.RequestPhysicalBook;
 import observer.User;
-
-
-
 
 class TestCommand {
 	
-
- 
-       
-
 	//invoker class test cases
 	 @Test
 	    public void testExecuteCommandWithValidCommand() {
