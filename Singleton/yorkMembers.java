@@ -24,9 +24,9 @@ public class yorkMembers {
     	return false;
     }
 
-	public static User getMember(String email) {	
+	public static User getMember(User u) {	
 		for(int i=0; i<members.size(); i++) {
-			if(members.get(i).getEmail().equals(email)) {
+			if(members.get(i).equals(u)) {
 				return members.get(i);
 			}
 		}

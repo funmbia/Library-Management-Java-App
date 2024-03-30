@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class SystemManagement extends yorkMembers{
 
 	 
-	 private String csvFilePath = "src/csv files/userInfo.csv";
+	 private String csvFilePath = "Library-Management-Java-App/csv files/userInfo.csv";
     public static ArrayList<User> SystemMembers = new ArrayList<>(); //all users
     public static ArrayList<LibraryItem> itemList = new ArrayList<>();
     private static SystemManagement systemInstance;
@@ -28,6 +28,15 @@ public class SystemManagement extends yorkMembers{
     public void createAccount(User u){
         SystemMembers.add(u);
     }
+    
+    public static User getAccount(String email) {	
+		for(int i=0; i<SystemMembers.size(); i++) {
+			if(SystemMembers.get(i).getEmail().equals(email)) {
+				return SystemMembers.get(i);
+			}
+		}
+		return null;
+	}
  
     public User loginUser(String email, String password) throws Exception{
     	MaintainUser maintain = new MaintainUser(csvFilePath);
@@ -44,6 +53,7 @@ public class SystemManagement extends yorkMembers{
     	//TODO add to database
         itemList.add(item);
     }
+    
 
     public void enableItem(PhysicalItem item){
     	item.setRentable(true);
