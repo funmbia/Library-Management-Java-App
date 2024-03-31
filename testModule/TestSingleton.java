@@ -19,6 +19,13 @@ import factory.*;
 public class TestSingleton{
 	
 	//registerUser.java
+	@Test
+	public void testRegisterUser() {
+		registerUser user =  new registerUser("example", "example@gmail.com","Example#12","student");
+		assertTrue(user instanceof registerUser);
+		
+	}
+	
 	@Test 
 	public void testGetEmail() {
 		registerUser user =  new registerUser("david", "david@gmail.com","David#12","student");
@@ -283,7 +290,11 @@ public class TestSingleton{
 	
 	@Test
 	public void testLoginUser() throws Exception{
-		
+		User user = new User(); 
+		user.setDatabaseAttributes("eman", "eman@gmail.com","Eman#12","student",0,0,0);
+		SystemManagement Sm = SystemManagement.getSystemInstance();
+		Sm.createAccount(user);	
+		assertEquals(user, Sm.loginUser(user.getEmail(), user.getPassword()));
 		
 	}
 	
