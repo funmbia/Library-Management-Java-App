@@ -1,12 +1,12 @@
 package factory;
 
-public abstract class LibraryItem {
+public class LibraryItem {
 	protected String title;
 	protected int id;
 	protected static int increment = 0;
 	
 	
-	protected LibraryItem() {
+	public LibraryItem() {
 		increment ++;
 		this.id = increment;
 	}
@@ -23,5 +23,9 @@ public abstract class LibraryItem {
 		increment = 0;
 	}
 	
-	public abstract String toString();
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 } 
