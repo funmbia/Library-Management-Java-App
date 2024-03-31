@@ -68,9 +68,5 @@ public class SystemManagement extends yorkMembers{
         itemList.remove(item);
     }
 
-    //in purchase command already
-    public String providePaymentOptions(){
-        return "";
-    }
 
 }

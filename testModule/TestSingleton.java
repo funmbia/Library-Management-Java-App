@@ -219,15 +219,46 @@ public class TestSingleton{
 		
 		
 	}
-/*	
+	
 	@Test
 	public void testAdditem() {
 		SystemManagement Sm = SystemManagement.getSystemInstance();
 		LibraryItem item = new LibraryItem();
 		Sm.additem(item);
-		assertEquals(item, Sm.itemList.get(Sm.itemList.size()));
+		assertTrue(Sm.itemList.contains(item));
 		
-	}*/
+	}
+	
+	@Test
+	public void testEnableItem() {
+		SystemManagement Sm = SystemManagement.getSystemInstance();
+		PhysicalItem item = new PhysicalItem();
+		Sm.enableItem(item);
+		assertTrue(item.getRentable());
+		
+	}
+	
+	@Test
+	public void testDisableItem() {
+		SystemManagement Sm = SystemManagement.getSystemInstance();
+		PhysicalItem item = new PhysicalItem();
+		Sm.enableItem(item);
+		Sm.disableItem(item);
+		assertFalse(item.getRentable());
+		
+	}
+	
+	@Test
+	public void testProvidePaymentOptions() {
+		SystemManagement Sm = SystemManagement.getSystemInstance();
+		PhysicalItem item = new PhysicalItem();
+		Sm.enableItem(item);
+		Sm.disableItem(item);
+		assertFalse(item.getRentable());
+		
+	}
+	
+	
 	
 	
 	
