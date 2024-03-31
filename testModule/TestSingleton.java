@@ -165,14 +165,42 @@ public class TestSingleton{
 		
 	}
 	
-	//should assert false due to the duplication of a user
 	@Test
 	public void testValidate1() {
+		User user = new User(); 
+		user.setDatabaseAttributes("arnold", "arnold@gmail.com","Arnold#134","student",0,0,0);		
+		yorkMembers.members.add(user);
+		assertTrue(yorkMembers.validate(user));
+	}
+	
+	//should assert false due to the duplication of a user
+	@Test
+	public void testValidate2() {
 		User user = new User(); 
 		user.setDatabaseAttributes("anne", "anne@gmail.com","Anne#12","student",0,0,0);		
 		yorkMembers.members.add(user);
 		assertFalse(yorkMembers.validate(user));
 		
+	}
+	@Test
+	public void testValidate3() {
+		User user = new User(); 
+		user.setDatabaseAttributes("dan", "dan@gmail.com","Dan#1234","student",0,0,0);		
+		yorkMembers.members.add(user);
+		assertTrue(yorkMembers.validate(user));
+		User user1 = new User(); 
+		user1.setDatabaseAttributes("dan", "dan@gmail.com","Dan#1234","student",0,0,0);	
+		assertFalse(yorkMembers.validate(user));
+	}
+	
+	@Test
+	public void testValidate4() {
+		User user = new User(); 
+		user.setDatabaseAttributes("ex", "ex@gmail.com","Ex#12345","student",0,0,0);		
+		yorkMembers.members.add(user);
+		yorkMembers.validate(user);
+		assertTrue(yorkMembers.emails.contains(user.getEmail()));
+			
 	}
 	
 	@Test
@@ -182,6 +210,22 @@ public class TestSingleton{
 		yorkMembers.addUserToYorkMembers(user);
 		assertEquals(user,yorkMembers.getMember(user));
 		
+	}
+	@Test
+	public void testGetMember1() {
+		User user = new User(); 
+		user.setDatabaseAttributes("example", "example@gmail.com","Example#1","student",0,0,0);		
+		yorkMembers.validate(user);
+		assertEquals(user,yorkMembers.getMember(user));
+
+	}
+	
+	@Test
+	public void testGetMember2() {
+		User user = new User(); 
+		user.setDatabaseAttributes("example", "example@gmail.com","Example#1","student",0,0,0);		
+		assertEquals(null,yorkMembers.getMember(user));
+
 	}
 	
 	@Test
@@ -193,10 +237,33 @@ public class TestSingleton{
 		
 	}
 	
+	@Test
+	public void testAddUserToYorkMembers1() {
+		User user = new User(); 
+		User user1 = new User();
+		yorkMembers.addUserToYorkMembers(user1);
+		assertEquals(null,yorkMembers.getMember(user));
+		
+	}
+	
 	//SystemManagement.java
 	
 	@Test
+	public void testSystemInstance() {
+		SystemManagement Sm = SystemManagement.getSystemInstance();
+		assertTrue(Sm instanceof SystemManagement);
+		
+	}
+	
+	@Test
 	public void testGetSystemInstance() {
+		SystemManagement Sm = SystemManagement.getSystemInstance();
+        assertTrue(Sm != null);
+		
+	}
+    
+    @Test
+	public void testGetSystemInstance1() {
 		SystemManagement Sm = SystemManagement.getSystemInstance();
         assertTrue(Sm != null);
         SystemManagement Sm2 = SystemManagement.getSystemInstance();
@@ -225,8 +292,15 @@ public class TestSingleton{
 		SystemManagement Sm = SystemManagement.getSystemInstance();
 		LibraryItem item = new LibraryItem();
 		Sm.additem(item);
-		assertTrue(Sm.itemList.contains(item));
-		
+		assertTrue(Sm.itemList.contains(item));	
+	}
+	
+	//Should assert false; did not add item
+	@Test
+	public void testAdditem1() {
+		SystemManagement Sm = SystemManagement.getSystemInstance();
+		LibraryItem newItem = new LibraryItem();
+		assertFalse(Sm.itemList.contains(newItem));	
 	}
 	
 	@Test
@@ -234,29 +308,30 @@ public class TestSingleton{
 		SystemManagement Sm = SystemManagement.getSystemInstance();
 		PhysicalItem item = new PhysicalItem();
 		Sm.enableItem(item);
-		assertTrue(item.getRentable());
-		
+		assertTrue(item.getRentable());	
 	}
 	
 	@Test
 	public void testDisableItem() {
 		SystemManagement Sm = SystemManagement.getSystemInstance();
 		PhysicalItem item = new PhysicalItem();
-		Sm.enableItem(item);
 		Sm.disableItem(item);
 		assertFalse(item.getRentable());
 		
 	}
-	
 	@Test
-	public void testProvidePaymentOptions() {
+	public void testEnableAndDisableItem() {
 		SystemManagement Sm = SystemManagement.getSystemInstance();
 		PhysicalItem item = new PhysicalItem();
 		Sm.enableItem(item);
+		assertTrue(item.getRentable());	
 		Sm.disableItem(item);
 		assertFalse(item.getRentable());
-		
+		Sm.enableItem(item);
+		assertTrue(item.getRentable());	
 	}
+	
+
 	
 	
 	
