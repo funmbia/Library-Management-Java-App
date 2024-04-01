@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class LibraryManagementSysInfo {
 
-	private List<User> users = new ArrayList<>();
+	public List<User> users = new ArrayList<>();
 	private List<PhysicalItem> physicalItems = new ArrayList<>();
 	private List<OnlineBook> onlineBooks = new ArrayList<>();
 	private List<Newsletter> newsletter = new ArrayList<>();

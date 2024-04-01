@@ -1,12 +1,16 @@
 package testModule;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 import observer.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import java.util.Date;
+
+import Singleton.registerUser;
+
+import java.io.ByteArrayOutputStream;
+import java.io.*;
+import java.util.*;
 
 class TestObserver {
 	private LibraryManagementSysInfo library;
@@ -204,5 +208,99 @@ class TestObserver {
 	}
 
 
-
+	
+	//Visitor.java
+	
+	@Test
+	public void testVisitorCreation() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		assertTrue(visitor instanceof Visitor);	
+	}
+	
+	//Instance of User
+	@Test
+	public void testVisitorCreation1() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		assertTrue(visitor instanceof User);	
+	}
+	
+	@Test
+	public void testVisitorCreation2() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		assertTrue(visitor instanceof Visitor);	
+		assertTrue(visitor instanceof User);	
+	}
+	
+	@Test
+	public void testVisitorCreation3() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		assertTrue(subject.users.contains(visitor));	
+	}
+	
+	@Test
+	public void testVisitorCreation4() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		LibraryManagementSysInfo subject1 = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		assertFalse(subject1.users.contains(visitor));	
+	}
+	
+	@Test
+	public void testVisitorCreation5() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		LibraryManagementSysInfo subject1 = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		assertFalse(subject1.users.contains(visitor));	
+		assertTrue(subject.users.contains(visitor));	
+	}
+	
+	@Test
+	public void testVisitorCreation6() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		assertEquals(visitor.subject, subject);	
+	}
+	
+	@Test
+	public void testVisitorCreation7() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		LibraryManagementSysInfo subject1 = new LibraryManagementSysInfo();
+		assertFalse(visitor.subject.equals(subject1));	
+	}
+	
+	@Test
+	public void testVisitorCreation8() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+	    User user = new User();
+		assertFalse(user instanceof Visitor);	
+		assertTrue(visitor instanceof Visitor);	
+	}
+	
+	@Test
+	public void testUpdate() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+	    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+	    visitor.update();
+        assertEquals("Visitor's info is updated.\n", outContent.toString());
+	}
+	
+	//Did not call update
+	@Test
+	public void testUpdate1() {
+		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+		Visitor visitor =  new Visitor(subject);
+		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+        assertFalse("Visitor's info is updated.\n".equals(outContent.toString()));
+	}
+	
+	
 }
