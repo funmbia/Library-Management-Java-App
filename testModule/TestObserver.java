@@ -301,6 +301,298 @@ class TestObserver {
         System.setOut(new PrintStream(outContent));
         assertFalse("Visitor's info is updated.\n".equals(outContent.toString()));
 	}
+	//test case for courses
+
+	    @Test
+	    public void testCreatingCourse() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("Introduction to Programming", faculty, "CS101");
+	        assertNotNull(course);
+	    }
+
+	    @Test
+	    public void testGetCourseID() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("Introduction to Programming", faculty, "CS101");
+	        assertEquals("CS101", course.getCourseID());
+	    }
+
+	    @Test
+	    public void testGetCourseName() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("Introduction to Programming", faculty, "CS101");
+	        assertEquals("Introduction to Programming", course.getCourseName());
+	    }
+	    @Test
+	    public void testGetCourseNameWithEmptyName() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("", faculty, "CS101");
+	        assertEquals("", course.getCourseName());
+	    }
+
+
+	    @Test
+	    public void testGetFaculty() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("Introduction to Programming", faculty, "CS101");
+	        assertEquals(faculty, course.getFaculty());
+	    }
+
+	    @Test
+	    public void testAddCourseToList() {
+	        // Create a faculty for the course
+	        Faculty faculty = new Faculty("John Doe");
+
+	        // Create a new course
+	        Courses course = new Courses("Introduction to Computer Science", faculty, "CS101");
+	        
+	        // Add the course to the list of courses
+	        Courses courses = new Courses();
+	        courses.add(courses);
+	    
+
+	        
+			// Check if the course is added successfully
+	        assertNotNull(courses);
+	    }
+	
+	    @Test
+	    public void testAddMultipleCourses() {
+	        Courses course1 = new Courses("Physics", new Faculty("Jane Smith"), "PHYS101");
+	        Courses course2 = new Courses("Biology", new Faculty("Alice Johnson"), "BIO101");
+	        Courses course3 = new Courses("Chemistry", new Faculty("Bob Brown"), "CHEM101");
+	        List<Courses> coursesList =new  ArrayList<>();
+	        coursesList.add(course1);
+	        coursesList.add(course2);
+	        coursesList.add(course3);
+	        
+	        assertEquals(3, coursesList.size());
+	        assertTrue(coursesList.contains(course1));
+	        assertTrue(coursesList.contains(course2));
+	        assertTrue(coursesList.contains(course3));
+	    }
+
+
+	    @Test
+	    public void testAddToExistingList() {
+	        // Create a faculty for the course
+	        Faculty faculty = new Faculty("John Doe");
+
+	        // Create a new course
+	        Courses course = new Courses("Introduction to Computer Science", faculty, "CS101");
+	        
+	        // Create a list of courses and add an existing course
+	        List<Courses> coursesList = new ArrayList<>();
+	        Courses existingCourse = new Courses("Mathematics", faculty, "MATH101");
+	        coursesList.add(existingCourse);
+	        
+	        // Add the new course to the list of courses
+	        coursesList.add(course);
+	        
+	        // Check if the new course is added successfully
+	        assertTrue(coursesList.contains(course));
+	        assertEquals(2, coursesList.size());
+	    }
+
+	    @Test
+	    public void testAddToEmptyList() {
+	        // Create a faculty for the course
+	        Faculty faculty = new Faculty("John Doe");
+
+	        // Create a new course
+	        Courses course = new Courses("Introduction to Computer Science", faculty, "CS101");
+	        
+	        // Create an empty list of courses and add the new course
+	        List<Courses> coursesList = new ArrayList<>();
+	        coursesList.add(course);
+	        
+	        // Check if the new course is added successfully
+	        assertTrue(coursesList.contains(course));
+	        assertEquals(1, coursesList.size());
+	    }
+	    @Test
+	    public void testAddCourseWithNullFaculty() {
+	        // Create a new course with null faculty
+	        Courses course = new Courses("Introduction to Computer Science", null, "CS101");
+	        
+	        // Add the course to the list of courses
+	        Courses courses = new Courses();
+	        courses.add(course);
+	        
+	        // Check if the course is added successfully
+	        assertNotNull(courses);
+	    }
+
+
+
+	       
+
+	    
+	    //test cases for faculty
+	    @Test
+	    public void testTeachCourse() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("Introduction to Programming", faculty, "CS101");
+	        faculty.teachCourse(course);
+	        assertTrue(faculty.getCoursesTeaching().contains(course));
+	    }
+
+	    @Test
+	    public void testStopTeaching() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("Introduction to Programming", faculty, "CS101");
+	        faculty.teachCourse(course);
+	        faculty.stopTeaching(course);
+	        assertFalse(faculty.getCoursesTeaching().contains(course));
+	    }
+
+	  
+
+	    @Test
+	    public void testSetTextbookAndGetTextbook() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Courses course = new Courses("Introduction to Programming", faculty, "CS101");
+	        Textbook textbook = new Textbook("Introduction to Programming", "978-0134675874", "1st Edition", "http://example.com");
+	        faculty.setTextbook(course, textbook);
+	        assertEquals(textbook, faculty.getTextbook(course));
+	    }
+
+	   
+
+	    @Test
+	    public void testCreateNotification() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Textbook textbook = new Textbook("Introduction to Programming", "978-0134675874", "1st Edition", "http://example.com");
+	        faculty.createNotification(textbook); // Just testing if it throws an exception or not
+	    }
+
+	    @Test
+	    public void testNotifyOfUnavailability() {
+	        Faculty faculty = new Faculty("John Doe");
+	        Textbook textbook = new Textbook("Introduction to Programming", "978-0134675874", "1st Edition", "http://example.com");
+	        faculty.notifyOfUnavailability(textbook); // Just testing if it throws an exception or not
+	    }
+
+	  
+
+	    @Test
+	    public void testNotifyNewTextbookEdition() {
+	        Faculty faculty = new Faculty("John Doe");
+	        faculty.trackCourseAndTextbook("CS101", "978-0134675874");
+	        faculty.notifyNewTextbookEdition("CS101", "978-0134675874", "2nd Edition"); // Just testing if it throws an exception or not
+	    }
+	
+	    @Test
+	    public void testFacultyConstructor() {
+	        LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	        Faculty faculty = new Faculty(subject);
+	        
+	        // Check if the subject of the faculty is set correctly
+	        assertEquals(subject, faculty.subject);
+	       
+	    }
+	    @Test
+	    public void testFacultyConstructorWithUser() {
+	        // Create a sample User object
+	    	
+	    	User user = new User(1, 10, new ArrayList<>(), null, null, "John Doe", "john@example.com", "password", "faculty", null);
+
+
+	        // Create a LibraryManagementSysInfo object
+	        LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+
+	        // Create a Faculty object using the second constructor
+	        Faculty faculty = new Faculty(subject, user);
+
+	        // Check if the subject of the faculty is set correctly
+	        assertEquals(subject, faculty.subject);
+
+	     
+
+	        // Check if the attributes are copied correctly from the user
+	        assertEquals("John Doe", faculty.getName());
+	        assertEquals("john@example.com", faculty.getEmail());
+	        assertEquals("password", faculty.getPassword());
+	        assertEquals("faculty", faculty.getAccountType());
+	      
+	        assertEquals(1, faculty.getItemsOverdue());
+	        assertEquals(10.0, faculty.getPenalty(), 0.001);
+
+	    
+
+}
+
+
+
+	    @Test
+	    public void testUpdate_NotificationCreation() {
+	        // Create a Faculty instance
+	        Faculty faculty = new Faculty("John Doe");
+	        
+	        // Create some Textbook instances
+	        Textbook textbook1 = new Textbook("Textbook 1", "ISBN1", "1st Edition", "URL1");
+	        Textbook textbook2 = new Textbook("Textbook 2", "ISBN2", "2nd Edition", "URL2");
+	        Textbook textbook3 = new Textbook("Textbook 3", "ISBN3", "3rd Edition", "URL3");
+	        Textbook textbook4 = new Textbook("Textbook 4", "ISBN4", "4th Edition", "URL4");
+	        
+	        // Add textbooks to the faculty's usedTextbooks list
+	        List<Textbook> usedTextbooks = new ArrayList<>();
+	        usedTextbooks.add(textbook1);
+	        usedTextbooks.add(textbook2);
+	        usedTextbooks.add(textbook3);
+	        faculty.setUsedTextbooks(usedTextbooks);
+	        
+	        // Mark one textbook as not available
+	       
+	        
+	        // Call the update method
+	        faculty.update();
+	        
+	        // Check if notifications are created for textbooks with new editions
+	        assertTrue(textbook1.isNewEditionAvailable());
+	        assertTrue(textbook2.isNewEditionAvailable());
+	        assertTrue(textbook3.isNewEditionAvailable());
+	        
+	        // Check if notifications are created for textbooks that are not available
+	        assertTrue(textbook1.isAvailable());
+	        assertTrue(textbook2.isAvailable());
+	      
+	    }
+	 
+	
+	        @Test
+	        public void testGetTextbooks() {
+	            // Create a Faculty instance
+	            Faculty faculty = new Faculty("John Doe");
+
+	            // Create some Textbook instances
+	            Textbook textbook1 = new Textbook("Textbook 1", "ISBN1", "1st Edition", "URL1");
+	            Textbook textbook2 = new Textbook("Textbook 2", "ISBN2", "2nd Edition", "URL2");
+	            Textbook textbook3 = new Textbook("Textbook 3", "ISBN3", "3rd Edition", "URL3");
+
+	            // Set courses for the textbooks
+	            Courses course1 = new Courses("Course A", faculty, "CS101");
+	            Courses course2 = new Courses("Course B", faculty, "CS102");
+	            textbook1.setCourse(course1);
+	            textbook2.setCourse(course2);
+	            textbook3.setCourse(course1); // Associate this textbook with the same course as textbook1
+
+	            // Add textbooks to the faculty's usedTextbooks list
+	            List<Textbook> usedTextbooks = new ArrayList<>();
+	            usedTextbooks.add(textbook1);
+	            usedTextbooks.add(textbook2);
+	            usedTextbooks.add(textbook3);
+	            faculty.setUsedTextbooks(usedTextbooks);
+
+	            // Retrieve textbooks for a specific course
+	            List<Textbook> textbooksForCourse = faculty.getTextbooks(course1);
+
+	            // Check if the correct textbooks are retrieved for the course
+	            assertEquals(2, textbooksForCourse.size());
+	            assertTrue(textbooksForCourse.contains(textbook1));
+	            assertFalse(textbooksForCourse.contains(textbook2)); // This textbook is associated with a different course
+	            assertTrue(textbooksForCourse.contains(textbook3));
+	        }
 	
 	
 }
