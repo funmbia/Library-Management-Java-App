@@ -20,7 +20,7 @@ public class Courses {
 	//default constructor
 	}
 
-	String getCourseID(){
+	public String getCourseID(){
 		return courseID;
 	}
 
@@ -28,7 +28,7 @@ public class Courses {
 		return courseName;
 	}
 
-	Faculty getFaculty(){
+	public Faculty getFaculty(){
 		return faculty;
 	}
 
