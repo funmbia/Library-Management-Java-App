@@ -889,7 +889,7 @@ class TestObserver {
 
 /* Student */
 	@Test
-	void testStudentConstructor() {
+	public void testStudentConstructor() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		assertTrue(student instanceof User);
@@ -897,7 +897,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentConstructor2() {
+	public void testStudentConstructor2() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		assertTrue(subject.users.contains(student));
@@ -905,7 +905,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentConstructor3() {
+	public void testStudentConstructor3() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		User user = new User(0, 0, null, null, null, "Jane Doe", "janedoe@yorku.ca", "Jane@1234", "student", null);
 		Student student = new Student(subject, user);
@@ -917,7 +917,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentEnroll() {
+	public void testStudentEnroll() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		Courses course = new Courses();
@@ -926,7 +926,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentWithdraw() {
+	public void testStudentWithdraw() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		Courses course = new Courses();
@@ -937,7 +937,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentGetTextbook() {
+	public void testStudentGetTextbook() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		assertTrue(subject.users.contains(student));
@@ -945,7 +945,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentVirtualCopies() {
+	public void testStudentVirtualCopies() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		Courses course = new Courses();
@@ -964,7 +964,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentBorrowPhysicalItem() {
+	public void testStudentBorrowPhysicalItem() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		HardcoverBook book = new HardcoverBook();
@@ -986,7 +986,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentReturnPhysicalItem() {
+	public void testStudentReturnPhysicalItem() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 		HardcoverBook book = new HardcoverBook();
@@ -1007,7 +1007,7 @@ class TestObserver {
 	}
 
 	@Test
-	void testStudentUpdate() {
+	public void testStudentUpdate() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
 		Student student = new Student(subject);
 
