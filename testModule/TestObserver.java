@@ -1095,4 +1095,277 @@ class TestObserver {
 		assertEquals("http://example.com", textbook.getURL());
 	}
 
+    /* MaintainCourses class JUnit tests*/
+    private MaintainCourses maintainCourses;
+    private MaintainCourses invalidMaintainCourses;
+    private String filePath = "Library-Management-Java-App-main/csv files/courses.csv";
+    private String invalidFilePath = "Library-Management-Java-App-main/csv files/invalidCourses.csv";
+    
+    @Before
+    public void setUp() {
+        maintainCourses = new MaintainCourses(filePath);
+        invalidMaintainCourses = new MaintainCourses(invalidFilePath);
+    }
+
+    @Test
+    public void testLoadCSVFile() throws Exception {
+    	// Ensures courses can be loaded from the a CSV file properly
+        maintainCourses.load();
+        assertTrue("Courses should be loaded from the CSV file", maintainCourses.courses.size() > 0);
+    }
+
+    @Test
+    public void testUpdateCSVFile() throws Exception {
+        // Ensure courses can be updated into the CSV file properly
+        Courses newCourse = new Courses("CourseName", new Faculty("Faculty"), "CourseID");
+        int initialSize = maintainCourses.courses.size();
+        maintainCourses.courses.add(newCourse);
+        maintainCourses.update(); 
+        assertEquals("Number of courses in the CSV file should increase by one after updating", initialSize + 1, maintainCourses.courses.size());
+    }
+
+    @Test
+    public void testAddAndLoadCourse() throws Exception {
+    	 // Ensures a new course can be added and then loaded from the CSV file properly
+        Courses newCourse = new Courses("NewCourse", new Faculty("NewFaculty"), "NewCourseID");
+        maintainCourses.courses.add(newCourse);
+        maintainCourses.update();
+        maintainCourses.load();
+        assertTrue("Added course should be present after loading from CSV", maintainCourses.courses.contains(newCourse));
+    }
+
+    @Test
+    public void testAddAndUpdateCourse() throws Exception {
+    	// Ensures a course can be added and then updated in the CSV file properly
+        Courses newCourse = new Courses("CourseName", new Faculty("Faculty"), "CourseID");
+        maintainCourses.courses.add(newCourse);
+        maintainCourses.update();
+        maintainCourses.load();
+        Courses updatedCourse = maintainCourses.courses.get(0);
+        assertEquals("Added course should be updated correctly in the CSV file", newCourse, updatedCourse);
+    }
+
+    @Test
+    public void testLoadExistingFile() throws Exception {
+        // Ensures courses can be loaded from an existing file properly
+        int initialSize = maintainCourses.courses.size();
+        maintainCourses.load();
+        assertTrue("Courses should be loaded from an existing file", maintainCourses.courses.size() > initialSize);
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidCSVData() throws Exception {
+        // Ensures the system can handle invalid CSV data properly
+        invalidMaintainCourses.load();
+    }
+    
+    @Test(expected = Exception.class)
+    public void testEmptyCSVFile() throws Exception {
+        // Ensure the system handles an empty CSV file properly
+        String emptyFilePath = "empty.csv"; // Assuming "empty.csv" is a valid path to an empty CSV file
+        MaintainCourses emptyCourses = new MaintainCourses(emptyFilePath);
+        emptyCourses.load();
+    }
+
+    @Test
+    public void testAddCourse() {
+    	// Ensures a new course can be added by the system correctly
+        Courses newCourse = new Courses("NewCourse", new Faculty("NewFaculty"), "NewCourseID");
+        maintainCourses.courses.add(newCourse);
+        assertEquals("A new course should be added to the list", 1, maintainCourses.courses.size());
+    }
+    
+    @Test(expected = Exception.class)
+    public void testLoadNonExistentFile() throws Exception {
+        // Ensures the system handles loading from a non-existent file properly
+        String nonExistentFilePath = "nonexistent.csv";
+        MaintainCourses nonExistentCourses = new MaintainCourses(nonExistentFilePath);
+        nonExistentCourses.load(); 
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidDateFormat() throws Exception {
+        // Ensures the system can handle invalid date format in the CSV file properly
+        MaintainCourses invalidDateFormatCourses = new MaintainCourses("invalid_date_format.csv");
+        invalidDateFormatCourses.load();
+    }
+    
+    /* MaintainTextbook class JUnit tests*/
+    
+    private MaintainTextbook maintainTextbook;
+    private String filePath2 = "Library-Management-Java-App-main/csv files/textbooks.csv";
+
+    @Before
+    public void setUp2() {
+        maintainTextbook = new MaintainTextbook(filePath2);
+    }
+
+    @Test
+    public void testLoadCSVFile2() throws Exception {
+        maintainTextbook.load();
+        assertTrue("Textbooks should be loaded from the CSV file", maintainTextbook.textbooks.size() > 0);
+    }
+
+    @Test
+    public void testUpdateCSVFile2() throws Exception {
+        Textbook newBook = new Textbook("BookName", "ISBN", "Edition", "URL");
+        int initialSize = maintainTextbook.textbooks.size();
+        maintainTextbook.textbooks.add(newBook);
+        maintainTextbook.update();
+        assertEquals("Number of textbooks in the CSV file should increase by one after updating", initialSize + 1, maintainTextbook.textbooks.size());
+    }
+
+    @Test
+    public void testAddAndLoadTextbook() throws Exception {
+        Textbook newBook = new Textbook("NewBook", "ISBN", "Edition", "URL");
+        maintainTextbook.textbooks.add(newBook);
+        maintainTextbook.update();
+        maintainTextbook.load();
+        assertTrue("Added textbook should be present after loading from CSV", maintainTextbook.textbooks.contains(newBook));
+    }
+
+    @Test
+    public void testAddAndUpdateTextbook() throws Exception {
+        Textbook newBook = new Textbook("BookName", "ISBN", "Edition", "URL");
+        maintainTextbook.textbooks.add(newBook);
+        maintainTextbook.update();
+        maintainTextbook.load();
+        Textbook updatedBook = maintainTextbook.textbooks.get(0);
+        assertEquals("Added textbook should be updated correctly in the CSV file", newBook, updatedBook);
+    }
+
+    @Test
+    public void testLoadExistingFile2() throws Exception {
+        int initialSize = maintainTextbook.textbooks.size();
+        maintainTextbook.load();
+        assertTrue("Textbooks should be loaded from an existing file", maintainTextbook.textbooks.size() > initialSize);
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidCSVData2() throws Exception {
+        MaintainTextbook invalidMaintainTextbook = new MaintainTextbook("invalidTextbooks.csv");
+        invalidMaintainTextbook.load();
+    }
+
+    @Test(expected = Exception.class)
+    public void testEmptyCSVFile2() throws Exception {
+        String emptyFilePath = "empty.csv";
+        MaintainTextbook emptyTextbooks = new MaintainTextbook(emptyFilePath);
+        emptyTextbooks.load();
+    }
+
+    @Test(expected = Exception.class)
+    public void testLoadNonExistentFile2() throws Exception {
+        String nonExistentFilePath = "nonexistent.csv";
+        MaintainTextbook nonExistentTextbooks = new MaintainTextbook(nonExistentFilePath);
+        nonExistentTextbooks.load(); 
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidDateFormat2() throws Exception {
+        MaintainTextbook invalidDateFormatTextbooks = new MaintainTextbook("invalid_date_format.csv");
+        invalidDateFormatTextbooks.load();
+    }
+
+    @Test
+    public void testAddTextbook() {
+        Textbook newBook = new Textbook("NewBook", "ISBN", "Edition", "URL");
+        maintainTextbook.textbooks.add(newBook);
+        assertEquals("A new textbook should be added to the list", 1, maintainTextbook.textbooks.size());
+    }
+
+    /* MaintainUser class JUnit tests*/
+    
+    private MaintainUser maintainUser;
+    private String filePath3 = "Library-Management-Java-App-main/csv files/userInfo.csv";
+
+    @Before
+    public void setUp3() {
+        maintainUser = new MaintainUser(filePath3);
+    }
+
+    @Test
+    public void testLoadCSVFile3() throws Exception {
+        // Ensure users can be loaded from the CSV file
+        maintainUser.load();
+        assertTrue("Users should be loaded from the CSV file", maintainUser.users.size() > 0);
+    }
+
+    @Test
+    public void testUpdateCSVFile3() throws Exception {
+        // Ensure a new user can be added and updated in the CSV file
+        User newUser = new User();
+        int initialSize = maintainUser.users.size();
+        maintainUser.users.add(newUser);
+        maintainUser.update();
+        assertEquals("Number of users in the CSV file should increase by one after updating", initialSize + 1, maintainUser.users.size());
+    }
+
+    @Test
+    public void testAddAndLoadUser() throws Exception {
+        // Ensure a new user can be added and loaded from the CSV file
+        User newUser = new User();
+        maintainUser.users.add(newUser);
+        maintainUser.update();
+        maintainUser.load();
+        assertTrue("Added user should be present after loading from CSV", maintainUser.users.contains(newUser));
+    }
+
+    @Test
+    public void testAddAndUpdateUser() throws Exception {
+        // Ensure a user can be added and then updated in the CSV file
+        User newUser = new User();
+        maintainUser.users.add(newUser);
+        maintainUser.update();
+        maintainUser.load();
+        User updatedUser = maintainUser.users.get(0);
+        assertEquals("Added user should be updated correctly in the CSV file", newUser, updatedUser);
+    }
+
+    @Test
+    public void testLoadExistingFile3() throws Exception {
+        // Ensure users can be loaded from an existing file
+        int initialSize = maintainUser.users.size();
+        maintainUser.load();
+        assertTrue("Users should be loaded from an existing file", maintainUser.users.size() > initialSize);
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidCSVData3() throws Exception {
+        // Ensure the system can handle invalid CSV data
+        MaintainUser invalidMaintainUser = new MaintainUser("invalidUsers.csv");
+        invalidMaintainUser.load();
+    }
+
+    @Test(expected = Exception.class)
+    public void testEmptyCSVFile3() throws Exception {
+        // Ensure the system handles an empty CSV file properly
+        String emptyFilePath = "empty.csv";
+        MaintainUser emptyUsers = new MaintainUser(emptyFilePath);
+        emptyUsers.load();
+    }
+
+    @Test(expected = Exception.class)
+    public void testLoadNonExistentFile3() throws Exception {
+        // Ensure the system handles loading from a non-existent file properly
+        String nonExistentFilePath = "nonexistent.csv";
+        MaintainUser nonExistentUsers = new MaintainUser(nonExistentFilePath);
+        nonExistentUsers.load(); 
+    }
+
+    @Test(expected = Exception.class)
+    public void testInvalidDateFormat3() throws Exception {
+        // Ensure the system can handle invalid date format in the CSV file
+        MaintainUser invalidDateFormatUsers = new MaintainUser("invalid_date_format.csv");
+        invalidDateFormatUsers.load();
+    }
+
+    @Test
+    public void testAddUser() {
+        // Ensure a new user can be added to the system
+        User newUser = new User();
+        maintainUser.users.add(newUser);
+        assertEquals("A new user should be added to the list", 1, maintainUser.users.size());
+    }
+    
 }
