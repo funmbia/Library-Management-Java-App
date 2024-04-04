@@ -17,7 +17,7 @@ import factory.PhysicalItem;
 
 public class Student extends User {
 
-	private Map<Courses, Textbook> virtualTextbooks = new HashMap<>();
+	public Map<Courses, Textbook> virtualTextbooks = new HashMap<>();
 	private List<Courses> courseEnrolledIn = new ArrayList<>();
 	private static final String CSV_FILE_PATH = "userinfo.csv";
 	public List<PhysicalItem> borrowedItems = new ArrayList<>();
