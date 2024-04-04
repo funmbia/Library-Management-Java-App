@@ -657,7 +657,7 @@ class factoryTest {
 	    
 /* MaintainOnlineBook.java */
 	    private MaintainOnlineBook maintain;
-	    private String onlinebookpath =  "src/csv files/onlinebooks.csv";
+	    private String onlinebookpath =  "Library-Management-Java-App-main/csv files/onlinebooks.csv";
 	    
 	    void setUpMaintainOnlineBook() {
 	    	LibraryItem.resetIncrement();
@@ -790,7 +790,7 @@ class factoryTest {
 	    
 /* MaintainNewsletter.java */
 	    private MaintainNewsletter maintain2;
-	    private String newsletterpath =  "src/csv files/newsletters.csv";
+	    private String newsletterpath =  "Library-Management-Java-App-main/csv files/newsletters.csv";
 	    
 	    void setUpMaintainNewsletter() {
 	    	LibraryItem.resetIncrement();
@@ -916,7 +916,7 @@ class factoryTest {
 	    
 /* MaintainMagazine.java */
 	    private MaintainMagazine maintain3;
-	    private String magazinepath =  "src/csv files/magazines.csv";
+	    private String magazinepath =  "Library-Management-Java-App-main/csv files/magazines.csv";
 	    
 	    void setUpMaintainMagazine() {
 	    	LibraryItem.resetIncrement();
@@ -1051,7 +1051,7 @@ class factoryTest {
 	    
 /* MaintainHardcoverBook.java */
 	    private MaintainHardcoverBook maintain4;
-	    private String hardcoverbookpath =  "src/csv files/hardcoverbooks.csv";
+	    private String hardcoverbookpath =  "Library-Management-Java-App-main/csv files/hardcoverbooks.csv";
 	    
 	    void setUpMaintainHardcoverBook() {
 	    	LibraryItem.resetIncrement();
@@ -1190,7 +1190,7 @@ class factoryTest {
 	    
 /* MaintainCD.java */
 	    private MaintainCD maintain5;
-	    private String cdpath =  "src/csv files/CDs.csv";
+	    private String cdpath =  "Library-Management-Java-App-main/csv files/CDs.csv";
 	    
 	    void setUpMaintainCD() {
 	    	LibraryItem.resetIncrement();
