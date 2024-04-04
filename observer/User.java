@@ -159,7 +159,7 @@ public class User {
 	
 	public String getPurchaseOrderSummaryAndPay(String method) {//notification when user presses the pay button
 		PurchaseOrder po = currentPurchaseOrder.returnOrder();
-		String summary = "Order " + po.getOrderID() + "for " + po.getUserEmail() + ":\n" 
+		String summary = "Order " + po.getOrderID() + " for " + po.getUserEmail() + ":\n" 
 				+ "Price: " + po.getPrice();
 		summary += "\n" + po.pay(method);
 		return summary;
@@ -246,7 +246,7 @@ public class User {
 		return itemsAndDueDates;
 	}
 	
-	private void penaltyApplication() {
+	public void penaltyApplication() {
 		this.penalty = 0;
 		this.itemsOverdue = 0;
 		if (currentlyRenting != null) {
@@ -270,19 +270,19 @@ public class User {
 		
 	}
 	
-	private long hoursUntilDue(Date dueDate) {
+	public long hoursUntilDue(Date dueDate) {
 		long timeUntilDue = dueDate.getTime() - System.currentTimeMillis();
 		long hoursUntilDue = timeUntilDue / (1000 * 60 * 60);
 		return hoursUntilDue;
 	}
 		
-	private long calculateDaysOverdue(Date currentDate, Date dueDate) {
+	public long calculateDaysOverdue(Date currentDate, Date dueDate) {
 		long diffM = Math.abs(currentDate.getTime() - dueDate.getTime());
 		long diffDays = diffM / (1000 * 60 * 60 * 24);
 		return diffDays;
 	}
 
-	private String handleLostBook(PhysicalItem book) {
+	public String handleLostBook(PhysicalItem book) {
 		return  book.getTitle() + " has been overdue for 15 days and is considered lost."
 				+ "\nPlease return as soon as possible.\nLibrary Manangement has been notified.";
 	}
