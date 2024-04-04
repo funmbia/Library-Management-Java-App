@@ -25,7 +25,7 @@ public class Textbook {
 	public Textbook(){
 	}
 
-	String getEdition(){
+	public String getEdition(){
 		return edition;
 	}
 
@@ -33,7 +33,7 @@ public class Textbook {
 		return textName;
 	}
 
-	String getISBN(){
+	public String getISBN(){
 		return ISBN;
 	}
 
