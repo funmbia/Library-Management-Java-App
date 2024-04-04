@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import Singleton.registerUser;
 import factory.HardcoverBook;
 import factory.PhysicalItem;
@@ -22,7 +20,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.*;
 import java.util.*;
 
-class TestObserver {
+public class TestObserver {
 //	private LibraryManagementSysInfo library;
 //	private Faculty faculty;
 //	private Student student;
