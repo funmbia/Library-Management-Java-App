@@ -7,45 +7,48 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import Singleton.registerUser;
+import factory.HardcoverBook;
+import factory.PhysicalItem;
 
 import java.io.ByteArrayOutputStream;
 import java.io.*;
 import java.util.*;
 
 class TestObserver {
-	private LibraryManagementSysInfo library;
-	private Faculty faculty;
-	private Student student;
-	private NonFaculty nonFaculty;
-	private Textbook textbook;
-	private MaintainUser maintainUser;
-	
-    private Visitor visitor;
-    private Courses course;
-    private MaintainCourses maintainCourses;
-    private MaintainTextbook maintainTextbook;
+//	private LibraryManagementSysInfo library;
+//	private Faculty faculty;
+//	private Student student;
+//	private NonFaculty nonFaculty;
+//	private Textbook textbook;
+//	private MaintainUser maintainUser;
+//	
+//    private Visitor visitor;
+//    private Courses course;
+//    private MaintainCourses maintainCourses;
+//    private MaintainTextbook maintainTextbook;
       
 
-    @BeforeEach
-    void setUp() {
-        // setup common objects used across multiple tests
-        library = new LibraryManagementSysInfo();
-        faculty = new Faculty(library);
-        student = new Student(library);
-        nonFaculty = new NonFaculty(library);
-        visitor = new Visitor(library);
-        course = new Courses("Software Design", faculty, "SD101");
-        textbook = new Textbook("Introduction to Java", "ISBN12345", "1", "https://www.yorku.com");
-        maintainCourses = new MaintainCourses("courses.csv");
-        maintainTextbook = new MaintainTextbook("textbooks.csv");
-        maintainUser = new MaintainUser("users.csv");
-        
-        // simulating adding to library management system
-        library.attachRegisteredClient(faculty);
-        library.attachRegisteredClient(student);
-        library.attachRegisteredClient(nonFaculty);
-    }
+//    @BeforeEach
+//    void setUp() {
+//        // setup common objects used across multiple tests
+//        library = new LibraryManagementSysInfo();
+//        faculty = new Faculty(library);
+//        student = new Student(library);
+//        nonFaculty = new NonFaculty(library);
+//        visitor = new Visitor(library);
+//        course = new Courses("Software Design", faculty, "SD101");
+//        textbook = new Textbook("Introduction to Java", "ISBN12345", "1", "https://www.yorku.com");
+//        maintainCourses = new MaintainCourses("courses.csv");
+//        maintainTextbook = new MaintainTextbook("textbooks.csv");
+//        maintainUser = new MaintainUser("users.csv");
+//        
+//        // simulating adding to library management system
+//        library.attachRegisteredClient(faculty);
+//        library.attachRegisteredClient(student);
+//        library.attachRegisteredClient(nonFaculty);
+//    }
     
+ /*
     //TESTS START HERE
     
  	// test cases for library management system info (4)
@@ -207,10 +210,9 @@ class TestObserver {
 	    assertEquals("New Book added", user.getLastNotification());
 	}
 
-
+*/
 	
-	//Visitor.java
-	
+/* Visitor.java */
 	@Test
 	public void testVisitorCreation() {
 		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
@@ -301,8 +303,8 @@ class TestObserver {
         System.setOut(new PrintStream(outContent));
         assertFalse("Visitor's info is updated.\n".equals(outContent.toString()));
 	}
-	//test case for courses
-
+	
+/* Courses.java */
 	    @Test
 	    public void testCreatingCourse() {
 	        Faculty faculty = new Faculty("John Doe");
@@ -424,11 +426,7 @@ class TestObserver {
 	    }
 
 
-
-	       
-
-	    
-	    //test cases for faculty
+/* Faculty.java */
 	    @Test
 	    public void testTeachCourse() {
 	        Faculty faculty = new Faculty("John Doe");
@@ -593,6 +591,293 @@ class TestObserver {
 	            assertFalse(textbooksForCourse.contains(textbook2)); // This textbook is associated with a different course
 	            assertTrue(textbooksForCourse.contains(textbook3));
 	        }
-	
+
+	        
+/* NonFaculty */
+	        @Test
+	    	public void TestNonfacultyCreation() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty(subject);	
+	    		assertTrue(nf instanceof User);	
+	    	}
+	        
+	        @Test
+	    	public void TestNonfacultyCreation2() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty(subject);
+	    		assertTrue(nf instanceof NonFaculty);	
+	    	}
+	        
+	        @Test
+	    	public void TestNonfacultyCreation3() {
+	    		NonFaculty nf =  new NonFaculty();
+	    		assertTrue(nf instanceof User);	
+	    	}
+	        
+	        @Test
+	    	public void TestNonfacultyCreation4() {
+	    		NonFaculty nf =  new NonFaculty();
+	    		assertTrue(nf instanceof NonFaculty);	
+	    	}
+	        
+	        @Test
+	    	public void TestNonfacultySubject() { 
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty(subject);
+	    		assertTrue(nf.subject.equals(subject));	
+	    	}
+	    	
+	    	@Test
+	    	public void TestNonfacultySubject2() { 
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty(subject);
+	    		assertTrue(subject.users.contains(nf));	
+	    	}
+	    	
+	    	@Test
+	    	public void TestNonfacultyAttachment() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty();
+	    		subject.attachRegisteredClient(nf);
+	    		assertTrue(subject.users.contains(nf));	
+	    	}
+	    	
+	    	@Test
+	    	public void TestNonfacultyDetachment() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty(subject);
+	    		subject.deatachRegisteredClient(nf);
+	    		assertFalse(subject.users.contains(nf));	
+	    	}
+	    	
+	    	@Test
+	    	public void TestNonfacultyUpdate() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty(subject);
+	    	    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	            System.setOut(new PrintStream(outContent));
+	            subject.notifyAllObservers();
+	            assertEquals("Nonfaculty user has been updated.\n", outContent.toString());
+	    	}
+	    	
+	    	@Test
+	    	public void TestNonfacultyEmptyUpdate() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		NonFaculty nf =  new NonFaculty();
+	    	    ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	            System.setOut(new PrintStream(outContent));
+	            subject.notifyAllObservers();
+	            assertEquals("", outContent.toString());
+	    	} 
+	    	
+	        
+/* Student */
+	    	@Test
+	    	void testStudentConstructor() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		assertTrue(student instanceof User);
+	    		assertTrue(student instanceof Student);
+	    	}
+	    	
+	    	@Test
+	    	void testStudentConstructor2() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		assertTrue(subject.users.contains(student));	
+	    		assertTrue(student.subject.equals(subject));
+	    	}
+	    	
+	    	@Test
+	    	void testStudentConstructor3() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		User user = new User(0, 0, null, null, null, "Jane Doe", "janedoe@yorku.ca", "Jane@1234", "student", null);
+	    		Student student = new Student(subject, user);
+	    		assertTrue(subject.users.contains(student));
+	    		assertEquals(student.getName(), "Jane Doe");
+	    		assertEquals(student.getEmail(), "janedoe@yorku.ca");
+	    		assertEquals(student.getPassword(), "Jane@1234");
+	    		assertEquals(student.getAccountType(), "student");
+	    	}
+	    	
+	    	@Test
+	    	void testStudentEnroll() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		Courses course = new Courses();
+	    		student.enroll(course);
+	    		assertTrue(student.viewEnrolledCourses().contains(course));
+	    	}
+	    	
+	    	@Test
+	    	void testStudentWithdraw() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		Courses course = new Courses();
+	    		student.enroll(course);
+	    		assertTrue(student.viewEnrolledCourses().contains(course));
+	    		student.withdraw(course);
+	    		assertFalse(student.viewEnrolledCourses().contains(course));
+	    	}
+	    	
+	    	@Test
+	    	void testStudentGetTextbook() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		assertTrue(subject.users.contains(student));	
+	    		assertTrue(student.subject.equals(subject));
+	    	}
+	    	
+	    	@Test
+	    	void testStudentVirtualCopies() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		Courses course = new Courses();
+	    		Textbook textbook = new Textbook();
+	    		
+	    		student.createVirtualCopies(course, textbook);
+	    		assertTrue(student.getTextbook(course).equals(textbook));
+	    		student.removeExtraCopies(course);
+	    		assertTrue(student.virtualTextbooks.isEmpty());
+	    		
+	    		student.enroll(course);
+	    		student.createVirtualCopies(course, textbook);
+	    		assertFalse(student.virtualTextbooks.isEmpty());
+	    		student.withdraw(course);
+	    		assertTrue(student.virtualTextbooks.isEmpty());
+	    	}
+	    	
+	    	@Test
+	    	void testStudentBorrowPhysicalItem() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		HardcoverBook book = new HardcoverBook();
+	    		book.setCopiesAvail(2);
+	    		book.setRentalStatus(true);
+	    		
+	    		Calendar calendar = Calendar.getInstance();
+	    		calendar.add(Calendar.DATE, 7);
+	    		Date nextWeek = calendar.getTime();
+	    		book.dueDate = nextWeek; //canborrowitem = overdue < max ; not overdue
+	    		
+	    		assertTrue(  student.borrowPhysicalItem(book)  );
+	    		assertTrue(student.getBorrowedHardcoverBooks().contains(book));
+	    		assertFalse(book.getRentable());
+	    		assertTrue(book.getCopiesAvail() == 1);
+	    		
+	    		student.borrowPhysicalItem(book); 
+	    		assertFalse(  student.borrowPhysicalItem(book)  ); //now 0 copies
+	    	}
+	    	
+	    	@Test
+	    	void testStudentReturnPhysicalItem() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		HardcoverBook book = new HardcoverBook();
+	    		book.setCopiesAvail(1);
+	    		book.setRentalStatus(true);
+	    		Calendar calendar = Calendar.getInstance();
+	    		calendar.add(Calendar.DATE, 7);
+	    		Date nextWeek = calendar.getTime();
+	    		book.dueDate = nextWeek;
+	    		
+	    		student.borrowPhysicalItem(book);
+	    		student.returnPhysicalItem(book);
+	    		
+	    		assertFalse(student.getBorrowedHardcoverBooks().contains(book));
+	    		assertEquals(1, book.getCopiesAvail());
+	    		assertFalse(book.getRentable());
+	    		
+	    	}
+	    	
+	    	@Test
+	    	void testStudentUpdate() {
+	    		LibraryManagementSysInfo subject = new LibraryManagementSysInfo();
+	    		Student student = new Student(subject);
+	    		
+	    		//no borrowed items
+	    		ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+	            System.setOut(new PrintStream(outContent));
+	            subject.notifyAllObservers();
+	            assertEquals("", outContent.toString());
+	            
+	            HardcoverBook book = new HardcoverBook();
+	            book.setTitle("Make It Work");
+	    		book.setCopiesAvail(1);
+	    		book.setRentalStatus(true);
+	    		book.dueDate = new Date();
+	    		student.borrowPhysicalItem(book);
+	    		outContent = new ByteArrayOutputStream();
+	            System.setOut(new PrintStream(outContent));
+	            subject.notifyAllObservers();
+	            assertEquals("Warning: Item Make It Work is overdue!\n", outContent.toString());
+	    	}	
+	        
+/* Textbook */
+	    	@Test
+	        public void testGetEdition() {
+	            Textbook textbook = new Textbook("", "", "5th Edition", "");
+	            assertEquals("5th Edition", textbook.getEdition());
+	        }
+
+	        @Test
+	        public void testGetTextName() {
+	            Textbook textbook = new Textbook("Math Textbook", "", "", "");
+	            assertEquals("Math Textbook", textbook.getTextName());
+	        }
+
+	        @Test
+	        public void testGetISBN() {
+	            Textbook textbook = new Textbook("", "978-0135166308", "", "");
+	            assertEquals("978-0135166308", textbook.getISBN());
+	        }
+	        
+	        @Test
+	        public void testGetDueDate() {
+	            Textbook textbook = new Textbook();
+	            textbook.dueDate = new Date();
+	            Date today = new Date();
+	            assertEquals(today, textbook.getDueDate());
+	        }
+	        
+
+	        @Test
+	        public void testIsNewEditionAvailable() {
+	            Textbook textbook1 = new Textbook("", "", "4th Edition", "");
+	            Textbook textbook2 = new Textbook("", "", "5th Edition", "");
+	            textbook1.add(textbook2);
+	            assertTrue(textbook1.isNewEditionAvailable());
+	        }
+
+	        @Test
+	        public void testIsAvailable() {
+	            Textbook textbook = new Textbook();
+	            assertTrue(textbook.isAvailable());
+	        }
+
+	        @Test
+	        public void testGetCourse() {
+	            Textbook textbook = new Textbook();
+	            Courses course = new Courses();
+	            textbook.setCourse(course);
+	            assertEquals(course, textbook.getCourse());
+	        }
+
+	        @Test
+	        public void testIsOverdue() {
+	            Textbook textbook = new Textbook();
+	            Date dueDate = new Date(System.currentTimeMillis() - 86400000); // 1 day ago
+	            textbook.dueDate = dueDate;
+	            assertTrue(textbook.isOverdue());
+	            
+	            textbook.dueDate = null;
+	            assertFalse(textbook.isOverdue());
+	        }
+
+	        @Test
+	        public void testGetURL() {
+	            Textbook textbook = new Textbook("", "", "", "http://example.com");
+	            assertEquals("http://example.com", textbook.getURL());
+	        }
 	
 }
