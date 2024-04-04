@@ -6,7 +6,7 @@ public class PhysicalItem extends LibraryItem {
 	protected boolean rentable;
 	protected boolean purchaseable;
 	protected double price;
-    private Date dueDate;
+    public Date dueDate;
 	private boolean canBeRented = true;
 
 	protected int copiesAvail = 20;
