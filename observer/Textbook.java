@@ -11,7 +11,7 @@ public class Textbook {
 	String edition;
 	String URL;
 	private Courses course;
-	private Date dueDate;
+	public Date dueDate;
     private static int numberOfAvailableCopies = 0;
 
 	public Textbook(String textName, String ISBN, String edition, String URL) {
