@@ -143,14 +143,11 @@ public class Student extends User {
 //		System.out.println("Library Manangement System has been notified.");
 //	}
 
-	private long calculateDaysOverdue(Date currentDate, Date dueDate) {
+	public long calculateDaysOverdue(Date currentDate, Date dueDate) {
 		long diffM = Math.abs(currentDate.getTime() - dueDate.getTime());
 		long diffDays = diffM / (1000 * 60 * 60 * 24);
 		return diffDays;
 	}
-
-	
-	
 	
 	public void enroll(Courses course){
 		courseEnrolledIn.add(course);
