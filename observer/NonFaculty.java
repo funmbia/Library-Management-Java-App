@@ -7,6 +7,10 @@ public class NonFaculty extends User {
 
 	private static final String CSV_FILE_PATH = "userinfo.csv";
 
+	public NonFaculty() {
+	    // Constructor 
+	}
+
 	public NonFaculty(LibraryManagementSysInfo subject){
 		this.subject=subject;
 		this.subject.attachRegisteredClient(this);
