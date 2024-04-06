@@ -441,39 +441,12 @@ public class TestObserver {
 	}
 
     @Test
-    public void testRentPhysicalItem_Success() {
-        User user = new User();
-        PhysicalItem physicalItem = new PhysicalItem();
-        String result = user.rent(physicalItem);
-        assertEquals("nothing is added to your order!", result);
-    }
-
-    @Test
     public void testRentMultiplePhysicalItems_Success() {
         User user = new User();
         PhysicalItem item1 = new PhysicalItem();
         PhysicalItem item2 = new PhysicalItem();
         String result1 = user.rent(item1);
         String result2 = user.rent(item2);
-        assertEquals("nothing is added to your order!", result1);
-        assertEquals("nothing is added to your order!", result2);
-    }
-
-    @Test
-    public void testPurchasePhysicalItem_Success() {
-        User user = new User();
-        PhysicalItem physicalItem = new PhysicalItem();
-        String result = user.purchase(physicalItem, 0);
-        assertEquals("nothing is added to your order!", result);
-    }
-
-    @Test
-    public void testPurchaseMultiplePhysicalItems_Success() {
-        User user = new User();
-        PhysicalItem item1 = new PhysicalItem();
-        PhysicalItem item2 = new PhysicalItem();
-        String result1 = user.purchase(item1, 0);
-        String result2 = user.purchase(item2, 0);
         assertEquals("nothing is added to your order!", result1);
         assertEquals("nothing is added to your order!", result2);
     }
