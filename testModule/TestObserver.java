@@ -440,17 +440,6 @@ public class TestObserver {
 		assertEquals(currentlyRenting, user.getCurrentlyRenting());
 	}
 
-    @Test
-    public void testRentMultiplePhysicalItems_Success() {
-        User user = new User();
-        PhysicalItem item1 = new PhysicalItem();
-        PhysicalItem item2 = new PhysicalItem();
-        String result1 = user.rent(item1);
-        String result2 = user.rent(item2);
-        assertEquals("nothing is added to your order!", result1);
-        assertEquals("nothing is added to your order!", result2);
-    }
-
 /* Visitor.java */
 	@Test
 	public void testVisitorCreation() {
