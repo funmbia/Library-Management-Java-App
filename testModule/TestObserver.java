@@ -3,6 +3,8 @@ package testModule;
 import static org.junit.jupiter.api.Assertions.*;
 import observer.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
@@ -1364,6 +1366,82 @@ public class TestObserver {
         User newUser = new User();
         maintainUser.users.add(newUser);
         assertEquals("A new user should be added to the list", 1, maintainUser.users.size());
+    }
+	    
+    @Test
+    public void testDeleteUser() {
+        // Ensures that a user can be deleted from the system properly
+        User userToDelete = new User(0, 0, null, null, null, "John Doe", "john@example.com", "password123", "Regular", null);
+        maintainUser.addUser(userToDelete);
+        int initialSize = maintainUser.getUsers().size();
+        maintainUser.deleteUser(userToDelete);
+        assertEquals("Deleted user should be removed from the list", initialSize - 1, maintainUser.getUsers().size());
+        assertFalse("Deleted user should not be present in the list", maintainUser.getUsers().contains(userToDelete));
+    }
+
+    @Test
+    public void testDeleteUser1() {
+        // Ensures that a user is removed properly
+        MaintainUser maintainUser = new MaintainUser(filePath3);
+        User user1 = new User();
+        User user2 = new User();
+        maintainUser.addUser(user1);
+        maintainUser.addUser(user2);
+        assertEquals("Initial number of users should be 2", 2, maintainUser.getUsers().size());
+
+        maintainUser.deleteUser(user1);
+
+        assertEquals("Number of users should decrease by 1 after deleting", 1, maintainUser.getUsers().size());
+        assertFalse("Deleted user should not be present in the list of users", maintainUser.getUsers().contains(user1));
+    }
+    
+    @Test
+    public void testSetPath() {
+        // Ensures that the path of MaintainUser is set properly
+        String newPath = "Library-Management-Java-App-main/csv files/userInfo.csv";
+        maintainUser.setPath(newPath);
+        assertEquals("Path of MaintainUser should be updated", newPath, maintainUser.path);
+    }
+
+    @Test
+    public void testGetUsers() {
+        // Ensures that the list of users can be retrieved properly
+        ArrayList<User> userList = maintainUser.getUsers();
+        assertNotNull("User list should not be null", userList);
+        assertEquals("Size of user list should match the number of users", userList.size(), maintainUser.users.size());
+    }
+
+    @Test
+    public void testAddAndDeleteUser() throws Exception {
+        // Ensures that a new user can be added and then deleted properly
+        User newUser = new User();
+        maintainUser.users.add(newUser);
+        maintainUser.update();
+        maintainUser.load();
+        assertTrue("Added user should be present after loading from CSV", maintainUser.users.contains(newUser));
+        maintainUser.deleteUser(newUser);
+        maintainUser.update();
+        maintainUser.load();
+        assertFalse("Deleted user should not be present in the list", maintainUser.users.contains(newUser));
+    }
+
+    @Test
+    public void testInvalidFilePath() throws Exception {
+        // Ensures that the system handles loading from an invalid file path properly
+        String invalidFilePath = "invalid_path.csv";
+        MaintainUser invalidMaintainUser = new MaintainUser(invalidFilePath);
+        assertThrows(Exception.class, () -> {
+            invalidMaintainUser.load();
+        });
+    }
+
+    @Test
+    public void testUpdateEmptyUserList() throws Exception {
+        // Ensures that updating an empty user list does not cause errors
+        maintainUser.users.clear(); 
+        assertDoesNotThrow(() -> {
+            maintainUser.update();
+        });
     }
 
 /*LibraryManagementSystem test cases*/
