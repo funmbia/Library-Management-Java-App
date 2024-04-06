@@ -13,10 +13,10 @@ import java.util.Map;
 public class LibraryManagementSysInfo {
 
 	public List<User> users = new ArrayList<>();
-	private List<PhysicalItem> physicalItems = new ArrayList<>();
-	private List<OnlineBook> onlineBooks = new ArrayList<>();
-	private List<Newsletter> newsletter = new ArrayList<>();
-	private List<HardcoverBook> hardcover = new ArrayList<>();
+	public List<PhysicalItem> physicalItems = new ArrayList<>();
+	public List<OnlineBook> onlineBooks = new ArrayList<>();
+	public List<Newsletter> newsletter = new ArrayList<>();
+	public List<HardcoverBook> hardcover = new ArrayList<>();
 	private Map<String, Integer> overdueItemsCnt = new HashMap<>();
 	private Map<Textbook, Date> dueDates = new HashMap<>();
 
