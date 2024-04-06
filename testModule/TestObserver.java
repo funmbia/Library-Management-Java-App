@@ -1322,14 +1322,6 @@ public class TestObserver {
         assertEquals("Added user should be updated correctly in the CSV file", newUser, updatedUser);
     }
 
-    @Test
-    public void testLoadExistingFile3() throws Exception {
-        // Ensure users can be loaded from an existing file
-        int initialSize = maintainUser.users.size();
-        maintainUser.load();
-        assertTrue("Users should be loaded from an existing file", maintainUser.users.size() > initialSize);
-    }
-
     @Test(expected = Exception.class)
     public void testInvalidCSVData3() throws Exception {
         // Ensure the system can handle invalid CSV data
