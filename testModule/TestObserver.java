@@ -1365,5 +1365,113 @@ public class TestObserver {
         maintainUser.users.add(newUser);
         assertEquals("A new user should be added to the list", 1, maintainUser.users.size());
     }
+
+/*LibraryManagementSystem test cases*/
+    
+    @Test
+    public void testAttachRegisteredClient() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        User user = new User();
+        library.attachRegisteredClient(user);
+        assertTrue(library.users.contains(user));
+    }
+
+    @Test
+    public void testDetachRegisteredClient() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        User user = new User();
+        library.attachRegisteredClient(user);
+        library.deatachRegisteredClient(user);
+        assertFalse(library.users.contains(user));
+    }
+
+    @Test
+    public void testGetAvailPhysicalItems() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        PhysicalItem availableItem = new PhysicalItem();
+        PhysicalItem unavailableItem = new PhysicalItem();
+        library.physicalItems.add(availableItem);
+        assertEquals(1, library.getAvailPhysicalItems().size());
+    }
+
+
+    @Test
+    public void testNotifyAllObservers() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        User user1 = new User();
+        User user2 = new User();
+        library.attachRegisteredClient(user1);
+        library.attachRegisteredClient(user2);
+        library.notifyAllObservers();
+    }
+
+    @Test
+    public void testHandleOverdueItems() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        PhysicalItem item = new PhysicalItem();
+        library.handleOverdueItems(item);
+        assertTrue(library.isItemOverdue(item));
+    }
+
+    @Test
+    public void testHandleReturnedItem() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        PhysicalItem item = new PhysicalItem();
+        library.handleOverdueItems(item);
+        library.handleReturnedItem(item);
+        assertFalse(library.isItemOverdue(item));
+    }
+
+    @Test
+    public void testIsItemOverdue() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        PhysicalItem item = new PhysicalItem();
+        assertFalse(library.isItemOverdue(item));
+        library.handleOverdueItems(item);
+        assertTrue(library.isItemOverdue(item));
+    }
+    
+    @Test
+    public void testGetAvailOnlineBooks() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        OnlineBook availableBook = new OnlineBook();
+        availableBook.setAvailable(true); 
+        OnlineBook unavailableBook = new OnlineBook();
+        unavailableBook.setAvailable(false); 
+        library.onlineBooks.add(availableBook);
+        library.onlineBooks.add(unavailableBook);
+        assertEquals(1, library.getAvailOnlineBooks().size());
+    }
+
+    @Test
+    public void testSetDueDateForTextbook() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        Textbook textbook = new Textbook();
+        Date dueDate = new Date();
+        library.setDueDateForTextbook(textbook, dueDate);
+        assertEquals(dueDate, library.getDueDateForTextbook(textbook));
+    }
+
+    @Test
+    public void testGetDueDateForTextbook_NotSet() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        Textbook textbook = new Textbook();
+        assertNull(library.getDueDateForTextbook(textbook));
+    }
+    
+    @Test
+    public void testHandleReturnedItem_NotOverdue() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        PhysicalItem item = new PhysicalItem();
+        library.handleReturnedItem(item);
+        assertFalse(library.isItemOverdue(item));
+    }
+
+    @Test
+    public void testGetAlreadyRented_NoRentedBooks() {
+        LibraryManagementSysInfo library = new LibraryManagementSysInfo();
+        List<HardcoverBook> rentedBooks = library.getAlreadyRented();
+        assertEquals(0, rentedBooks.size());
+    }
     
 }
