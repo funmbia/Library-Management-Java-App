@@ -24,7 +24,7 @@ public class MaintainUser {
 		while (reader.readRecord()) {
 			User user = new User();
 			user.setDatabaseAttributes(reader.get("name"), reader.get("email"), reader.get("password"), reader.get("accountType"),
-					parseInteger(reader.get("itemsOut")), parseInteger(reader.get("itemsOverdue")), parseInteger(reader.get("penalty")));
+					parseInteger(reader.get("itemsOut")), parseInteger(reader.get("itemsOverdue")), Double.parseDouble(reader.get("penalty")));
 
 			String[] rentingIds = reader.get("currentlyRenting").split(",");
 			List<RentalOrder> rentingOrders = new ArrayList<>();
