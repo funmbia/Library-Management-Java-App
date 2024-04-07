@@ -75,7 +75,7 @@ public class User {
 		this.recommendation = recommendation;
 	} 
 
-	public void setDatabaseAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, int penalty) {
+	public void setDatabaseAttributes(String name, String email, String password, String accountType, int itemsOut, int itemsOverdue, double penalty) {
 		this.name = name;
 		this.email = email;
 		this.password = password;
