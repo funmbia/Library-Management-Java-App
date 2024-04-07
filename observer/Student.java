@@ -30,7 +30,7 @@ public class Student extends User {
 
 	public Student(LibraryManagementSysInfo subject){
 		this.subject=subject;
-		this.subject.attachRegisteredClient(this);
+		this.subject.attachRegisteredClient(this); 
 	}
 	
 
@@ -55,7 +55,7 @@ public class Student extends User {
 	@Override
 	public void update(){
 		displayWarnings();
-	}
+	} 
 
 	public List<PhysicalItem> getBorrowedHardcoverBooks() {
 		List<PhysicalItem> borrowedHardcoverBooks = new ArrayList<>();
@@ -143,11 +143,14 @@ public class Student extends User {
 //		System.out.println("Library Manangement System has been notified.");
 //	}
 
-	public long calculateDaysOverdue(Date currentDate, Date dueDate) {
+	private long calculateDaysOverdue(Date currentDate, Date dueDate) {
 		long diffM = Math.abs(currentDate.getTime() - dueDate.getTime());
 		long diffDays = diffM / (1000 * 60 * 60 * 24);
 		return diffDays;
 	}
+
+	
+	
 	
 	public void enroll(Courses course){
 		courseEnrolledIn.add(course);
@@ -177,61 +180,4 @@ public class Student extends User {
     public void removeVirtualCopies(Courses course) {
         virtualTextbooks.remove(course);
     }
-
-    
-	public boolean validation(String email, String password) {
-		if (!uniqueEmail(email)) {
-			System.out.println("Email is already registered");
-			return false;
-		}
-
-		if (!isStrongPassword(password)) {
-			System.out.println("Password is not strong enough");
-			return false;
-		}
-
-		return true;
-	}
-
-	public boolean uniqueEmail(String email) {
-		try (BufferedReader reader = new BufferedReader(new FileReader(CSV_FILE_PATH))) {
-			String line;
-			while ((line = reader.readLine()) != null) {
-				String[] parts = line.split(",");
-				String storedEmail = parts[1].trim();
-				if (email.equals(storedEmail)) {
-					return false;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return true;
-	}
-
-	private boolean isStrongPassword(String password) {
-
-		if (password.length() < 8) {
-			return false;
-		}
-		boolean hasUppercase = false;
-		boolean hasLowercase = false;
-		boolean hasDigit = false;
-		boolean hasSpecialChar = false;
-		String specialChars = "~`!@#$%^&*()-_=+\\|[{]};:'\",<.>/?";
-
-		for (char c : password.toCharArray()) {
-			if (Character.isUpperCase(c)) {
-				hasUppercase = true;
-			} else if (Character.isLowerCase(c)) {
-				hasLowercase = true;
-			} else if (Character.isDigit(c)) {
-				hasDigit = true;
-			} else if (specialChars.contains(String.valueOf(c))) {
-				hasSpecialChar = true;
-			}
-		}
-
-		return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
-	}
 }
