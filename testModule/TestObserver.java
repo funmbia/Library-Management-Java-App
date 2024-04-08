@@ -61,7 +61,7 @@ public class TestObserver {
 		assertEquals("student", user.getAccountType());
 		assertEquals(1, user.getItemsOut());
 		assertEquals(2, user.getItemsOverdue());
-		assertEquals(3, user.getPenalty());
+		assertEquals(3, user.getPenalty(),0);
 	}
 
 	@Test
@@ -109,7 +109,10 @@ public class TestObserver {
 
 	@Test
 	public void testGetCurrentRentalOrderSummary() throws Exception {
-
+		User user = new User();
+		RentalOrderBuilder currentOrder = new RentalOrderBuilder(user);
+		user.setCurrentRentalOrder(currentOrder);
+		user.getCurrentRentalOrderSummary();
 	}
 
 	@Test
@@ -137,15 +140,31 @@ public class TestObserver {
 		String str = "Order 3 for null:\nPrice: 0.0\nPayment successful! You can pick up your items from the library front desk. Thank You!";
 		assertEquals(str, user.getPurchaseOrderSummaryAndPay(method));
 	}
+	
+	@Test
+	public void testSetCurrentPurchaseOrder() {
+		User user = new User();
+		PurchaseOrderBuilder currentOrder = new PurchaseOrderBuilder(user);
+		user.setCurrentPurchaseOrder(currentOrder);
+		assertEquals(currentOrder,user.currentPurchaseOrder);
+	}
 
 	@Test
 	public void testAddToRenting() throws Exception {
+		User user = new User();
+		RentalOrder currentOrder = new RentalOrder();
+		user.addToRenting(currentOrder);
+		assertEquals(currentOrder, user.currentlyRenting.get(user.currentlyRenting.indexOf(currentOrder)));
 
 	}
 
 	@Test
-	public void testRemoveFromRenting() {
-
+	public void testRemoveFromRenting() throws Exception{
+		User user = new User();
+		RentalOrder currentOrder = new RentalOrder();
+		user.addToRenting(currentOrder);
+		user.removeFromRenting(currentOrder);
+		assertFalse(user.currentlyRenting.contains(currentOrder));
 	}
 
 	@Test
@@ -158,12 +177,27 @@ public class TestObserver {
 	}
 
 	@Test
-	public void testPenaltyApplication() {
+	public void testPenaltyApplication() throws Exception{
 		User user = new User();
 		user.penaltyApplication();
-		assertEquals(0, user.penalty);
+		assertEquals(0, user.penalty,0);
+		List<PhysicalItem> items = new ArrayList<>();
+		Date dueDate = new Date();
+		RentalOrder currentOrder = new RentalOrder(0,"",items,"",dueDate,user);
+		user.addToRenting(currentOrder);
+		user.penaltyApplication();
 		assertEquals(0, user.itemsOverdue);
+
 	}
+	
+	@Test
+	public void testCalculateDaysOverdue() {
+		User user = new User();
+		Date dueDate = new Date();
+		Date dueDate1 = new Date();
+		assertEquals(0, user.calculateDaysOverdue(dueDate, dueDate1));
+	}
+	
 
 	@Test
 	public void testDisplayRentalWarnings() {
@@ -176,8 +210,17 @@ public class TestObserver {
 	}
 
 	@Test
-	public void testGetBorrowedItems() {
-
+	public void testGetBorrowedItems() throws Exception{
+		User user = new User();
+        RentalOrder Ro = new RentalOrder();
+        user.addToRenting(Ro);
+        assertFalse(user.getBorrowedItems().isEmpty());
+	}
+	
+	@Test
+	public void testGetBorrowedItems1() {
+		User user = new User();
+        assertTrue(user.getBorrowedItems().isEmpty());
 	}
 
 	@Test
@@ -251,14 +294,14 @@ public class TestObserver {
 		User user = new User();
 		user.setPenalty(4);
 		;
-		assertEquals(4, user.penalty);
+		assertEquals(4, user.penalty,0);
 	}
 
 	@Test
 	public void testGetPenalty() {
 		User user = new User();
 		user.setDatabaseAttributes("example", "example@gmail.com", "Example#12", "student", 1, 2, 3);
-		assertEquals(3, user.getPenalty());
+		assertEquals(3, user.getPenalty(),0);
 	}
 
 	@Test
