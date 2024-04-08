@@ -267,7 +267,7 @@ public class TestObserver {
         Date currentDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(currentDate);
-        calendar.add(Calendar.DATE, -10);
+        calendar.add(Calendar.DATE, -17);
         Date overdue = calendar.getTime();
         
         User user = new User();
