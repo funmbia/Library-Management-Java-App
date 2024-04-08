@@ -290,12 +290,20 @@ public class TestSingleton{
 	
 	@Test
 	public void testLoginUser() throws Exception{
-		User user = new User(); 
-		user.setDatabaseAttributes("eman", "eman@gmail.com","Eman#12","student",0,0,0);
+		User user = new User(0, 0, new ArrayList<>(), null, null, "eman", "eman@gmail.com","Eman#12","student", new Invoker());
 		SystemManagement Sm = SystemManagement.getSystemInstance();
 		Sm.createAccount(user);	
-		assertEquals(user, Sm.loginUser(user.getEmail(), user.getPassword()));
 		
+		MaintainUser m = new MaintainUser("Library-Management-Java-App-main/csv files/userInfo.csv");
+		m.addUser(user);
+		m.update();
+		assertTrue(SystemManagement.SystemMembers.contains(user));
+		
+		User given = Sm.loginUser(user.getEmail(), user.getPassword());
+		assertEquals(user.getName(), given.getName());
+		assertEquals(user.getEmail(), given.getEmail());
+		assertEquals(user.getPassword(), given.getPassword());
+		assertEquals(user.getAccountType(), given.getAccountType());
 	}
 	
 	@Test
