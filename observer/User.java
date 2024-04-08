@@ -184,7 +184,7 @@ public class User {
 	
 	public void addToRenting(RentalOrder order) throws Exception {
 		currentlyRenting.add(order);
-		MaintainUser maintain = new MaintainUser("src/csv files/userInfo.csv");
+		MaintainUser maintain = new MaintainUser("Library-Management-Java-App-main/csv files/userInfo.csv");
 		maintain.load();
 		maintain.updateUserRenting(this);
 		maintain.update();
