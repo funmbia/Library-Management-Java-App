@@ -43,7 +43,7 @@ public class MaintainUser {
 		reader.close();
 	}
 
-	private RentalOrder getOrderById(String id) {
+	public RentalOrder getOrderById(String id) {
 		for (RentalOrder order : ActionPage.allRentalOrders) {
 			if (order.getOrderID() == Integer.valueOf(id)) { 
 				return order;
