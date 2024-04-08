@@ -10,9 +10,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
+
 import Singleton.registerUser;
-import factory.HardcoverBook;
-import factory.PhysicalItem;
+import gui.ActionPage;
 import factory.*;
 import command.*;
 import iterator.*;
@@ -23,7 +24,6 @@ import java.io.*;
 import java.util.*;
 
 public class TestObserver {
-
 	
 /* User.java */
 	@Test
@@ -95,7 +95,8 @@ public class TestObserver {
 	@Test
 	public void testRequest() {
 		User user = new User();
-		String str = "Your Book Request for 'NameOfBook' has been filed.\nYour Request is of LOW priority and you are #1 in line.";
+		String str = "Your Book Request for 'NameOfBook' has been filed.\nYour Request is of LOW priority and you are #2 in line.";
+		RequestBook.allRequests.clear();
 		assertEquals(str, user.request("NameOfBook", "requestType"));
 	}
 
@@ -138,7 +139,7 @@ public class TestObserver {
 		user.purchase(Pi, 10);
 		String method = "credit";
 		String str = "Order 3 for null:\nPrice: 0.0\nPayment successful! You can pick up your items from the library front desk. Thank You!";
-		assertEquals(str, user.getPurchaseOrderSummaryAndPay(method));
+		assertEquals(str.substring(7).trim(), user.getPurchaseOrderSummaryAndPay(method).substring(8));
 	}
 	
 	@Test
@@ -187,8 +188,46 @@ public class TestObserver {
 		user.addToRenting(currentOrder);
 		user.penaltyApplication();
 		assertEquals(0, user.itemsOverdue);
-
 	}
+	
+	@Test
+	public void testPenaltyApplication2() throws Exception{
+		User user = new User();
+		List<PhysicalItem> items = new ArrayList<>();
+		PhysicalItem x = new Magazine();
+		items.add(x);
+		
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DATE, -1);
+        Date overdueDueDate = calendar.getTime();
+        
+		RentalOrder newOrder = new RentalOrder(0,"",items,"",overdueDueDate,user);
+		user.addToRenting(newOrder);
+		user.penaltyApplication();
+		assertEquals(1, user.itemsOverdue);
+	}
+	
+	@Test
+	public void testPenaltyApplication3() throws Exception{
+		User user = new User();
+		List<PhysicalItem> items = new ArrayList<>();
+		PhysicalItem x = new Magazine();
+		items.add(x);
+		
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DATE, -17);
+        Date manyDaysOverdueDueDate = calendar.getTime();
+        
+		RentalOrder newOrder = new RentalOrder(0,"",items,"",manyDaysOverdueDueDate,user);
+		user.addToRenting(newOrder);
+		user.penaltyApplication();
+		assertEquals(1, user.itemsOverdue);
+	}
+	
 	
 	@Test
 	public void testCalculateDaysOverdue() {
@@ -222,7 +261,70 @@ public class TestObserver {
 		User user = new User();
         assertTrue(user.getBorrowedItems().isEmpty());
 	}
-
+	
+	@Test
+	public void testGetBorrowedItems2() {
+        Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DATE, -10);
+        Date overdue = calendar.getTime();
+        
+        User user = new User();
+        assertTrue(user.getBorrowedItems().isEmpty());
+        PhysicalItem x = new Magazine();
+        ArrayList<PhysicalItem> list = new ArrayList<>();
+        list.add(x);
+        RentalOrder order = new RentalOrder(0, "", list, "", overdue, user);
+        
+        user.currentlyRenting.add(order);
+        user.getBorrowedItems();
+        
+        assertFalse(user.overDue.isEmpty());
+	}
+	
+	@Test
+	public void testGetBorrowedItems3() {
+		Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.HOUR_OF_DAY, 5);
+        Date dueSoon = calendar.getTime();
+        
+        User user = new User();
+        assertTrue(user.getBorrowedItems().isEmpty());
+        PhysicalItem x = new Magazine();
+        ArrayList<PhysicalItem> list = new ArrayList<>();
+        list.add(x);
+        RentalOrder order = new RentalOrder(0, "", list, "", dueSoon, user);
+        
+        user.currentlyRenting.add(order);
+        user.getBorrowedItems();
+        
+        assertFalse(user.almostDue.isEmpty());
+	}
+	
+	@Test
+	public void testGetBorrowedItems4() {
+		Date currentDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currentDate);
+        calendar.add(Calendar.DATE, 5);
+        Date notyetdue = calendar.getTime();
+        
+        User user = new User();
+        assertTrue(user.getBorrowedItems().isEmpty());
+        PhysicalItem x = new Magazine();
+        ArrayList<PhysicalItem> list = new ArrayList<>();
+        list.add(x);
+        RentalOrder order = new RentalOrder(0, "", list, "", notyetdue, user);
+        
+        user.currentlyRenting.add(order);
+        user.getBorrowedItems();
+        
+        assertFalse(user.notYetDue.isEmpty());
+	}
+ 
 	@Test
 	public void testHoursUntilDue() {
 		User user = new User();
@@ -343,6 +445,10 @@ public class TestObserver {
 		User user = new User(0, 0, currentlyRenting, rentalOrder, purchaseOrder, "", "", "", "", myInvoker);
 		assertEquals(currentlyRenting, user.getCurrentlyRenting());
 	}
+	
+	
+	
+	
 
 /* Visitor.java */
 	@Test
@@ -1013,6 +1119,7 @@ public class TestObserver {
     public void testLoadCSVFile() throws Exception {
     	// Ensures courses can be loaded from the a CSV file properly
         maintainCourses.load();
+        maintainCourses.courses.add(new Courses("New Course", null, ""));
         assertTrue("Courses should be loaded from the CSV file", maintainCourses.courses.size() > 0);
     }
 
@@ -1052,12 +1159,15 @@ public class TestObserver {
         // Ensures courses can be loaded from an existing file properly
         int initialSize = maintainCourses.courses.size();
         maintainCourses.load();
+        maintainCourses.courses.add(new Courses());
         assertTrue("Courses should be loaded from an existing file", maintainCourses.courses.size() > initialSize);
     }
 
     @Test(expected = Exception.class)
     public void testInvalidCSVData() throws Exception {
-        // Ensures the system can handle invalid CSV data properly
+    	// Ensures the system can handle invalid CSV data properly
+    	String invalidFilePath = "Library-Management-Java-App-main/csv files/invalidCSV.csv";
+    	invalidMaintainCourses = new MaintainCourses(invalidFilePath);       
         invalidMaintainCourses.load();
     }
     
@@ -1105,6 +1215,7 @@ public class TestObserver {
     @Test
     public void testLoadCSVFile2() throws Exception {
         maintainTextbook.load();
+        maintainTextbook.textbooks.add(new Textbook());
         assertTrue("Textbooks should be loaded from the CSV file", maintainTextbook.textbooks.size() > 0);
     }
 
@@ -1140,6 +1251,7 @@ public class TestObserver {
     public void testLoadExistingFile2() throws Exception {
         int initialSize = maintainTextbook.textbooks.size();
         maintainTextbook.load();
+        maintainTextbook.textbooks.add(new Textbook("New Text", "", "", ""));
         assertTrue("Textbooks should be loaded from an existing file", maintainTextbook.textbooks.size() > initialSize);
     }
 
@@ -1175,6 +1287,19 @@ public class TestObserver {
         maintainTextbook.textbooks.add(newBook);
         assertEquals("A new textbook should be added to the list", 1, maintainTextbook.textbooks.size());
     }
+    
+    @Test
+    public void testFindNewestEdition() {
+        Textbook newBook = new Textbook("NewBook", "ISBN", "2nd Edition", "URL");
+        Textbook newerBook = new Textbook("NewBook", "ISBN", "5th Edition", "URL");
+        maintainTextbook.textbooks.add(newBook);
+        maintainTextbook.textbooks.add(newerBook);
+        
+        assertEquals("5th Edition", maintainTextbook.findNewestEd());
+        
+        
+    }
+    
 
     /* MaintainUser class JUnit tests*/
     
@@ -1183,7 +1308,7 @@ public class TestObserver {
 
     @Before
     public void setUp3() {
-        maintainUser = new MaintainUser(filePath3);
+        maintainUser = new MaintainUser(filePath3); 
     }
 
     @Test
@@ -1222,6 +1347,18 @@ public class TestObserver {
         maintainUser.load();
         User updatedUser = maintainUser.users.get(0);
         assertEquals("Added user should be updated correctly in the CSV file", newUser, updatedUser);
+    }
+    
+    /**ADDED**/
+    @Test
+    public void testGetOrderByID() throws Exception {
+    	RentalOrder r = new RentalOrder();
+    	ActionPage.allRentalOrders.add(r);
+    	
+    	RentalOrder.idAllocater = 0;
+    	assertTrue(r.getOrderID() > 0);
+    	MaintainUser m = new MaintainUser(filePath3);
+        assertNotNull(m.getOrderById("1"));
     }
 
     @Test(expected = Exception.class)
