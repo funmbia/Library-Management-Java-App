@@ -37,7 +37,8 @@ Using Java and JavaSwing for the GUI, we implemented the Library Management App 
 
 
 ### ⚙️ Installation & Running <a name="installation"></a>
-Instructions for installing and running the project   
+- Clone the repository to your local machine, compile the files, run the application OR
+- Download the project as a zip file, import into an IDE, run the application  
 
 ### ✨ Improvements  <a name="improvements"></a>
 To accomodate larger volumes of data, our data could be moved to a dedicated Database Management System (DBMS) in the future. This transition will improve performance, provide better data organization, and enhance data security. 
