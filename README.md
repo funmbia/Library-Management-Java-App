@@ -9,7 +9,7 @@ short project description
 ### Process   
 Design (), Implementation, Testing   
 ### Features   
-What it does + requirements it fulfills
+Requirements it fulfills
 ### Installation & Running 
 Instructions for installing and running the project   
 ### Improvements  
