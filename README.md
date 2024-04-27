@@ -2,7 +2,7 @@
 A GUI-based Java Application 
 The YorkU Library Management Java App is a graphical user interface (GUI) application designed to enhance online library services for York University's clients, including students, faculty members, non-faculty staff, and visitors. Amongst other things, the application allows users to register, rent physical and online items, receive recommendations, and manage courses The system is currently simulated using Csv/Excel files for data storage, with plans to transition to a DBMS for scalability.   
 
-- [Process](#process)
+- [Process](#💭process)
 - [Features](#features)
 - [Installation](#installation)
 - [Improvements](#improvements)
