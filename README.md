@@ -1,7 +1,7 @@
 # Java Library Management System  
 - [Description](#projectdescription)
 - [Installation](#installation)
-- [License](#license)
+- [Authors](#authors)
 ### Project Description   
 What it does + requirements it fulfills
 ### Installation   
