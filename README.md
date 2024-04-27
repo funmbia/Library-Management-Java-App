@@ -10,7 +10,8 @@ A GUI-based Java Application designed to manage all kinds of University clients,
 ### 💭 Process   <a name="process"></a>
 In the initial phase (Design), we created detailed use case, sequence, activity, and class diagrams to outline the structure and behavior of our App. These diagrams helped us visualize the flow of the application and identify key components.   
 
-We incorporated six design patterns (Singleton, Factory, Command, Observer, Iterator, and Builder) into our application to ensure scalability, maintainability, and flexibility. Each pattern was selected to address specific challenges in our application architecture.   
+We incorporated six design patterns (Singleton, Factory, Command, Observer, Iterator, and Builder) into our application to ensure scalability, maintainability, and flexibility. Each pattern was selected to address specific challenges in our application architecture. 
+  
 Using Java and JavaSwing for the GUI, we implemented the Library Management App based on our design specifications. We also wrote approximately 500 JUnit Tests to ensure the reliability and functionality of our application.   
 
 
