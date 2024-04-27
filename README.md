@@ -1,10 +1,18 @@
 # Java Library Management System  
-- [Description](#projectdescription)
+short project description
+- [Process](#process)
+- [Features](#features)
 - [Installation](#installation)
+- [Improvements](#improvements)
 - [Authors](#authors)
-### Project Description   
+
+### Process   
+Design (), Implementation, Testing   
+### Features   
 What it does + requirements it fulfills
-### Installation   
-Instructions for installing and running the project
+### Installation & Running 
+Instructions for installing and running the project   
+### Improvements  
+Future features that can be added to the project
 ### Authors   
 
