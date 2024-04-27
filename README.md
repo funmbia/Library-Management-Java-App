@@ -1,14 +1,21 @@
 # Java Library Management System  
-short project description
+A GUI-based Java Application 
+The YorkU Library Management Java App is a graphical user interface (GUI) application designed to enhance online library services for York University's clients, including students, faculty members, non-faculty staff, and visitors. Amongst other things, the application allows users to register, rent physical and online items, receive recommendations, and manage courses The system is currently simulated using Csv/Excel files for data storage, with plans to transition to a DBMS for scalability.   
+
 - [Process](#process)
 - [Features](#features)
 - [Installation](#installation)
 - [Improvements](#improvements)
 - [Authors](#authors)
 
-### Process   
-Design (), Implementation, Testing   
-### Features 
+### 💭 Process   
+In the initial phase (Design), we created detailed diagrams including use case, sequence, activity, and class diagrams to outline the structure and behavior of our Library Management App. These diagrams helped us visualize the flow of the application and identify key components.   
+
+We incorporated six design patterns (Singleton, Factory, Command, Observer, Iterator, and Builder) into our application to ensure scalability, maintainability, and flexibility. Each pattern was selected to address specific challenges in our application architecture.   
+Using Java and JavaSwing for the GUI, we implemented the YorkU Library Management Java App based on our design specifications. We also wrote approximately 500 JUnit Tests to ensure the reliability and functionality of our application.   
+
+
+### 👩🏻‍💻 Features 
 - **User Registration:** Clients can register with a unique email and strong password, with validation for students, faculty, and non-faculty staff.
   
 - **Item Rental:** Registered users can rent physical items, open online books, and subscribe to newsletters, with penalties for overdue items.
@@ -30,9 +37,11 @@ Design (), Implementation, Testing
 - **Database Storage:** System data is stored in a database, simulated using Csv/Excel files.
 
 
-### Installation & Running 
+### ⚙️ Installation & Running 
 Instructions for installing and running the project   
-### Improvements  
-Future features that can be added to the project
-### Authors   
 
+### ✨ Improvements  
+To accomodate larger volumes of data, our data could be moved to a dedicated Database Management System (DBMS) in the future. This transition will improve performance, provide better data organization, and enhance data security. 
+
+### Authors   
+Aiden Ruivo, Funmbi Akande, Sukaina Habib, Yasmine Thandi, Adeola Omojola
