@@ -2,10 +2,10 @@
 A GUI-based Java Application 
 The YorkU Library Management Java App is a graphical user interface (GUI) application designed to enhance online library services for York University's clients, including students, faculty members, non-faculty staff, and visitors. Amongst other things, the application allows users to register, rent physical and online items, receive recommendations, and manage courses The system is currently simulated using Csv/Excel files for data storage, with plans to transition to a DBMS for scalability.   
 
-- [Process](#💭process)
-- [Features](#features)
-- [Installation](#installation)
-- [Improvements](#improvements)
+- [Process](#💭-Process)
+- [Features](#👩🏻‍💻-Features)
+- [Installation](#⚙️-Installation-&-Running)
+- [Improvements](#✨-Improvements)
 - [Authors](#authors)
 
 ### 💭 Process   
@@ -16,11 +16,11 @@ Using Java and JavaSwing for the GUI, we implemented the YorkU Library Managemen
 
 
 ### 👩🏻‍💻 Features 
-- **User Registration:** Clients can register with a unique email and strong password, with validation for students, faculty, and non-faculty staff.
+- **User Registration:** Clients can register with a unique email and strong password, with further validation for students, faculty, and non-faculty staff.
   
 - **Item Rental:** Registered users can rent physical items, open online books, and subscribe to newsletters, with penalties for overdue items.
   
-- **Rental Management:** Upon login, users can view rented items and receive warnings for overdue returns.
+- **Rental Management:** Upon login, users receive warnings for overdue returns and can view rented items.
   
 - **Newsletter Subscription:** Users can subscribe to and read paid newsletters like the NY Times within the app, with the ability to cancel subscriptions.
   
@@ -30,7 +30,7 @@ Using Java and JavaSwing for the GUI, we implemented the YorkU Library Managemen
   
 - **Virtual Textbook Copies:** For students, virtual textbook copies are available for the duration of a course.
   
-- **Book Request System:** Users can request new books, with prioritization for textbooks for course teaching.
+- **Book Request System:** Users can request new books (system uses a prioritization scheme).
   
 - **Discounted Purchases:** The system reflects any special agreements with publishers and allows discounted purchases, with payment options like debit, credit, and mobile wallet.
   
